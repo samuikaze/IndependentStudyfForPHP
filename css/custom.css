@@ -39,7 +39,7 @@ textarea {
 }
 
 .banner {
-    min-height: 100vh;
+    min-height: 150px;
 }
 
 .test-name p {
@@ -252,6 +252,8 @@ textarea:focus{
 .top-main-banner-item a img {
     width: 100%;
     height: 60vh;
+    z-index: -1;
+    margin: 0;
 }
 
 .top-main-banner-item {
@@ -278,6 +280,14 @@ textarea:focus{
     -webkit-border-radius: 99px;
     -moz-border-radius: 99px;
     border-radius: 99px;
+}
+
+.top-main-banner-item p.lead {
+    z-index: 50;
+    position: relative;
+    margin: -40px 0 0 15px;
+    color: rgb(59, 59, 59);
+    text-shadow: 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff;
 }
 
 /* 以下為 Responsive 的樣式設定 */

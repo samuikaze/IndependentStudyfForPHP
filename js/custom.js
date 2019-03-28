@@ -14,10 +14,12 @@ $(document).scroll(function(){
     }
 });
 
+//修改高度用
 $(document).scroll(function(){
     var homeHeight = $('#headerForCalc').outerHeight();
-    var _this = $('div.top-main-banner-item').children('img').outerHeight();
-    $('div.top-main-banner-wrapper').css("paddingTop", ($('div#banner').height() - _this) + homeHeight);
+    var _this = $('div.top-main-banner-item').find('img').outerHeight();
+    $('div.top-main-banner-wrapper').css("paddingTop", ($('div#banner').height()) + homeHeight);
+    $('div.banner').css("height", homeHeight + _this);
 });
 
 jQuery(document).ready(function ($) {
