@@ -6,10 +6,22 @@ $(document).scroll(function(){
            "background":"rgba(196, 134, 0, 0.75)",
            "borderBottom":"2px solid rgba(255, 255, 255, 0.75)"
         });
+        $('ul.navbar-nav').find('a').css({
+            "color":"white"
+        });
+        $('.main-w3ls-logo').find('a').css({
+            "color":"white"
+        });
     } else {
         $('header').css({
            "background":"transparent",
            "borderBottom":"transparent"
+        });
+        $('ul.navbar-nav').find('a').css({
+            "color":"black"
+        });
+        $('.main-w3ls-logo').find('a').css({
+            "color":"black"
         });
     }
 });
@@ -17,8 +29,8 @@ $(document).scroll(function(){
 //修改高度用
 $(document).scroll(function(){
     var homeHeight = $('#headerForCalc').outerHeight();
-    var _this = $('div.top-main-banner-item').find('img').outerHeight();
-    $('div.top-main-banner-wrapper').css("paddingTop", ($('div#banner').height()) + homeHeight);
+    var _this = $('div.top-main-banner-item').find('img').height();
+    $('div.top-main-banner-wrapper').css("paddingTop", ($('div#banner').height() + 10) + homeHeight);
     $('div.banner').css("height", homeHeight + _this);
 });
 

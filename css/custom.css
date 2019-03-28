@@ -40,6 +40,11 @@ textarea {
 
 .banner {
     min-height: 150px;
+    background: unset;
+}
+
+.header-buttom-w3layouts {
+    color: black;
 }
 
 .test-name p {
@@ -141,6 +146,11 @@ textarea:focus{
 
 .navbar-default .navbar-nav li a {
     font-size: 16px;
+    color: black;
+}
+
+.main-w3ls-logo a {
+    color: black;
 }
 
 .navbar-nav>li>a.active,
@@ -246,7 +256,7 @@ textarea:focus{
 
 .top-main-banner-wrapper {
     position: relative;
-    height: 100vh;
+    height: 100%;
 }
 
 .top-main-banner-item a img {
@@ -254,10 +264,6 @@ textarea:focus{
     height: 60vh;
     z-index: -1;
     margin: 0;
-}
-
-.top-main-banner-item {
-    display: inline-block;
 }
 
 .top-main-banner-wrapper .slick-dots li button {
