@@ -1,0 +1,38 @@
+網站資料：
+http://59.127.59.65:7999/108-1-1/
+ftp://59.127.59.65:36
+MySQL http://59.127.59.65:7999/phpmyadmin/
+
+目前進度：
+[概觀] 1. 放團隊照片或遊戲相關圖片...還在想辦法
+1. index.html 應該沒問題了
+2. about.html 內容完成輸入，剩圖片要處理
+3. news.html 內容正在輸入。
+
+要改的東西：
+    1. 圖片輪播 (箭頭、按鈕、圖片高度)
+    2. 標題改用圖片
+✓  3. 最新消息的圖片改用[活動] [遊戲]等分類標籤圖片
+    4. LOADING 畫面
+    5. 代碼清理
+
+1. toTop 修改，這個很重要，不改 jQuery 的動畫不會實現
+    1) <a href="#home" class="scroll toTop" style="display: block;"><img src="images/arr.png" class="toTop" /></a>
+    2) 槓掉 <script type="text/javascript" src="js/move-top.js"></script>
+            <script type="text/javascript" src="js/easing.js"></script>
+    3) 槓掉 $().UItoTop({
+				easingType: 'easeOutQuart'
+			});
+    4) 貼上 $(function(){
+                $('.toTop').on('click', function(){
+                    $('html,body').animate({ scrollTop: 0 }, 300);
+                });
+                $(window).on('scroll', function(){
+                    if ($(this).scrollTop() > 50){
+                        $('img.toTop').fadeIn(200);
+                    } else {
+                        $('img.toTop').stop().fadeOut(200);
+                    }
+                });
+            });
+    5) 確認完成後可以把 move-top.js 殺掉
