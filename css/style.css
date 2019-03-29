@@ -597,10 +597,8 @@ nav.shift ul li a.active:after ,nav.shift ul li a:hover:after {
 }
 
 .rslides_tabs a {
-	width: auto;
 	line-height: 20px;
 	padding: 9px 20px;
-	height: auto;
 	background: transparent;
 	display: inline;
 }
@@ -734,7 +732,8 @@ nav.shift ul li a.active:after ,nav.shift ul li a:hover:after {
 }
 
 .rslides li {
-	-webkit-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 	position: absolute;
 	display: none;
 	left: 0%;
@@ -807,7 +806,7 @@ p.sub-para {
 }
 
 .callbacks_tabs li {
-	display: inline-block;
+	display: block;
 	margin: 0 -10px 0 0;
 	float: right;
 }

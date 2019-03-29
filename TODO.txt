@@ -13,11 +13,13 @@ MySQL http://59.127.59.65:7999/phpmyadmin/
 3. news.html 內容正在輸入。
 
 要改的東西：
-    1. 圖片輪播 (箭頭、圖片高度)
-    2. 標題改用圖片
+    1. 圖片輪播 (很多問題啊！！！)
+✓  2. 標題改用圖片
 ✓  3. 最新消息的圖片改用[活動] [遊戲]等分類標籤圖片
-    4. LOADING 畫面
-    5. 代碼清理
+    4. Bootstrap 按鈕顏色（最新消息頁面）
+    5. 麵包屑
+    6. LOADING 畫面
+    7. 代碼清理
 
 1. toTop 修改，這個很重要，不改 jQuery 的動畫不會實現
     1) <a href="#home" class="scroll toTop" style="display: block;"><img src="images/arr.png" class="toTop" /></a>
