@@ -2,11 +2,15 @@
 <html lang="zh-TW">
 
 <head>
-	<title>最新消息 | 洛嬉遊戲 L.S. Games</title>
+	<title>周邊產品 | 洛嬉遊戲 L.S. Games</title>
 	<!-- Meta Tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="洛嬉遊戲 L.S. Games LSGames" />
+    <meta name="keywords" content="洛嬉遊戲 L.S. Games LSGames" />
+    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/slick.min.js"></script>    <!-- 圖片輪播 -->
+    <script src="js/custom.js"></script>
 	<script type="application/x-javascript">
 		addEventListener("load", function () {
 			setTimeout(hideURLbar, 0);
@@ -15,16 +19,13 @@
 		function hideURLbar() {
 			window.scrollTo(0, 1);
 		}
-	</script>
-    <!-- //Meta Tags -->
-    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-    <script src="js/custom.js"></script>
-    <!-- Style-sheets -->
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
+    </script>
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css" />
 	<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="css/font-awesome.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
 	<!--// Style-sheets -->
 	<!--web-fonts
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
@@ -41,7 +42,7 @@
                     <div class="header-bottom-w3layouts">
                         <div class="main-w3ls-logo">
                                 <a href="index.html"><h1><img src="images/logo.png">洛嬉遊戲</h1>
-                                <h2>| 最新消息</h2></a>
+                                <h2>| 周邊產品</h2></a>
                         </div>
                         <!-- navigation -->
                         <nav class="navbar navbar-default">
@@ -60,20 +61,20 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav">
-                                        <li><a href="index.html">首頁</a></li>
-                                        <li><a href="about.html">關於團隊</a></li>
-                                        <li><a class="active" href="news.html">最新消息</a></li>
-                                        <li><a href="products.html">作品一覽</a></li>
-                                        <li><a href="goods.html">周邊產品</a></li>
-                                        <li><a href="contact.html">討論專區</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他連結<b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="icons.html">徵才情報</a></li>
-                                                <li><a href="typography.html">常見問題</a></li>
-                                                <li><a href="#">聯絡我們</a></li>
-                                            </ul>
-                                        </li>
+                                    <li><a class="colorTran" href="index.html">首頁</a></li>
+                                    <li><a class="colorTran" href="about.html">關於團隊</a></li>
+                                    <li><a class="colorTran"  href="news.html">最新消息</a></li>
+                                    <li><a class="colorTran" href="products.html">作品一覽</a></li>
+                                    <li><a class="active" href="goods.html">周邊產品</a></li>
+                                    <li><a class="colorTran" href="contact.html">討論專區</a></li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="icons.html">徵才情報</a></li>
+                                            <li><a href="typography.html">常見問題</a></li>
+                                            <li><a href="#">聯絡我們</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
     
                             </div>
@@ -107,7 +108,75 @@
 	<!-- //banner -->
 	<!-- Services-Inner -->
 	<div class="courses">
-		<h1>內容在這裡</h1>
+		<div class="container">
+			<h5 class="main-w3l-title">周邊產品</h5>
+			<div class="col-md-4 courses-info">
+				<h5>PHP Web Development</h5>
+				<div class="c-image">
+					<img src="images/t1.jpg" alt=" " class="img-responsive">
+					<h6>Trainer Name</h6>
+					<div class="clearfix"></div>
+				</div>
+				<p class="numbers"><span>20</span> Students</p>
+				<p class="paragraph-agileinfo">Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum suscipit aenean rhoncus posuere odio in tincidunt.</p>
+				<p class="batch">Batch Starts from <span>1 Feb 2018</span></p>
+			</div>
+			<div class="col-md-4 courses-info">
+				<h5>.NET Programming</h5>
+				<div class="c-image">
+					<img src="images/t2.jpg" alt=" " class="img-responsive">
+					<h6>Trainer Name</h6>
+					<div class="clearfix"></div>
+				</div>
+				<p class="numbers"><span>30</span> Students</p>
+				<p class="paragraph-agileinfo">Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum suscipit aenean rhoncus posuere odio in tincidunt.</p>
+				<p class="batch">Batch Starts from <span>15 Jan 2018</span></p>
+			</div>
+			<div class="col-md-4 courses-info">
+				<h5>JavScript / Ajax</h5>
+				<div class="c-image">
+					<img src="images/t3.jpg" alt=" " class="img-responsive">
+					<h6>Trainer Name</h6>
+					<div class="clearfix"></div>
+				</div>
+				<p class="numbers"><span>40</span> Students</p>
+				<p class="paragraph-agileinfo">Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum suscipit aenean rhoncus posuere odio in tincidunt.</p>
+				<p class="batch">Batch Starts from <span>15 Feb 2018</span></p>
+			</div>
+			<div class="col-md-4 courses-info">
+				<h5>Web Designing</h5>
+				<div class="c-image">
+					<img src="images/t4.jpg" alt=" " class="img-responsive">
+					<h6>Trainer Name</h6>
+					<div class="clearfix"></div>
+				</div>
+				<p class="numbers"><span>50</span> Students</p>
+				<p class="paragraph-agileinfo">Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum suscipit aenean rhoncus posuere odio in tincidunt.</p>
+				<p class="batch">Batch Starts from <span>1 Mar 2018</span></p>
+			</div>
+			<div class="col-md-4 courses-info">
+				<h5>Logo/Icons Designing</h5>
+				<div class="c-image">
+					<img src="images/t2.jpg" alt=" " class="img-responsive">
+					<h6>Trainer Name</h6>
+					<div class="clearfix"></div>
+				</div>
+				<p class="numbers"><span>40</span> Students</p>
+				<p class="paragraph-agileinfo">Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum suscipit aenean rhoncus posuere odio in tincidunt.</p>
+				<p class="batch">Batch Starts from <span>1 Jan 2018</span></p>
+			</div>
+			<div class="col-md-4 courses-info">
+				<h5>Print Designing</h5>
+				<div class="c-image">
+					<img src="images/t3.jpg" alt=" " class="img-responsive">
+					<h6>Trainer Name</h6>
+					<div class="clearfix"></div>
+				</div>
+				<p class="numbers"><span>20</span> Students</p>
+				<p class="paragraph-agileinfo">Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum suscipit aenean rhoncus posuere odio in tincidunt.</p>
+				<p class="batch">Batch Starts from <span>20 Jan 2018</span></p>
+			</div>
+		</div>
 	</div>
 	<!--// Services-Inner -->
 	<!-- Footer -->
@@ -148,7 +217,7 @@
 	<div class="copyright-w3layouts">
 		<div class="container">
 			<p><a href="#">關於我們</a> | <a href="#">最新消息</a> | <a href="#">作品一覽</a> | <a href="#">招募新血</a> | <a href="#">討論專區</a></p>
-<p>&copy; 2019 L.S. Games. All Rights NOT Reserved. | DO NOT PUBLISH THIS SITE TO ANY OTHER SERVER OR SERVICE.</p>
+            <p>&copy; 2019 L.S. Games. All Rights NOT Reserved. | DO NOT PUBLISH THIS SITE TO ANY OTHER SERVER OR SERVICE.</p>
 		</div>
 	</div>
 	<!-- //Footer -->
@@ -194,6 +263,7 @@
 		});
 	</script>
     <!-- //here ends scrolling icon -->
+    <script src="js/custom.js"></script>
 	<!--js for bootstrap working-->
 	<script src="js/bootstrap.js"></script>
 	<!-- //for bootstrap working -->

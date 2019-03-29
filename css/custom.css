@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');
+/*@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');*/
 /* 有網路時請將第一行的註解拿掉 */
 
 /*
@@ -40,7 +40,6 @@ textarea {
 
 .banner {
     min-height: 150px;
-    background: unset;
 }
 
 .header-buttom-w3layouts {

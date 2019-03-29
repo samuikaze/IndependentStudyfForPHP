@@ -6,7 +6,7 @@ $(document).scroll(function(){
            "background":"rgba(196, 134, 0, 0.75)",
            "borderBottom":"2px solid rgba(255, 255, 255, 0.75)"
         });
-        $('ul.navbar-nav').find('a').css({
+        $('.colorTran').css({
             "color":"white"
         });
         $('.main-w3ls-logo').find('a').css({
@@ -17,7 +17,7 @@ $(document).scroll(function(){
            "background":"transparent",
            "borderBottom":"transparent"
         });
-        $('ul.navbar-nav').find('a').css({
+        $('.colorTran').css({
             "color":"black"
         });
         $('.main-w3ls-logo').find('a').css({
@@ -54,8 +54,8 @@ $(document).ready(function(){
         dots: true,
         slidesToShow: 1,
         slidesToScroll: 1,
-        centerMode: true,
-        variableWidth: true,
+        centerMode: false,
+        variableWidth: false,
         prevArrow: $(".navi-allow.prev"),
         nextArrow: $(".navi-allow.next"),
     });
