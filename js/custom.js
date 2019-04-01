@@ -1,6 +1,6 @@
 $(document).scroll(function(){
     //取得 #home 的元素高度後減 200 像素
-    var pageHeight = $('#home').height() - 200;
+    var pageHeight = $('#home').height() - 100;
     if($(this).scrollTop() > pageHeight){   
         $('header').css({
            "background":"rgba(196, 134, 0, 0.75)",
@@ -14,25 +14,32 @@ $(document).scroll(function(){
         });
     } else {
         $('header').css({
-           "background":"transparent",
+           "background":"rgba(0, 0, 0, 0.35)",
            "borderBottom":"transparent"
         });
-        $('.colorTran').css({
+        /*$('.colorTran').css({
             "color":"black"
         });
         $('.main-w3ls-logo').find('a').css({
             "color":"black"
-        });
+        });*/
     }
 });
 
-//修改高度用
+//禁止 class=active 的連結有反應
 $(document).scroll(function(){
+    $('a.active').on("click", function(){
+        return false;
+    });
+});
+
+//修改高度用
+/*$(document).scroll(function(){
     var homeHeight = $('#headerForCalc').outerHeight();
     var _this = $('div.top-main-banner-item').find('img').height();
     $('div.top-main-banner-wrapper').css("paddingTop", ($('div#banner').height() + 10) + homeHeight);
     $('div.banner').css("height", homeHeight + _this);
-});
+});*/
 
 jQuery(document).ready(function ($) {
     $(".scroll").click(function (event) {
@@ -51,7 +58,7 @@ $(document).ready(function(){
         speed: 600,
         autoplaySpeed: 2000,
         autoplay: true,
-        dots: true,
+        dots: false,
         slidesToShow: 1,
         slidesToScroll: 1,
         centerMode: false,

@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');
-/* 有網路時請將第一行的註解拿掉 */
 
 /*
  * 此 CSS 用於快速覆蓋原版型的樣式
+ * 有網路時或上傳到伺服器前請將第一行的註解拿掉
 **/
 
+/* 字體設定 */
 .main-w3ls-logo a, 
 body, 
 .slider-info h3,
@@ -15,6 +16,7 @@ body :not(i) {
     font-family: 'Alegreya Sans SC', 'Noto Sans TC' !important;
 }
 
+/* form 的效果 */
 .subscribe-w3ls input[type="text"],
 .subscribe-w3ls input[type="email"],
 textarea {
@@ -38,54 +40,6 @@ textarea {
     transition: 0.5s;
 }
 
-.banner {
-    min-height: 150px;
-}
-
-.header-buttom-w3layouts {
-    color: black;
-}
-
-.test-name p {
-    margin: 0;
-}
-
-.toTop {
-    position: fixed;
-    bottom: 25px;
-    right: 2%;
-    z-index: 999;
-    /*float:right;
-    margin-left:10px;
-    border: 0px solid #000000;*/
-    /*_position:absolute;  position fixed for IE6 */
-    color: #FFFFFF;
-    /*background-color:#023B6B;*/
-    width: 70px;
-    height: 70px;
-    display:none;
-    cursor:pointer;
-    /*background: url(../images/arr.png) no-repeat 0px 0px;*/
-}
-
-#toTop {
-    width: 70px;
-    height: 70px;
-}
-
-.header-wrap {
-    width: 70%;
-    margin: 0 auto;
-}
-
-header {
-    background: rgba(196, 134, 0, 0);
-    border-bottom: 2px solid #fff;
-    position: fixed;
-    transition-duration: 0.5s;
-    z-index: 100;
-}
-
 input {
     padding: 2px 10px;
     border-radius: 5px;
@@ -103,6 +57,53 @@ input:focus{
     border: 2px solid #023B6B;
     box-shadow: 0px 0px 10px rgba(255,255,138,0.9);
     text-shadow:0px 0px 6px rgba(2,59,107,0.9);
+}
+
+.banner {
+    min-height: 120px;
+}
+
+.header-buttom-w3layouts {
+    color: black;
+}
+
+.test-name p {
+    margin: 0;
+}
+
+/* 返回頂端圖片設定 */
+.toTop {
+    position: fixed;
+    bottom: 25px;
+    right: 2%;
+    z-index: 999;
+    color: #FFFFFF;
+    width: 70px;
+    height: 70px;
+    display:none;
+    cursor:pointer;
+}
+
+#toTop {
+    width: 70px;
+    height: 70px;
+}
+
+/* 頭部 Banner */
+.header-wrap {
+    width: 98%;
+    margin: 0 auto;
+}
+
+header {
+    background: rgba(196, 134, 0, 0);
+    border-bottom: 2px solid #fff;
+    position: fixed;
+    transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    z-index: 100;
 }
 
 h1 {
@@ -145,11 +146,22 @@ textarea:focus{
 
 .navbar-default .navbar-nav li a {
     font-size: 16px;
-    color: black;
+    color: white;
 }
 
-.main-w3ls-logo a {
-    color: black;
+.main-w3ls-logo a{
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.main-w3ls-logo img {
+    height: 50px;
+}
+
+.navbar-nav {
+    float: right;
+    margin: 5px 10px 0 0;
 }
 
 .navbar-nav>li>a.active,
@@ -161,6 +173,19 @@ textarea:focus{
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     font-size: 16px;
+}
+
+.newsType {
+    width: 100px;
+}
+
+.releaseTime {
+    width: 150px;
+    font-size: 20px;
+}
+
+#news thead {
+    background-color: rgb(212, 212, 212);
 }
 
 /*.top-main-banner-wrapper .slick-dots {
@@ -184,6 +209,7 @@ textarea:focus{
     border-radius: 99px;
 }*/
 
+/* 圖片輪播相關樣式 */
 .slick-dots li {
     display: inline-block;
     margin: auto 5px;
@@ -192,6 +218,18 @@ textarea:focus{
 .slick-dots {
     list-style: none;
     text-align: center;
+}
+
+.top-main-banner-wrapper .navi-allow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -25px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 50;
 }
 
 .container {
@@ -214,6 +252,70 @@ textarea:focus{
 
 }
 
+/* 修改麵包屑外觀 */
+.breadcrumb{
+    background: unset;
+    border-bottom: dotted gray 1.5px;
+}
+
+.breadcrumb .thisPosition{
+    font-size: 20px;
+}
+
+/* 修改麵包屑的分隔符號 */
+.breadcrumb > li + li:before {
+    color: rgb(151, 151, 151);
+    content: " > ";
+    padding: 0 5px;
+}
+
+/* 修改各頁面的填白 */
+.about-section,
+.courses,
+.gallery,
+.contact-page {
+    padding: 10px 0;
+}
+
+/* 作品頁面效果控制 */
+.gallery_grid_pos {
+	background: rgba(0, 0, 0, 0.73);
+	bottom: 10%;
+	left: 10%;
+	opacity: 0;
+	padding: 1em;
+	position: absolute;
+	right: 10%;
+	text-align: center;
+	top: 50%;
+	visibility: hidden;
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
+	-moz-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	-ms-transform: scaleX(-1);
+	-webkit-transition: all 0.8s ease;
+	transition: all 0.8s ease;
+}
+
+.gallery_grid_pos h3,
+.gallery_grid_pos p {
+	font-size: 1.8em;
+	letter-spacing: 2px;
+	font-weight: 100;
+	margin-top: 1px;
+	text-transform: capitalize;
+	color: #ffffff;
+	font-family: 'Righteous', cursive;
+}
+
+/* 後令壓前令 */
+.gallery_grid_pos p{
+    font-size: 1.1em;
+
+}
+
+/* Font Awesome 相關設定 */
 .social-icons-agileits ul li a .fab.fa-facebook,
 .social-icons-agileits ul li a .fab.fa-twitter,
 .social-icons-agileits ul li a .fab.fa-google-plus {
@@ -255,12 +357,14 @@ textarea:focus{
 
 .top-main-banner-wrapper {
     position: relative;
-    height: 100%;
+    margin-bottom: 10px;
+    height: calc(100vw / 1349 * 645);
+    overflow: hidden;
 }
 
 .top-main-banner-item a img {
-    width: 100%;
-    height: 60vh;
+    width: 100vw;
+    /*height: 35em;*/
     z-index: -1;
     margin: 0;
 }
@@ -298,8 +402,40 @@ textarea:focus{
 /* 以下為 Responsive 的樣式設定 */
 @media(max-width:480px) {
     .banner-text {
-		padding: 15em 1em 0 0;
-	}
+		padding: 15em 0em 0 0;
+    }
+
+    .main-w3ls-logo {
+        float: left;
+    }
+
+    .navbar-nav {
+        float: none !important;
+    }
+
+    header {
+        background: rgba(196, 134, 0, 0);
+        border-bottom: 2px solid #fff;
+        position: fixed;
+        transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -webkit-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+        z-index: 100;
+    }
+
+    div#bs-example-navbar-collapse-1 {
+        background: rgba(0, 0, 0, 0.83);
+        margin: 0;
+        padding: 0px 0;
+        position: absolute;
+        width: 100%;
+        transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -webkit-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+        z-index: 999;
+    }
 }
 
 @media(max-width:568px) {

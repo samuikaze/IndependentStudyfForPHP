@@ -37,71 +37,69 @@
 <body>
 	<!-- banner -->
 	<div class="banner inner-banner" id="home">
-		<div class="container">
-			<!-- header -->
-			<header>
+        <header style="padding: 15px;">
 
-				<div class="header-bottom-w3layouts">
-					<div class="main-w3ls-logo">
-                            <a href="index.html"><h1><img src="images/logo.png">洛嬉遊戲</h1>
-                            <h2>| 作品一覽</h2></a>
-					</div>
-					<!-- navigation -->
-					<nav class="navbar navbar-default">
-						<!-- Brand and toggle get grouped for better mobile display -->
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-							    aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				  </button>
+                <div class="header-bottom-w3layouts">
+                    <div class="main-w3ls-logo">
+                            <a href="index.html"><h1><img src="images/logo.png">洛嬉遊戲</h1></a>
+                    </div>
+                    <!-- navigation -->
+                    <nav class="navbar navbar-default">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
 
-						</div>
+                        </div>
 
-						<!-- Collect the nav links, forms, and other content for toggling -->
-						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-							<ul class="nav navbar-nav">
-                                <li><a class="colorTran" href="index.html">首頁</a></li>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
                                 <li><a class="colorTran" href="about.html">關於團隊</a></li>
                                 <li><a class="colorTran"  href="news.html">最新消息</a></li>
                                 <li><a class="active" href="products.html">作品一覽</a></li>
                                 <li><a class="colorTran" href="goods.html">周邊產品</a></li>
-                                <li><a class="colorTran" href="contact.html">討論專區</a></li>
+                                <li><a class="colorTran" href="bbs.html">討論專區</a></li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="icons.html">徵才情報</a></li>
                                         <li><a href="faq.html">常見問題</a></li>
-                                        <li><a href="contact.html">聯絡我們</a></li>
+                                        <li><a href="contact.html">連絡我們</a></li>
                                     </ul>
                                 </li>
-							</ul>
+                            </ul>
 
-						</div>
-						<!-- /.navbar-collapse -->
+                        </div>
+                        <!-- /.navbar-collapse -->
 
-					</nav>
-					<div class="search-agile-bar">
-						<div class="cd-main-header">
-							<ul class="cd-header-buttons">
-								<li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
-							</ul>
-							<!-- cd-header-buttons -->
-						</div>
-						<div id="cd-search" class="cd-search">
-							<form action="#" method="post">
-								<div class="agileits-search-field">
-									<input name="Search" type="search" placeholder="Click enter after typing...">
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="clearfix"></div>
-				<!-- //navigation -->
-			</header>
+                    </nav>
+                    <!--<div class="search-agile-bar">
+                        <div class="cd-main-header">
+                            <ul class="cd-header-buttons">
+                                <li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
+                            </ul>
+                            <-- cd-header-buttons --
+                        </div>
+                        <div id="cd-search" class="cd-search">
+                            <form action="#" method="post">
+                                <div class="agileits-search-field">
+                                    <input name="Search" type="search" placeholder="Click enter after typing...">
+                                </div>
+                            </form>
+                        </div>
+                    </div>-->
+                </div>
+                <div class="clearfix"></div>
+                <!-- //navigation -->
+            </header>
+		<div class="container">
+			<!-- header -->
+			
 			<!-- //header -->
 		</div>
 	</div>
@@ -109,14 +107,20 @@
 	<!-- Institutes -->
 	<div class="gallery">
 		<div class="container">
-			<h5 class="main-w3l-title">作品一覽</h5>
+            <!-- 麵包屑 -->
+            <ol class="breadcrumb">
+                <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                <li class="thisPosition">作品一覽</li>
+            </ol>
+			<!--<h5 class="main-w3l-title">作品一覽</h5>-->
 			<div class="col-md-4 gallery-columns">
 				<div class="gal_grid_outer">
 					<a title="作品一" href="images/g1.jpg">
 						<div class="gal_grid_outer1">
 							<img src="images/g1.jpg" alt=" " class="img-responsive" />
 							<div class="gallery_grid_pos">
-								<h3>作品一</h3>
+                                <h3>作品一</h3>
+                                <p>作品簡易介紹</p>
 							</div>
 						</div>
 					</a>
@@ -126,7 +130,8 @@
 						<div class="gal_grid_outer1">
 							<img src="images/g2.jpg" alt=" " class="img-responsive" />
 							<div class="gallery_grid_pos">
-								<h3>作品二</h3>
+                                <h3>作品二</h3>
+                                <p>作品簡易介紹</p>
 							</div>
 						</div>
 					</a>
@@ -136,7 +141,8 @@
 						<div class="gal_grid_outer1">
 							<img src="images/g3.jpg" alt=" " class="img-responsive" />
 							<div class="gallery_grid_pos">
-								<h3>作品四</h3>
+                                <h3>作品四</h3>
+                                <p>作品簡易介紹</p>
 							</div>
 						</div>
 					</a>

@@ -41,38 +41,35 @@
 
                     <div class="header-bottom-w3layouts">
                         <div class="main-w3ls-logo">
-                                <a href="index.html"><h1><img src="images/logo.png">洛嬉遊戲</h1>
-                                <h2>| 最新消息</h2></a>
+                                <a href="index.html"><h1><img src="images/logo.png">洛嬉遊戲</h1></a>
                         </div>
                         <!-- navigation -->
                         <nav class="navbar navbar-default">
                             <!-- Brand and toggle get grouped for better mobile display -->
                             <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                                    aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
     
                             </div>
     
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="index.html">首頁</a></li>
-                                    <li><a href="about.html">關於團隊</a></li>
+                                    <li><a class="colorTran" href="about.html">關於團隊</a></li>
                                     <li><a class="active" href="news.html">最新消息</a></li>
-                                    <li><a href="products.html">作品一覽</a></li>
-                                    <li><a href="goods.html">周邊產品</a></li>
-                                    <li><a href="contact.html">討論專區</a></li>
+                                    <li><a class="colorTran" href="products.html">作品一覽</a></li>
+                                    <li><a class="colorTran" href="goods.html">周邊產品</a></li>
+                                    <li><a class="colorTran" href="bbs.html">討論專區</a></li>
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他連結<b class="caret"></b></a>
+                                        <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="icons.html">徵才情報</a></li>
                                             <li><a href="faq.html">常見問題</a></li>
-                                            <li><a href="contact.html">聯絡我們</a></li>
+                                            <li><a href="contact.html">連絡我們</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -81,12 +78,12 @@
                             <!-- /.navbar-collapse -->
     
                         </nav>
-                        <div class="search-agile-bar">
+                        <!--<div class="search-agile-bar">
                             <div class="cd-main-header">
                                 <ul class="cd-header-buttons">
                                     <li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
                                 </ul>
-                                <!-- cd-header-buttons -->
+                                <-- cd-header-buttons --
                             </div>
                             <div id="cd-search" class="cd-search">
                                 <form action="#" method="post">
@@ -95,7 +92,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="clearfix"></div>
                     <!-- //navigation -->
@@ -108,56 +105,88 @@
 	<!-- //banner -->
 	<!-- Services-Inner -->
 	<div class="courses">
-        <h5 class="main-w3l-title">最新消息</h5>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- 分類按鈕開始（外層置中用） -->
-                    <div class="text-center" style="margin-bottom: 15px;">
-                        <div class="btn-group btn-group-lg" role="group">
-                            <a type="button" class="btn btn-default">全部</a>
-                            <a type="button" class="btn btn-default">資訊</a>
-                            <a type="button" class="btn btn-default">活動</a>
+        <div class="container">
+            <!-- 麵包屑 -->
+            <ol class="breadcrumb">
+                <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                <li class="thisPosition">最新消息</li>
+            </ol>
+            <!--<h5 class="main-w3l-title">最新消息</h5>-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- 分類按鈕開始（外層置中用） -->
+                        <div class="text-center" style="margin-bottom: 15px;">
+                            <ul class="pagination pagination-lg">
+                                <li class="active"><a href="#">全部</a></li>
+                                <li><a href="#">一般</a></li>
+                                <li><a href="#">活動</a></li>
+                            </ul>
                         </div>
-                    </div>
-                    <!-- 分類按鈕結束 -->
-                    <!-- 消息面板開始 -->
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">全部</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item active">消息1</a>
-                                <a href="#" class="list-group-item">消息2</a>
-                                <a href="#" class="list-group-item">消息3</a>
-                                <a href="#" class="list-group-item">消息4</a>
-                                <a href="#" class="list-group-item">消息5</a>
-                            </div><!-- /.list-group -->
-                        </div><!-- /.panel-body -->
-                    </div><!-- /.panel.panel-info -->
-                    <!-- 消息面板結束 -->
+                        <!-- 分類按鈕結束 -->
+                        <!-- 消息面板開始 -->
+                        <table id="news" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>類型</th>
+                                    <th>標題</th>
+                                    <th>發佈時間</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="newsType"><span class="badge badge-primary" style="font-size: 16px;">一般</span></td>
+                                    <td><a href="#">消息標題一</a>&nbsp;&nbsp;<span class="badge badge-warning">new!</span></td>
+                                    <td class="releaseTime">2019/04/02</td>
+                                </tr>
+                                <tr>
+                                    <td class="newsType"><span class="badge badge-success" style="font-size: 16px;">活動</span></td>
+                                    <td><a href="#">消息標題二</a>&nbsp;&nbsp;<span class="badge badge-warning">new!</span></td>
+                                    <td class="releaseTime">2019/03/20</td>
+                                </tr>
+                                <tr>
+                                    <td class="newsType"><span class="badge badge-success" style="font-size: 16px;">活動</span></td>
+                                    <td><a href="#">消息標題三</a></td>
+                                    <td class="releaseTime">2019/03/04</td>
+                                </tr>
+                                <tr>
+                                    <td class="newsType"><span class="badge badge-primary" style="font-size: 16px;">一般</span></td>
+                                    <td><a href="#">消息標題四</a></td>
+                                    <td class="releaseTime">2019/02/15</td>
+                                </tr>
+                                <tr>
+                                    <td class="newsType"><span class="badge badge-primary" style="font-size: 16px;">一般</span></td>
+                                    <td><a href="#">消息標題五</a></td>
+                                    <td class="releaseTime">2019/02/10</td>
+                                </tr>
+                                <tr>
+                                    <td class="newsType"><span class="badge badge-primary" style="font-size: 16px;">一般</span></td>
+                                    <td><a href="#">消息標題六</a></td>
+                                    <td class="releaseTime">2019/01/01</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 消息面板結束 -->
 
-                    <!-- 頁數按鈕開始 -->
-                    <div class="text-center">
-                        <div class="btn-group btn-group-lg">
-                            <a type="button" class="btn btn-info">1</a>
-                            <a type="button" class="btn btn-default">2</a>
-                            <a type="button" class="btn btn-default">3</a>
-                            <a type="button" class="btn btn-default">4</a>
-                            <a type="button" class="btn btn-default">5</a>
-                            <a type="button" class="btn btn-default">6</a>
-                            <a type="button" class="btn btn-default">7</a>
-                            <a type="button" class="btn btn-default">8</a>
-                            <a type="button" class="btn btn-default">9</a>
+                        <!-- 頁數按鈕開始 -->
+                        <div class="text-center">
+                            <ul class="pagination">
+                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                            </ul>
                         </div>
-                    </div>
-                    <!-- 頁數按鈕結束 -->
+                        <!-- 頁數按鈕結束 -->
 
-                </div><!-- /.col-md-12 -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-	</div><!-- /.course-->
+                    </div><!-- /.col-md-12 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </div><!-- /.course-->
+    </div>
 	<!--// Services-Inner -->
 	<!-- Footer -->
 	<!--<div class="footer-agileits-w3layouts">
