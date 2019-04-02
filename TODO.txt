@@ -3,23 +3,17 @@ http://59.127.59.65:7999/108-1-1/
 ftp://59.127.59.65:36
 MySQL http://59.127.59.65:7999/phpmyadmin/
 
-待決定：
-1. index.html 以外的 navbar 文字要不要改黑色？
-
 目前進度：
-[概觀] 1. 放團隊照片或遊戲相關圖片...還在想辦法
-1. index.html 應該沒問題了
-2. about.html 內容完成輸入，剩圖片要處理
-3. news.html 內容正在輸入。
+    [概觀] 1. 放團隊照片或遊戲相關圖片...還在想辦法
+    1. product.html 按鈕放到右下角
+    2. cart.html 購物車 HTML 整合
+    3. 徵才情報頁面
+    4. 登入畫面
+    5. 作品討論板的手機頁面要改
 
 要改的東西：
-    1. 圖片輪播 (很多問題啊！！！)
-✓  2. 標題改用圖片
-✓  3. 最新消息的圖片改用[活動] [遊戲]等分類標籤圖片
-    4. Bootstrap 按鈕顏色（最新消息頁面）
-    5. 麵包屑
-    6. LOADING 畫面
-    7. 代碼清理
+    1. LOADING 畫面
+    2. 代碼清理
 
 1. toTop 修改，這個很重要，不改 jQuery 的動畫不會實現
     1) <a href="#home" class="scroll toTop" style="display: block;"><img src="images/arr.png" class="toTop" /></a>
