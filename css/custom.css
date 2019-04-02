@@ -1,4 +1,4 @@
-/*@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');*/
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');
 
 /*
  * 此 CSS 用於快速覆蓋原版型的樣式
@@ -188,7 +188,7 @@ textarea:focus{
 
 .postTime {
     width: 200px;
-    font-size: 20px;
+    font-size: 1em;
 }
 
 #news thead {
@@ -198,6 +198,12 @@ textarea:focus{
 .fLeft {
     float: left;
     width: 100%;
+}
+
+.prodTitle {
+    border-bottom: dotted gray 1.5px;
+    margin-bottom: 10px;
+    width: 100% !important;
 }
 
 .fRight {
@@ -283,11 +289,19 @@ div .prodText {
     width: calc(100% * 2 / 3);
     height: 100%;
     margin: 0;
-    padding: 5px;
+    padding: 10px;
 }
 
-.prodLists {
-    /*height: 280px;*/
+/*.prodLists {
+    height: 280px;
+}*/
+
+.login {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    right: 10%;
 }
 
 .goProd {
@@ -449,6 +463,305 @@ div .prodText {
     text-shadow: 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff;
 }
 
+.wadj {
+    width: 13%;
+    float: right;
+}
+
+/* 購物車的 CSS */
+.check h1 {
+    font-weight: bold;
+    display: block;
+}
+
+.cart-item {
+    width: 20%;
+    float: left;
+    margin-right: 5%;
+}
+
+.cart-item img {
+    width: 100%;
+}
+
+.cart-item-info {
+    width: 75%;
+    float: left;
+}
+
+.check {
+    padding: 1em 0;
+}
+
+.cart-item-info h3 {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.cart-item-info h3 a {
+    color: #000;
+}
+
+.cart-item-info h3 span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.85em;
+    margin: 0.7em 0;
+}
+
+.check h1 {
+    font-size: 1.5em;
+    margin-bottom: 2em;
+    /*font-family: 'Lato', sans-serif;*/
+}
+
+/*.total-item,
+.cart-items {
+    margin-top: 0em;
+    padding-bottom: 2em;
+}
+
+.cart-items,
+.cart-total {
+    padding: 0;
+}*/
+
+.cart-item-info {
+    width: 75%;
+    float: left;
+}
+
+.cart-item-info h3 {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.cart-item-info h3 a {
+    color: #000;
+}
+
+.cart-item-info h3 span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.85em;
+    margin: 0.7em 0;
+}
+
+.cart-item-info h4 span {
+    font-size: 0.65em;
+    font-weight: 400;
+}
+
+.close1,
+.close2 {
+    background: url('../images/close_1.png') no-repeat 0px 0px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    -webkit-transition: color 0.2s ease-in-out;
+    -moz-transition: color 0.2s ease-in-out;
+    -o-transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out;
+}
+
+.cart-header {
+    position: relative;
+}
+
+.cart-header2 {
+    position: relative;
+}
+
+.cart-sec {
+    margin-bottom: 3em;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    padding-right: 5em;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    width: 50%;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    padding-right: 2em;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    padding-right: 1em;
+}
+
+.bottom-cd.simpleCart_shelfItem {
+    padding-right: 0em;
+    width: 100%;
+    margin: 0 0 1em;
+}
+
+ul.qty {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+ul.qty li {
+    display: inline-block;
+    margin-right: 10%;
+}
+
+ul.qty li p {
+    font-size: 0.8125em;
+    color: #555;
+}
+
+.delivery {
+    margin-top: 3em;
+}
+
+.delivery p {
+    color: #A6A6A6;
+    font-size: 1em;
+    font-weight: 400;
+    float: left;
+}
+
+.delivery span {
+    color: #A6A6A6;
+    font-size: 1em;
+    font-weight: 400;
+    float: right;
+}
+
+a.continue {
+    background: #8ce78a;
+    padding: 10px 20px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1em;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+a.continue:hover {
+    background: #000;
+}
+
+.price-details {
+    border-bottom: 1px solid #DDD9D9;
+    padding-bottom: 10px;
+}
+
+.price-details h3 {
+    color: #000;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
+.price-details span {
+    width: 50%;
+    float: left;
+    font-size: 1.15em;
+    color: #000;
+    line-height: 1.8em;
+}
+
+ul.total_price {
+    padding: 0;
+    margin: 1em 0 0 0;
+    list-style: none;
+}
+
+ul.total_price li.last_price {
+    width: 50%;
+    float: left;
+
+}
+
+ul.total_price li.last_price span {
+    font-size: 1.15em;
+    color: #000;
+}
+
+a.order {
+    background: #8ce78a;
+    padding: 10px 20px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1em;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    text-align: center;
+    margin: 3em 0;
+}
+
+a.order:hover {
+    background: #000;
+}
+
+.total-item,
+.cart-items {
+    margin-top: 0em;
+    padding-bottom: 2em;
+}
+
+.total-item h3 {
+    color: #333;
+    font-size: 1.1em;
+    margin-bottom: 1em;
+}
+
+.total-item h4 {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #9C9C9C;
+    display: inline-block;
+    margin-right: 6em;
+}
+
+.total-item p {
+    font-size: 0.9em;
+    font-weight: 400;
+    margin-top: 1em;
+}
+
+.total-item p a {
+    color: #727272;
+}
+
+.total-item p a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.total-item h4 {
+    margin-right: 4em;
+}
+
+a.cpns {
+    background: #8ce78a;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    padding: 10px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+a.cpns:hover {
+    background: #000;
+}
+
+a.cpns {
+    padding: 7px;
+    font-size: 0.7em;
+}
+
 /* 以下為 Responsive 的樣式設定 */
 @media(max-width:480px) {
     .banner-text {
@@ -486,6 +799,10 @@ div .prodText {
         -o-transition-duration: 0.5s;
         z-index: 999;
     }
+
+    .postTime{
+        width: 30%;
+    }
 }
 
 @media(max-width:568px) {
@@ -505,6 +822,11 @@ div .prodText {
 
     .newsTitle {
         font-size: 16px;
+    }
+
+    .wadj {
+        width: 100%;
+        float: right;
     }
 }
 
@@ -535,6 +857,11 @@ div .prodText {
 
     .main-w3ls-logo {
         float: left;
+    }
+
+    .wadj {
+        width: 100%;
+        float: right;
     }
 }
 

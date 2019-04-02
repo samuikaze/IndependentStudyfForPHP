@@ -25,6 +25,22 @@ $(document).scroll(function(){
         });*/
     }
 });
+$(document).ready(function(){
+    $('#loginForm').on("click", function(e){
+        if($('div.login').css('display') == "none"){
+            $('div.login').fadeIn(200);
+            $(document).one("click", function(){
+                $("div.login").fadeOut(200);
+            });
+            e.stopPropagation();
+        }else{
+            $('div#userfunc').fadeOut(200);
+        }
+    });
+    return false;
+});
+
+
 
 //禁止 class=active 的連結有反應
 $(document).scroll(function(){
