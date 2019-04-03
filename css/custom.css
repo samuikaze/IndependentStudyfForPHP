@@ -448,7 +448,8 @@ div .prodText {
 .top-main-banner-wrapper {
     position: relative;
     margin-bottom: 10px;
-    height: calc(100vw / 1349 * 645);
+    /*height: calc(100vw / 1349 * 645);*/
+    height: calc(100vw / 16 * 9);
     overflow: hidden;
 }
 
