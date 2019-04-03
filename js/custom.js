@@ -25,19 +25,40 @@ $(document).scroll(function(){
         });*/
     }
 });
+
 $(document).ready(function(){
-    $('#loginForm').on("click", function(e){
-        if($('div.login').css('display') == "none"){
-            $('div.login').fadeIn(200);
-            $(document).one("click", function(){
-                $("div.login").fadeOut(200);
-            });
-            e.stopPropagation();
-        }else{
-            $('div#userfunc').fadeOut(200);
+    var loginActionID = 0;
+    var regActionID = 0;
+    $('#loginForm').on("click", function(){
+        if(loginActionID == 0){
+            $('div.hp_login').fadeIn(200);
+            loginActionID = 1;
+            return false;
         }
     });
-    return false;
+
+    $('#register').on("click", function(){
+        if(regActionID == 0){
+            $('div.hp_register').fadeIn(200);
+            regActionID = 1;
+            return false;
+        }
+    });
+    
+    $('body').on("click", function(e2) {
+        if ($(e2.target).parents("#login").length == 0 && e2.target.id != "login" && loginActionID != 0 || regActionID != 0) {
+            if(loginActionID != 0 && regActionID == 0){
+                $('.hp_login').fadeOut(200);
+                loginActionID = 0   
+            }else{
+                $('.hp_register').fadeOut(200);
+                regActionID = 0;
+            }
+            
+            
+            return false;
+        }
+    });
 });
 
 

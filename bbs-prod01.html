@@ -35,6 +35,56 @@
 </head>
 
 <body>
+    <!-- 登入與註冊開始 -->
+    <div class="hp_login" style="display: none;">
+        <div class="login">
+            <div class="container">
+                <div id="login" class="col-md-4 text-center">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">登入</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form method="POST" target="">
+                                <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
+                                <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
+                                <div class="text-center" style="margin: 10px auto 0 0;">
+                                    <input type="submit" class="btn btn-success" name="submit" value="登入" />
+                                    <input type="button" id="register" class="btn btn-info" name="register"
+                                        value="註冊" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hp_register" style="display: none;">
+        <div class="register">
+            <div class="container">
+                <div class="col-md-4 text-center">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">註冊</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form method="POST" target="">
+                                <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
+                                <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
+                                <div class="form-group"><input type="password" class="form-control" name="passwordConfirm" placeholder="請再次輸入密碼" /></div>
+                                <div class="form-group"><input type="email" class="form-control" name="email" placeholder="請輸入電子信箱地址" /></div>
+                                <div class="text-center" style="margin: 10px auto 0 0;">
+                                    <input type="submit" class="btn btn-success" name="submit" value="註冊" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 登入與註冊結束 -->
 	<!-- banner -->
 	<div id="home" class="banner inner-banner">
             <header style="padding: 15px;">
@@ -111,6 +161,7 @@
                 <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                 <li><a href="bbs.html">討論區首頁</a></li>
                 <li class="thisPosition">作品討論板</li>
+                <a id="loginForm" class="btn btn-info pull-right">登入</a>
             </ol>
             <!--<h5 class="main-w3l-title">最新消息</h5>-->
             <div class="container-fluid">
@@ -155,6 +206,26 @@
                                     <td><a href="#">討論區貼文標題六</a></td>
                                     <td class="postTime"><a href="#">使用者1</a></td>
                                     <td class="postTime">2019/01/01 15:32</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">討論區貼文標題七</a></td>
+                                    <td class="postTime"><a href="#">使用者1</a></td>
+                                    <td class="postTime">2018/11/19 20:32</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">討論區貼文標題八</a></td>
+                                    <td class="postTime"><a href="#">使用者1</a></td>
+                                    <td class="postTime">2018/11/13 03:32</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">討論區貼文標題九</a></td>
+                                    <td class="postTime"><a href="#">使用者1</a></td>
+                                    <td class="postTime">2018/11/12 02:32</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">討論區貼文標題十</a></td>
+                                    <td class="postTime"><a href="#">使用者1</a></td>
+                                    <td class="postTime">2018/10/03 10:12</td>
                                 </tr>
                             </tbody>
                         </table>
