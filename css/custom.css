@@ -535,6 +535,8 @@ div .prodText {
 
 .check {
     padding: 1em 0;
+    width: 85%;
+    margin: 0 auto;
 }
 
 .cart-item-info h3 {
@@ -804,6 +806,50 @@ a.cpns:hover {
 a.cpns {
     padding: 7px;
     font-size: 0.7em;
+}
+
+/* 討論串樣式 */
+.articles {
+    height: 500px;
+    min-height: 500px;
+    border: 2px solid #999;
+    padding: 0px;
+    margin: 5px 0 5px 0;
+}
+
+.postUser {
+    width: 100%;
+    background-color: rgb(236, 236, 236);
+    color: black;
+    padding: 0 0 0 10px;
+    height: 100%;
+}
+
+.avator{
+    margin-bottom: 10px;
+    padding: 10px 10px 10px 0;
+}
+
+.post {
+    height: 100%;
+}
+
+.post p {
+    padding: 5px;
+}
+
+.postControl {
+    text-align: right;
+    width: 100%;
+    padding: 5px;
+    background-color: #5dc1ff;
+    color: white;
+    font-weight: bold;
+}
+
+.noPadding {
+    padding: 0px !important;
+    height: 100%;
 }
 
 /* 以下為 Responsive 的樣式設定 */

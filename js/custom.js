@@ -1,3 +1,125 @@
+$(document).scroll(function(){
+    //取得 #home 的元素高度後減 200 像素
+    var pageHeight = $('#home').height() - 100;
+    if($(this).scrollTop() > pageHeight){   
+        $('header').css({
+           "background":"rgba(196, 134, 0, 0.75)",
+           "borderBottom":"2px solid rgba(255, 255, 255, 0.75)"
+        });
+        $('.colorTran').css({
+            "color":"white"
+        });
+        $('.main-w3ls-logo').find('a').css({
+            "color":"white"
+        });
+    } else {
+        $('header').css({
+           "background":"rgba(0, 0, 0, 0.35)",
+           "borderBottom":"transparent"
+        });
+        /*$('.colorTran').css({
+            "color":"black"
+        });
+        $('.main-w3ls-logo').find('a').css({
+            "color":"black"
+        });*/
+    }
+});
+
+//登入／註冊 DIV 氣泡
+$(document).ready(function(){
+    var loginActionID = 0;
+    var regActionID = 0;
+    $('#loginForm').on("click", function(){
+        if(loginActionID == 0){
+            $('div.hp_login').fadeIn(200);
+            loginActionID = 1;
+            return false;
+        }
+    });
+
+    $('#register').on("click", function(){
+        if(regActionID == 0){
+            $('div.hp_register').fadeIn(200);
+            regActionID = 1;
+            return false;
+        }
+    });
+    
+    $('body').on("click", function(e2) {
+        if ($(e2.target).parents("#login").length == 0 && e2.target.id != "login" && loginActionID != 0 || regActionID != 0) {
+            if(loginActionID != 0 && regActionID == 0){
+                $('.hp_login').fadeOut(200);
+                loginActionID = 0   
+            }else if(loginActionID != 0 && regActionID != 0 && $(e2.target).parents("#reg").length == 0 && e2.target.id != "reg"){
+                $('.hp_register').fadeOut(200);
+                regActionID = 0;
+            }
+            
+            
+            return false;
+        }
+    });
+});
+
+
+
+//禁止 class=active 的連結有反應
+$(document).scroll(function(){
+    $('a.active').on("click", function(){
+        return false;
+    });
+});
+
+//修改高度用
+/*$(document).scroll(function(){
+    var homeHeight = $('#headerForCalc').outerHeight();
+    var _this = $('div.top-main-banner-item').find('img').height();
+    $('div.top-main-banner-wrapper').css("paddingTop", ($('div#banner').height() + 10) + homeHeight);
+    $('div.banner').css("height", homeHeight + _this);
+});*/
+
+jQuery(document).ready(function ($) {
+    $(".scroll").click(function (event) {
+        event.preventDefault();
+        $('html,body').animate({
+            scrollTop: $(this.hash).offset().top
+        }, 1000);
+    });
+});
+
+// 圖片輪播 slick.js
+$(document).ready(function(){
+    $('.top-main-banner').slick({
+        draggable: true,
+        infinite: true,
+        speed: 600,
+        autoplaySpeed: 2000,
+        autoplay: true,
+        dots: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        centerMode: false,
+        variableWidth: false,
+        prevArrow: $(".navi-allow.prev"),
+        nextArrow: $(".navi-allow.next"),
+    });
+});
+
+//捲到最上層
+$(document).ready(function(){
+    $('.toTop').on('click', function(){
+        $('html,body').animate({ scrollTop: 0 }, 300);
+    });
+    $(window).on('scroll', function(){
+        if ($(this).scrollTop() > 50){
+            $('img.toTop').fadeIn(200);
+        } else {
+            $('img.toTop').stop().fadeOut(200);
+        }
+    });
+});
+
 /*
  * LoadingAnimation
  * Require PreloadJS 1.0.0
@@ -87,125 +209,3 @@ function completeLoadingProcess(event){
     $('.loadscr').fadeOut('slow');
     $('.pageWrap').fadeIn('slow');
 }
-
-/* 下方 JS 開始 */
-$(document).scroll(function(){
-    //取得 #home 的元素高度後減 200 像素
-    var pageHeight = $('#home').height() - 100;
-    if($(this).scrollTop() > pageHeight){   
-        $('header').css({
-           "background":"rgba(196, 134, 0, 0.75)",
-           "borderBottom":"2px solid rgba(255, 255, 255, 0.75)"
-        });
-        $('.colorTran').css({
-            "color":"white"
-        });
-        $('.main-w3ls-logo').find('a').css({
-            "color":"white"
-        });
-    } else {
-        $('header').css({
-           "background":"rgba(0, 0, 0, 0.35)",
-           "borderBottom":"transparent"
-        });
-        /*$('.colorTran').css({
-            "color":"black"
-        });
-        $('.main-w3ls-logo').find('a').css({
-            "color":"black"
-        });*/
-    }
-});
-
-$(document).ready(function(){
-    var loginActionID = 0;
-    var regActionID = 0;
-    $('#loginForm').on("click", function(){
-        if(loginActionID == 0){
-            $('div.hp_login').fadeIn(200);
-            loginActionID = 1;
-            return false;
-        }
-    });
-
-    $('#register').on("click", function(){
-        if(regActionID == 0){
-            $('div.hp_register').fadeIn(200);
-            regActionID = 1;
-            return false;
-        }
-    });
-    
-    $('body').on("click", function(e2) {
-        if ($(e2.target).parents("#login").length == 0 && e2.target.id != "login" && loginActionID != 0 || regActionID != 0) {
-            if(loginActionID != 0 && regActionID == 0){
-                $('.hp_login').fadeOut(200);
-                loginActionID = 0   
-            }else{
-                $('.hp_register').fadeOut(200);
-                regActionID = 0;
-            }
-            
-            
-            return false;
-        }
-    });
-});
-
-
-
-//禁止 class=active 的連結有反應
-$(document).scroll(function(){
-    $('a.active').on("click", function(){
-        return false;
-    });
-});
-
-//修改高度用
-/*$(document).scroll(function(){
-    var homeHeight = $('#headerForCalc').outerHeight();
-    var _this = $('div.top-main-banner-item').find('img').height();
-    $('div.top-main-banner-wrapper').css("paddingTop", ($('div#banner').height() + 10) + homeHeight);
-    $('div.banner').css("height", homeHeight + _this);
-});*/
-
-jQuery(document).ready(function ($) {
-    $(".scroll").click(function (event) {
-        event.preventDefault();
-        $('html,body').animate({
-            scrollTop: $(this.hash).offset().top
-        }, 1000);
-    });
-});
-
-// 圖片輪播 slick.js
-$(document).ready(function(){
-    $('.top-main-banner').slick({
-        draggable: true,
-        infinite: true,
-        speed: 600,
-        autoplaySpeed: 2000,
-        autoplay: true,
-        dots: false,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        centerMode: false,
-        variableWidth: false,
-        prevArrow: $(".navi-allow.prev"),
-        nextArrow: $(".navi-allow.next"),
-    });
-});
-
-//捲到最上層
-$(document).ready(function(){
-    $('.toTop').on('click', function(){
-        $('html,body').animate({ scrollTop: 0 }, 300);
-    });
-    $(window).on('scroll', function(){
-        if ($(this).scrollTop() > 50){
-            $('img.toTop').fadeIn(200);
-        } else {
-            $('img.toTop').stop().fadeOut(200);
-        }
-    });
-});
