@@ -8,7 +8,6 @@ MySQL http://59.127.59.65:7999/phpmyadmin/
 
 要改的東西：
     1. LOADING 畫面
-    2. 代碼清理
 
 1. toTop 修改，這個很重要，不改 jQuery 的動畫不會實現
     1) <a href="#home" class="scroll toTop" style="display: block;"><img src="images/arr.png" class="toTop" /></a>

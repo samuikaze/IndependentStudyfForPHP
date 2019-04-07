@@ -488,11 +488,28 @@ div .prodText {
     margin: -40px 0 0 15px;
     color: rgb(59, 59, 59);
     text-shadow: 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff, 0px 0px 5px #fff;
+    text-align: right;
 }
 
 .wadj {
     width: 13%;
     float: right;
+}
+
+/* Loading Screen */
+.loadscr {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(196, 134, 0);
+}
+
+.pageWrap {
+    display: none;
+}
+
+#progBar {
+    width: 45%;
 }
 
 /* 購物車的 CSS */
