@@ -151,6 +151,12 @@ function loadProgress(){
         bodyBGImg = bodyBGImg.replace('url(','').replace(')','').replace(/\"/gi, "");
         manifest[manifest.length] = bodyBGImg;
     }
+
+    if ($('.banner').css('backgroundImage') != null){           // 頭部 BANNER 圖片
+        var bannerBGImg = $('.banner').css('backgroundImage');
+        bannerBGImg = bannerBGImg.replace('url(','').replace(')','').replace(/\"/gi, "");
+        manifest[manifest.length] = bannerBGImg;
+    }
     
     //遍歷所有 script 標籤
     /*$('script').each(function(){
@@ -198,7 +204,6 @@ function progressEventListener(event){
     // 「event.progress」值為 0 ~ 1。
     percent = event.progress * 100 + '%';
     ariaValue = event.progress * 100;
-    console.log(percent);
     $('div.progress-bar').attr('aria-valuenow', ariaValue);
     $('div.progress-bar').css('width', percent);
     //adjustVerticalAlignMiddle();
@@ -206,6 +211,7 @@ function progressEventListener(event){
 
 // 載入完成
 function completeLoadingProcess(event){
-    $('.loadscr').fadeOut('slow');
-    $('.pageWrap').fadeIn('slow');
+    $('.loadscr').delay(300).fadeOut('slow');
+    $('.pageWrap').delay(300).fadeIn('slow');
+    //console.log("載入完成！");
 }

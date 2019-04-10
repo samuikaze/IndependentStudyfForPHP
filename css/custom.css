@@ -62,6 +62,32 @@ input:focus{
 
 .banner {
     min-height: 120px;
+    background-image: url(../images/banner.jpg);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover;
+    min-height: 795px;
+}
+
+/* 
+ * 此樣式為有含載入動畫的 BANNER 背景圖設定，未來如不需使用請將這個樣式刪除
+ * 目前套用此樣式的頁面為：news.html、product.html
+ */
+.banner-load {
+    min-height: 120px;
+    background-image: url(images/banner.jpg);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover;
+    min-height: 795px;
 }
 
 .header-buttom-w3layouts {
@@ -300,7 +326,7 @@ div .prodText {
     position: fixed;
     width: 100%;
     height: 100%;
-    z-index: 9;
+    z-index: 200;
     margin: calc(100% * 3 / (10 * 2) ) calc(100% * 2 / (3 * 2) );
     text-align: center;
 }
@@ -309,7 +335,7 @@ div .prodText {
     position: fixed;
     width: 100%;
     height: 100%;
-    z-index: 11;
+    z-index: 201;
     margin: calc(100% * 3 / (10 * 2) ) calc(100% * 2 / (3 * 2) );
     text-align: center;
 }
@@ -318,7 +344,7 @@ div .prodText {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    z-index: 7;
+    z-index: 199;
     background: rgba(0, 0, 0, 0.3);
 }
 
@@ -499,10 +525,38 @@ div .prodText {
 
 /* Loading Screen */
 .loadscr {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: block;
     width: 100vw;
     height: 100vh;
     background-color: rgb(196, 134, 0);
+    z-index: 999;
+}
+
+.loadscr .progress {
+    width: 50%;
+    margin: 15px auto;
+}
+
+.loadscr .loadTitle {
+    font-size: 3.5em;
+    color: white;
+    text-align: center;
+    width: 100vw;
+    padding-top: 30vh;
+}
+
+.loadscr .logo {
+    width: 1.7em;
+}
+
+.loadscr .loadHint {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1em;
+    color: white;
 }
 
 .pageWrap {
@@ -868,14 +922,13 @@ a.cpns {
     }
 
     header {
-        background: rgba(196, 134, 0, 0);
-        border-bottom: 2px solid #fff;
+        background: rgba(0, 0, 0, 0.35);
+        border-bottom: transparent;
         position: fixed;
         transition-duration: 0.5s;
         -moz-transition-duration: 0.5s;
         -webkit-transition-duration: 0.5s;
         -o-transition-duration: 0.5s;
-        z-index: 100;
     }
 
     div#bs-example-navbar-collapse-1 {
@@ -893,6 +946,46 @@ a.cpns {
 
     .postTime{
         width: 30%;
+    }
+
+    .loadscr .loadTitle {
+        font-size: 3em;
+        color: white;
+        text-align: center;
+        width: 100vw;
+        padding-top: 30vh;
+    }
+    
+    .loadscr .logo {
+        width: 1.4em;
+    }
+    
+    .loadscr .loadHint {
+        width: 100%;
+        text-align: center;
+        font-size: 1em;
+        color: white;
+    }
+
+    .loadscr .progress {
+        width: 80%;
+        margin: 15px auto;
+    }
+
+    .login {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+    
+    .register {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
     }
 }
 
@@ -919,6 +1012,46 @@ a.cpns {
         width: 100%;
         float: right;
     }
+
+    .loadscr .loadTitle {
+        font-size: 3em;
+        color: white;
+        text-align: center;
+        width: 100vw;
+        padding-top: 30vh;
+    }
+    
+    .loadscr .logo {
+        width: 1.4em;
+    }
+    
+    .loadscr .loadHint {
+        width: 100%;
+        text-align: center;
+        font-size: 1em;
+        color: white;
+    }
+
+    .loadscr .progress {
+        width: 90%;
+        margin: 15px auto;
+    }
+
+    .login {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+    
+    .register {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
 }
 
 @media(max-width:991px) {
@@ -927,8 +1060,8 @@ a.cpns {
     }
     
     header {
-        background: rgba(196, 134, 0, 0);
-        border-bottom: 2px solid #fff;
+        background: rgba(0, 0, 0, 0.35);
+        border-bottom: transparent;
         position: fixed;
         transition-duration: 0.5s;
         -moz-transition-duration: 0.5s;
@@ -954,6 +1087,27 @@ a.cpns {
         width: 100%;
         float: right;
     }
+
+    .loadscr .progress {
+        width: 60%;
+        margin: 15px auto;
+    }
+
+    .login {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+    
+    .register {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 70px auto;
+        text-align: center;
+    }
 }
 
 @media(max-width:1366px) {
@@ -962,8 +1116,8 @@ a.cpns {
     }
 
     header {
-        background: rgba(196, 134, 0, 0);
-        border-bottom: 2px solid #fff;
+        background: rgba(0, 0, 0, 0.35);
+        border-bottom: transparent;
         position: fixed;
         transition-duration: 0.5s;
         -moz-transition-duration: 0.5s;
