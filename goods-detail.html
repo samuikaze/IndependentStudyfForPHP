@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 
 <head>
-	<title>常見問題 | 洛嬉遊戲 L.S. Games</title>
+	<title>周邊商品一詳細資料 | 洛嬉遊戲 L.S. Games</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="洛嬉遊戲 L.S. Games LSGames" />
@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/PreloadJS.js"></script>   <!-- 載入動畫（修改中） -->
     <script type="text/javascript" src="js/slick.min.js"></script>    <!-- 圖片輪播 -->
     <script src="js/custom.js"></script>
+    <script src="js/simpleCart.min.js"></script>
 	<script type="application/x-javascript">
 		addEventListener("load", function () {
 			setTimeout(hideURLbar, 0);
@@ -28,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
     <link rel="stylesheet" href="css/custom.css" />
 </head>
+
 <body onload="loadProgress()">
     <!-- 要加入載入動畫這邊請加上 onload="loadProgress()" -->
     <div class="loadscr">
@@ -41,6 +43,55 @@
             <div class="loadHint">頁面載入中...</div>
         </div>
         <div class="pageWrap">
+        <!-- 登入與註冊開始 -->
+        <div class="hp_login" style="display: none;">
+            <div class="login">
+                <div class="container">
+                    <div id="login" class="col-md-4 text-center">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">登入</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form method="POST" target="">
+                                    <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
+                                    <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
+                                    <div class="text-center" style="margin: 10px auto 0 0;">
+                                        <input type="submit" class="btn btn-success" name="submit" value="登入" />
+                                        <input type="button" id="register" class="btn btn-info" name="register" value="註冊" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hp_register" style="display: none;">
+            <div class="register">
+                <div class="container">
+                    <div id="reg" class="col-md-4 text-center">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">註冊</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form method="POST" target="">
+                                    <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
+                                    <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
+                                    <div class="form-group"><input type="password" class="form-control" name="passwordConfirm" placeholder="請再次輸入密碼" /></div>
+                                    <div class="form-group"><input type="email" class="form-control" name="email" placeholder="請輸入電子信箱地址" /></div>
+                                    <div class="text-center" style="margin: 10px auto 0 0;">
+                                        <input type="submit" class="btn btn-success" name="submit" value="註冊" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 登入與註冊結束 -->
         <div id="home" class="banner inner-banner">
             <header style="padding: 15px;">
                 <div class="header-bottom-w3layouts">
@@ -48,6 +99,7 @@
                         <a href="index.html"><h1><img src="images/logo.png">洛嬉遊戲</h1></a>
                     </div>
                     <nav class="navbar navbar-default">
+                        <!-- Brand and toggle get grouped for better mobile display -->
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                                 <span class="sr-only">Toggle navigation</span>
@@ -61,7 +113,7 @@
                                 <li><a class="colorTran" href="about.html">關於團隊</a></li>
                                 <li><a class="colorTran" href="news.html">最新消息</a></li>
                                 <li><a class="colorTran" href="products.html">作品一覽</a></li>
-                                <li><a class="colorTran" href="goods.html">周邊產品</a></li>
+                                <li><a class="active" href="goods.html">周邊產品</a></li>
                                 <li><a class="colorTran" href="bbs.html">討論專區</a></li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
@@ -83,56 +135,17 @@
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
-                    <li class="thisPosition">常見問題</li>
+                    <li><a href="goods.html">周邊產品</a></li>
+                    <li class="thisPosition">周邊商品一詳細資料</li>
+                    <a id="loginForm" class="btn btn-info pull-right">登入</a>
                 </ol>
-                <!-- FAQ 內容 -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">常見問題１</h3>
+                <div class="row goodDetail">
+                    <div class="col-md-4"><img src="images/goods/g1.jpg " alt="" class="img-responsive img-thumbnail"></div>
+                    <div class="col-md-6">
+                        <h1>週邊一</h1>
+                        <p class="lead goodDescript">週邊一說明文字週邊一說明文字週邊一說明文字週邊一說明文字週邊一說明文字</p>
+                        <p></p>
                     </div>
-                    <div class="panel-body">解答內容。</div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">常見問題２</h3>
-                    </div>
-                    <div class="panel-body">解答內容。</div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">常見問題３</h3>
-                    </div>
-                    <div class="panel-body">解答內容。</div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">常見問題４</h3>
-                    </div>
-                    <div class="panel-body">解答內容。</div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">常見問題５</h3>
-                    </div>
-                    <div class="panel-body">解答內容。</div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">常見問題６</h3>
-                    </div>
-                    <div class="panel-body">解答內容。</div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">常見問題７</h3>
-                    </div>
-                    <div class="panel-body">解答內容。</div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row"></div>
-                <div class="col-md-12 text-center">
-                    <a href="contact.html" class="btn btn-default btn-lg">找不到問題的解答嗎？</a>
                 </div>
             </div>
         </div>
@@ -144,8 +157,7 @@
         </div>
         <a href="#home" class="scroll toTop" style="display: block;"><img src="images/arr.png" class="toTop" /></a>
     </div>
-
-	<!-- 搜尋列 -->
+    <!-- 搜尋列 -->
 	<script src="js/main.js"></script>
 	<script src="js/bootstrap.js"></script>
 </body>

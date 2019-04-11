@@ -70,7 +70,6 @@ input:focus{
     -o-background-size: cover;
     -ms-background-size: cover;
     background-size: cover;
-    min-height: 795px;
 }
 
 /* 
@@ -123,8 +122,8 @@ input:focus{
 }
 
 header {
-    background: rgba(196, 134, 0, 0);
-    border-bottom: 2px solid #fff;
+    background: rgba(0, 0, 0, 0.35);
+    border-bottom: transparent;
     position: fixed;
     transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
@@ -345,7 +344,7 @@ div .prodText {
     width: 100vw;
     height: 100vh;
     z-index: 199;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
 }
 
 /*.hp_register {
@@ -390,7 +389,7 @@ div .prodText {
 .courses,
 .gallery,
 .contact-page {
-    padding: 10px 0;
+    padding: 10px 0 !important;
 }
 
 /* 作品頁面效果控制 */
@@ -521,6 +520,15 @@ div .prodText {
 .wadj {
     width: 13%;
     float: right;
+}
+
+.goodDetail {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.goodDescript {
+    padding-top: 1em;
 }
 
 /* Loading Screen */
@@ -882,7 +890,8 @@ a.cpns {
 
 .avator{
     margin-bottom: 10px;
-    padding: 10px 10px 10px 0;
+    padding: 10px 10px 10px 10px;
+    height: 50%;
 }
 
 .post {
@@ -987,6 +996,38 @@ a.cpns {
         margin: 110px auto;
         text-align: center;
     }
+
+    .articles {
+        height: unset;
+    }
+
+    .postUser {
+        width: 100%;
+        background-color: rgb(236, 236, 236);
+        color: black;
+        padding: 0 0 0 10px;
+        height: 8em;
+    }
+
+    .postUser h3 {
+        float: right;
+        font-size: 1.5em;
+        padding: 10px;
+        width: 100%;
+        text-align: right;
+    }
+
+    .postUser p {
+        float: right;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .avator {
+        float: left;
+        width: 100%;
+    }
 }
 
 @media(max-width:568px) {
@@ -1052,6 +1093,38 @@ a.cpns {
         margin: 110px auto;
         text-align: center;
     }
+
+    .articles {
+        height: unset;
+    }
+
+    .postUser {
+        width: 100%;
+        background-color: rgb(236, 236, 236);
+        color: black;
+        padding: 0 0 0 10px;
+        height: 100%;
+    }
+
+    .postUser h3 {
+        float: right;
+        font-size: 1.5em;
+        padding: 10px;
+        width: 100%;
+        text-align: right;
+    }
+
+    .postUser p {
+        float: right;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .avator {
+        float: left;
+        width: 100%;
+    }
 }
 
 @media(max-width:991px) {
@@ -1107,6 +1180,39 @@ a.cpns {
         height: 100%;
         margin: 70px auto;
         text-align: center;
+    }
+
+    .articles {
+        height: unset;
+    }
+
+    .postUser {
+        width: 100%;
+        background-color: rgb(236, 236, 236);
+        color: black;
+        padding: 0 0 0 10px;
+        height: 100%;
+    }
+
+    .postUser h3 {
+        float: right;
+        font-size: 2em;
+        padding: 10px;
+        width: 100%;
+        text-align: right;
+    }
+
+    .postUser p {
+        float: right;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
+        font-size: 1.1em;
+    }
+
+    .avator {
+        float: left;
+        width: 100%;
     }
 }
 
