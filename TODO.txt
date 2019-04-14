@@ -4,16 +4,15 @@ ftp://59.127.59.65:36
 MySQL http://59.127.59.65:7999/phpmyadmin/
 
 目前進度：
-    [概觀] 1. 放團隊照片或遊戲相關圖片...還在想辦法
-    1. 修改文章版面外觀。
-    2. banner-load 為載入動畫的 class
-    3. 後台版面（3欄）
+    1. banner-load 為載入動畫的 class
+    2. 後台版面（3欄）
+    3. 周邊商品詳細資料頁面
 
 資料庫：
 1. member 資料表
 
 要改的東西：
-    1. LOADING 畫面
+    1. 首頁的 LOADING 畫面 (要抓bug)
 
 1. toTop 修改，這個很重要，不改 jQuery 的動畫不會實現
     1) <a href="#home" class="scroll toTop" style="display: block;"><img src="images/arr.png" class="toTop" /></a>
