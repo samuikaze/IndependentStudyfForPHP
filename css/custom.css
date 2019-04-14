@@ -236,7 +236,7 @@ textarea:focus{
 }
 
 h3.fLeft {
-    width: 70%;
+    width: 65%;
 }
 
 /*.top-main-banner-wrapper .slick-dots {
@@ -869,6 +869,18 @@ a.cpns:hover {
 a.cpns {
     padding: 7px;
     font-size: 0.7em;
+}
+
+.prodDivide {
+    height: 1px;
+    border: none;
+    border-top: 1px dashed #0066CC;
+    width: 100%;
+    margin: 5px 15px 5px 0;
+}
+
+.relDate {
+    margin-bottom: 10px;
 }
 
 /* 討論串樣式 */
