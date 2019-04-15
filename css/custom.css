@@ -162,6 +162,22 @@ textarea:focus{
     background: rgb(255, 145, 0);
 }
 
+.about-img {
+    background: url(../images/about.jpg)no-repeat 0px 0px !important;
+}
+
+.mid-info:nth-child(1) {
+    background: url(images/m1.jpg)no-repeat 0px 0px !important;
+}
+
+.mid-info:nth-child(2) {
+    background: url(images/m2.jpg)no-repeat 0px 0px !important;
+}
+
+.mid-info:nth-child(3) {
+    background: url(images/m3.jpg)no-repeat 0px 0px !important;
+}
+
 .header-top {
     background: rgb(255, 145, 0);
 }
@@ -525,6 +541,16 @@ div .prodText {
 .goodDetail {
     width: 90%;
     margin: 0 auto;
+}
+
+.goods-detail-text {
+    padding: 10px;
+}
+
+.goods-detail-img {
+    padding: 0;
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 .goodDescript {
@@ -903,7 +929,6 @@ a.cpns {
 .avator{
     margin-bottom: 10px;
     padding: 10px 10px 10px 10px;
-    height: 50%;
 }
 
 .post {
