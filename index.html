@@ -10,7 +10,7 @@
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/PreloadJS.js"></script>   <!-- 載入動畫（修改中） -->
     <script type="text/javascript" src="js/slick.min.js"></script>    <!-- 圖片輪播 -->
-    <script src="./js/custom.js"></script>
+    <script src="js/custom.js"></script>
 	<script type="application/x-javascript">
 		addEventListener("load", function () {
 			setTimeout(hideURLbar, 0);
@@ -21,9 +21,9 @@
 		}
     </script>
     <!-- stats -->
-	<script src="./js/jquery.waypoints.min.js"></script>
+	<script src="js/jquery.waypoints.min.js"></script>
 	<!-- flexSlider -->
-	<script defer src="./js/jquery.flexslider.js"></script>
+	<script defer src="js/jquery.flexslider.js"></script>
 	<script type="text/javascript">
 		$(window).load(function () {
 			$('.flexslider').flexslider({
@@ -62,11 +62,11 @@
 	<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" property="" />
     <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>-->
     <link rel="stylesheet" href="css/custom.css" />
 </head>
-<body onload=""> <!-- 要加入載入動畫這邊請加上 onload="loadProgress()" -->
-    <!--<div class="loadscr">
+<body onload="loadProgress()"> <!-- 要加入載入動畫這邊請加上 onload="loadProgress()" -->
+        <div class="loadscr">
         <div class="loadTitle"><img src="images/logo.png" class="logo" />&nbsp;&nbsp;&nbsp;L.S. Games</div>
         <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
@@ -75,7 +75,7 @@
         </div>
         <div class="loadHint">頁面載入中...</div>
     </div>
-    <div class="pageWrap">-->
+    <div class="pageWrap">
         <div class="banner" id="home" style="background: unset;">
             <header id="headerForCalc">
                 <div class="header-wrap">
@@ -291,7 +291,7 @@
             </div>
         </div>
         <a href="#home" class="scroll toTop" style="display: block;"><img src="images/arr.png" class="toTop" /></a>
-    <!--</div>-->
+    </div>
 
 	
 </body>
