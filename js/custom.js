@@ -158,18 +158,6 @@ function loadProgress(){
         manifest[manifest.length] = bannerBGImg;
     }
     
-    //遍歷所有 script 標籤
-    /*$('script').each(function(){
-        if (scriptEach != true){           //第一次執行變數 i 宣告
-            var i = manifest.length;
-            var scriptEach = true;
-        }
-        if ($(this).attr('src') != null){     // js 檔不包含本檔案
-            manifest[i] = $(this).attr('src');
-        }
-        i = i + 1;
-    });*/
-    
     //遍歷所有 css 和 icon 檔案
     $('link').each(function(){
         if (linkStylesheetEach != true){   //第一次執行變數 i 宣告
