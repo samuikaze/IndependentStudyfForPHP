@@ -1391,7 +1391,7 @@ h3.subheading-wthree {
 /*--services--*/
 
 .services-img1 {
-	background: url(../images/services1.jpg)no-repeat 0px 0px;
+	background: url(images/services1.jpg)no-repeat 0px 0px;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1401,7 +1401,7 @@ h3.subheading-wthree {
 }
 
 .services-img2 {
-	background: url(../images/services2.jpg)no-repeat 0px 0px;
+	background: url(images/services2.jpg)no-repeat 0px 0px;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

@@ -185,7 +185,7 @@ textarea:focus{
 }
 
 .about-img {
-    background: url(../images/about.jpg)no-repeat 0px 0px !important;
+    background: url(images/about.jpg)no-repeat 0px 0px !important;
 }
 
 .mid-info:nth-child(1) {
