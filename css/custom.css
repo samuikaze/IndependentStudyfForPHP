@@ -82,6 +82,10 @@ input:focus{
     font-family: 'Noto Sans TC' !important;
 }
 
+.newsbadge {
+    font-size: 0.8em;
+}
+
 .testimonials-section {
     padding: 1em;
 }
