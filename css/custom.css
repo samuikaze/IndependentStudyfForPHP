@@ -1,4 +1,4 @@
-/*@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');*/
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');
 
 /*
  * 此 CSS 用於快速覆蓋原版型的樣式
@@ -70,6 +70,24 @@ input:focus{
     -o-background-size: cover;
     -ms-background-size: cover;
     background-size: cover;
+}
+
+.newsTable {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.newsTable tbody tr td {
+    border-top: 2px dashed white;
+    font-family: 'Noto Sans TC' !important;
+}
+
+.testimonials-section {
+    padding: 1em;
+}
+
+.testimonials-section {
+    background: rgba(203, 203, 203, 0.7);
 }
 
 /* 
