@@ -1,3 +1,88 @@
+/*
+ * LoadingAnimation
+ * Require PreloadJS 1.0.0
+**/
+
+var manifest = new Array();
+var preload;
+var percent;
+var filePercent;
+
+function loadProgress(){
+    // 初始化
+    //initCheck();
+    var i = 0;
+    
+    //關閉其他 preload 線程
+    if (preload != null){
+        preload.close();
+    }
+     
+    //資料收集 img → script → css
+    //遍歷所有 img 標籤
+    $('img').each(function(){
+        manifest[i] = $(this).attr('src');
+        i = i + 1;
+    });
+    if ($('body').css('backgroundImage') != null){              //最後從 CSS 把背景圖的 URL 加進去
+        var bodyBGImg = $('body').css('backgroundImage');
+        bodyBGImg = bodyBGImg.replace('url(','').replace(')','').replace(/\"/gi, "");
+        manifest[manifest.length] = bodyBGImg;
+    }
+
+    if ($('.banner').css('backgroundImage') != null){           // 頭部 BANNER 圖片
+        var bannerBGImg = $('.banner').css('backgroundImage');
+        bannerBGImg = bannerBGImg.replace('url(','').replace(')','').replace(/\"/gi, "");
+        manifest[manifest.length] = bannerBGImg;
+    }
+    
+    //遍歷所有 css 和 icon 檔案
+    $('link').each(function(){
+        if (linkStylesheetEach != true){   //第一次執行變數 i 宣告
+            var i = manifest.length;
+            var linkStylesheetEach = true;
+        }
+        if ($(this).attr('rel') == 'stylesheet' || $(this).attr('rel') == 'shortcut icon' && $(this).attr('href') != null){
+            manifest[i] = $(this).attr('href');
+        }
+        i = i + 1;
+    });
+    
+    
+    // 正式開始載入
+    // LoadQueue() 中的 true 表示優先使用 XHR 方法載入
+    preload = new createjs.LoadQueue(true);
+    
+    loadEvent();
+    
+    preload.on("progress", progressEventListener, this);
+    preload.on("complete", completeLoadingProcess, this);
+    preload.setMaxConnections(5);
+}
+
+// 載入事件
+function loadEvent(){
+    preload.loadManifest(manifest);
+}
+
+// 整體進度事件
+function progressEventListener(event){
+    // 「event.progress」值為 0 ~ 1。
+    percent = event.progress * 100 + '%';
+    ariaValue = event.progress * 100;
+    $('div.progress-bar').attr('aria-valuenow', ariaValue);
+    $('div.progress-bar').css('width', percent);
+    //adjustVerticalAlignMiddle();
+}
+
+// 載入完成
+function completeLoadingProcess(event){
+    $('.loadscr').delay(300).fadeOut('slow');
+    $('.pageWrap').delay(300).fadeIn('slow');
+    //console.log("載入完成！");
+}
+
+
 $(document).scroll(function(){
     //取得 #home 的元素高度後減 200 像素
     var pageHeight = $('#home').height() - 100;
@@ -120,86 +205,3 @@ $(document).ready(function(){
     });
 });
 
-/*
- * LoadingAnimation
- * Require PreloadJS 1.0.0
-**/
-
-var manifest = new Array();
-var preload;
-var percent;
-var filePercent;
-
-function loadProgress(){
-    // 初始化
-    //initCheck();
-    var i = 0;
-    
-    //關閉其他 preload 線程
-    if (preload != null){
-        preload.close();
-    }
-     
-    //資料收集 img → script → css
-    //遍歷所有 img 標籤
-    $('img').each(function(){
-        manifest[i] = $(this).attr('src');
-        i = i + 1;
-    });
-    if ($('body').css('backgroundImage') != null){              //最後從 CSS 把背景圖的 URL 加進去
-        var bodyBGImg = $('body').css('backgroundImage');
-        bodyBGImg = bodyBGImg.replace('url(','').replace(')','').replace(/\"/gi, "");
-        manifest[manifest.length] = bodyBGImg;
-    }
-
-    if ($('.banner').css('backgroundImage') != null){           // 頭部 BANNER 圖片
-        var bannerBGImg = $('.banner').css('backgroundImage');
-        bannerBGImg = bannerBGImg.replace('url(','').replace(')','').replace(/\"/gi, "");
-        manifest[manifest.length] = bannerBGImg;
-    }
-    
-    //遍歷所有 css 和 icon 檔案
-    $('link').each(function(){
-        if (linkStylesheetEach != true){   //第一次執行變數 i 宣告
-            var i = manifest.length;
-            var linkStylesheetEach = true;
-        }
-        if ($(this).attr('rel') == 'stylesheet' || $(this).attr('rel') == 'shortcut icon' && $(this).attr('href') != null){
-            manifest[i] = $(this).attr('href');
-        }
-        i = i + 1;
-    });
-    
-    
-    // 正式開始載入
-    // LoadQueue() 中的 true 表示優先使用 XHR 方法載入
-    preload = new createjs.LoadQueue(true);
-    
-    loadEvent();
-    
-    preload.on("progress", progressEventListener, this);
-    preload.on("complete", completeLoadingProcess, this);
-    preload.setMaxConnections(5);
-}
-
-// 載入事件
-function loadEvent(){
-    preload.loadManifest(manifest);
-}
-
-// 整體進度事件
-function progressEventListener(event){
-    // 「event.progress」值為 0 ~ 1。
-    percent = event.progress * 100 + '%';
-    ariaValue = event.progress * 100;
-    $('div.progress-bar').attr('aria-valuenow', ariaValue);
-    $('div.progress-bar').css('width', percent);
-    //adjustVerticalAlignMiddle();
-}
-
-// 載入完成
-function completeLoadingProcess(event){
-    $('.loadscr').delay(300).fadeOut('slow');
-    $('.pageWrap').delay(300).fadeIn('slow');
-    //console.log("載入完成！");
-}
