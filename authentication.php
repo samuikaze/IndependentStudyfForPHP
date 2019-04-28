@@ -1,0 +1,132 @@
+<?php
+    require_once "admin/config.ini.php";
+    //requier_once "sessionCheck.php";      //改寫完請把註解拿掉
+    session_start();
+
+    // 如果不是 POST 資料進來就重導到登入頁面
+    if($_SERVER["REQUEST_METHOD"] != "POST" && $_GET["action"] != "login" && $_GET["action"] != "register"){
+        header("Location: member.php?action=login");
+        exit;
+    }
+
+    // 輸入字元安全性處理
+    function inputCheck($data){
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
+    /* 連線 MySQL 資料庫
+     * mysql_connect 為非永久性連線，mysqli_connect 則為永久性連線
+     */
+    $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME);
+    if ( mysqli_connect_errno() ) {
+        die('無法連線到資料庫: ' . mysqli_connect_error());
+    }
+
+    // 登入
+    /*
+     * 登入錯誤碼 1 = 帳號欄位為空，2 = 密碼欄位為空，3 = 資料有誤
+     */
+    if($_GET["action"] == "login"){
+        if ( !empty($_POST["refer"]) ){
+            $refer = $_POST["refer"];
+        }else{
+            $refer = "index.html";      // 全面更新 PHP 檔後請用尋找取代把.html取代為.php
+        }
+        // 資料判別
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+            // 帳號欄位為空，重導回登入頁面
+            if( empty( $_POST["username"] ) ){
+                header("Location: member.php?action=login&loginErrType=1");
+                exit;
+            }else{
+                $username = inputCheck( $_POST["username"] );
+            }
+            // 密碼欄位為空
+            if( empty( $_POST["password"] ) ){
+                header("Location: member.php?action=login&loginErrType=2");
+                exit;
+            }else{
+                $password = inputCheck($_POST["password"]);
+                $password = hash("sha512", $password);
+            }
+            // 都不為空就開始比對資料
+            mysqli_query($connect, "SET NAMES 'utf8'");
+            mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
+            mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
+            // 取資料
+            $sql = mysqli_query($connect, "SELECT * FROM member WHERE userName = '$username'");
+            $row = mysqli_fetch_array($sql, MYSQLI_BOTH);
+            // 資料錯誤
+            if ( $row['userName'] != $username || $row['userPW'] != $password ){
+                mysqli_close($connect);
+                header("Location: member.php?action=login&&loginErrType=3");
+                exit;
+            // 資料正確
+            }else{
+                /* 登入區塊會有幾個參數
+                 * SESSION部分有「auth」、「user」和「uid」
+                 * COOKIE部分有「user」、「hsid」和「auth」
+                 * MySQL部分有「sID」、「userName」、「sessionID」和「loginTime」
+                 */
+                // PHP SESSION 寫入
+                $_SESSION['auth'] = True;
+                $_SESSION['user'] = $row['userNickname'];
+                $_SESSION['uid'] = $row['userName'];
+                // MySQL sessions 資料表寫入
+                $username = $row['userName'];
+                $sessionID = session_id();
+                $ltime = date("Y-m-d H:i:s");
+                $iprmtaddr = $_SERVER['REMOTE_ADDR'];
+                if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+                    $ipXFwFor = "";
+                }else{
+                    $ipXFwFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                }
+                if (empty($_SERVER['HTTP_VIA'])){
+                    $iphttpvia = "";
+                }else{
+                    $iphttpvia = $_SERVER['HTTP_VIA'];
+                }
+                mysqli_query($connect, "INSERT INTO sessions (userName, sessionID, ipRmtAddr, ipXFwFor, ipHttpVia, loginTime) VALUES ('$username', '$sessionID', '$iprmtaddr', '$ipXFwFor', '$iphttpvia', '$ltime')");
+                // Cookie 寫入 （登入後未瀏覽任一頁面則效期一個月）
+                setcookie("user", $username, time() + 2592000);
+                setcookie("sid", $sid, time() + 2592000);
+                setcookie("auth", "true", time() + 2592000);
+                mysqli_close($connect);
+                header("Location: $refer");
+                exit;
+            }
+        }
+    }
+
+    // 登出
+    if ($_GET['action'] == 'logout'){
+        // 本來就沒登入
+        if($_SESSION['auth'] != True){
+            mysqli_close($connect);
+            header("Location: index.php");
+        // 開始登出並清資料庫的　session　表
+        }else{                                                      
+            $_SESSION['auth'] == '';
+            $_SESSION['user'] == '';
+            $_SESSION['uid'] == '';
+            $sid = $_COOKIE['sid'];
+            // 清除資料庫中的session記錄
+            mysqli_query($connect, "SET NAMES 'utf8'");
+            mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
+            mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8"); 
+            mysqli_query($connect, "DELETE FROM sessions WHERE sessionID='$sid'");
+            // 刪除cookie
+            setcookie("user", "", time()-3600);
+            setcookie("sid", "", time()-3600);
+            setcookie("auth", "", time()-3600);
+            mysqli_close($connect);
+            session_unset();
+            session_destroy();
+            header("Location: index.html");
+        }
+   }
+?>
