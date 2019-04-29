@@ -7,134 +7,113 @@
      //$self = substr($_SERVER['PHP_SELF'], $webdirstrnum);
      //網站後台
      if (isset($type) == true && $type == "important"){
-          switch (isset($_COOKIE['hsid'])){
-               case true:                                        //hsid的cookie存在
-                    $hsid = $_COOKIE['hsid'];
-                    $sql = mysql_query("SELECT * FROM sessions WHERE hashSID = '$hsid'");
-                    $row = @mysql_fetch_array($sql, MYSQL_BOTH);
-                    if ($row['hashSID'] != $_COOKIE['hsid'] || $_COOKIE['auth'] != "true"){  //資訊不正確
+          switch (isset($_COOKIE['sid'])){
+               case true:                                        //sid的cookie存在
+                    $sid = $_COOKIE['sid'];
+                    $sql = mysqli_query($connect, "SELECT * FROM sessions WHERE sessionID = '$sid'");
+                    $row = mysqli_fetch_array($sql, MYSQLI_BOTH);
+                    if ($row['sessionID'] != $_COOKIE['sid'] || $_COOKIE['auth'] != "true"){  //資訊不正確
                          session_start();
                          session_unset();
                          session_destroy();
-                         $debugMde = 0;
                          setcookie("user", "", time()-3600);
-                         setcookie("hsid", "", time()-3600);
+                         setcookie("sid", "", time()-3600);
                          setcookie("auth", "", time()-3600);
-                         mysql_close($connect);
+                         mysqli_close($connect);
                          $refurl = 'member.php?action=login&refer=' . $self . "?" . $_SERVER['QUERY_STRING'];
                          header("Location: $refurl");
                          exit;
                     }
-                    if ($row['hashSID'] == $_COOKIE['hsid'] && $_COOKIE['auth'] == "true"){  //資訊正確
+                    if ($row['sessionID'] == $_COOKIE['sid'] && $_COOKIE['auth'] == "true"){  //資訊正確
                          session_start();
-                         $id = $row['userID'];
-                         $dbm = mysql_query("SELECT debugMode FROM member WHERE id = '$id'");
-                         $dbmData = mysql_fetch_assoc($dbm);
-                         if($dbmData['debugMode'] != 0){
-                              $debugMde = 1;
-                         }else{
-                              $debugMde = 0;
-                         }
-                         $sid = session_id();
-                         $newhsid = hash("sha512", $sid);
-                         $sql = mysql_query("SELECT * FROM member WHERE id = '$id'");
-                         $datarow = @mysql_fetch_array($sql, MYSQL_BOTH);
+                         $username = $row['userName'];
+                         $newsid = session_id();
+                         $sql = mysqli_query($connect, "SELECT * FROM `member` WHERE `userName` = '$username'");
+                         $datarow = mysqli_fetch_array($sql, MYSQLI_BOTH);
                          $_SESSION['auth'] = "true";
-                         $_SESSION['user'] = $datarow['nickname'];
-                         $_SESSION['uid'] = $id;
-                         date_default_timezone_set("Asia/Taipei");
+                         $_SESSION['user'] = $datarow['userNickname'];
+                         $_SESSION['uid'] = $username;
                          $ltime = date("Y-m-d H:i:s");
                          $iprmtaddr = $_SERVER['REMOTE_ADDR'];
                          $ipXFwFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
                          $iphttpvia = $_SERVER['HTTP_VIA'];
-                         mysql_query("UPDATE sessions SET loginTime = '$ltime', sessionID = '$sid', hashSID = '$newhsid' WHERE hashSID = '$hsid'");
+                         mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");
                          if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia){ //IP不同就更新資料
                               $liprmtaddr = $row['ipRmtAddr'];
                               $lipxfwfor = $row['ipXFwFor'];
                               $liphttpvia = $row['ipHttpVia'];
-                              mysql_query("UPDATE sessions SET ipRmtAddr = '$iprmtaddr', ipXFwFor = '$ipXFwFor', ipHttpVia = '$iphttpvia', lastipRmtAddr = '$liprmtaddr', lastipXFwFor = '$lipxfwfor', lastipHttpVia = '$liphttpvia' WHERE hashSID = '$newhsid'");                //修改這次IP和上次IP
+                              mysqli_query($connect, "UPDATE `sessions` SET `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
                          }
-                         setcookie("user", $id, time()+2592000);
-                         setcookie("hsid", $newhsid, time()+2592000);
+                         setcookie("user", $username, time()+2592000);
+                         setcookie("sid", $newsid, time()+2592000);
                          setcookie("auth", "true", time()+2592000);
                          mysql_close($connect);
                     }
                     break;
-               default:                                        //hsid的cookie不存在
-                    $debugMde = 0;
+               default:                                        //sid的cookie不存在
                     setcookie("user", "", time()-3600);
                     setcookie("auth", "", time()-3600);
                     session_start();
                     session_unset();
                     session_destroy();
                     session_start();
-                    mysql_close($connect);
+                    mysqli_close($connect);
                     $refurl = 'member.php?action=login&refer=' . $self . "?" . $_SERVER['QUERY_STRING'];
                     header("Location: $refurl");
                     exit;
                     break;
           }
-     }else{                                                                           //網站前台
-          switch (isset($_COOKIE['hsid'])){
-               case true:                                        //hsid的cookie存在
-                    $hsid = $_COOKIE['hsid'];
-                    $sql = mysql_query("SELECT * FROM sessions WHERE hashSID = '$hsid'");
-                    $row = @mysql_fetch_array($sql, MYSQL_BOTH);
-                    if ($row['hashSID'] != $_COOKIE['hsid'] || $_COOKIE['auth'] != "true"){  //資訊不正確
+     }else{
+          //網站前台
+          switch (isset($_COOKIE['sid'])){
+               case True:                                        //sid的cookie存在
+                    $sid = $_COOKIE['sid'];
+                    $sql = mysqli_query($connect, "SELECT * FROM `sessions` WHERE `sessionID` = '$sid'");
+                    $row = mysqli_fetch_array($sql, MYSQLI_BOTH);
+                    if ($row['sessionID'] != $_COOKIE['sid'] || $_COOKIE['auth'] != "true"){  //資訊不正確
                          session_start();
                          session_unset();
                          session_destroy();
-                         $debugMde = 0;
                          setcookie("user", "", time()-3600);
-                         setcookie("hsid", "", time()-3600);
+                         setcookie("sid", "", time()-3600);
                          setcookie("auth", "", time()-3600);
                          session_start();
-                         mysql_close($connect);
+                         mysqli_close($connect);
                     }
-                    if ($row['hashSID'] == $_COOKIE['hsid'] && $_COOKIE['auth'] == "true"){  //資訊正確
+                    if ($row['sessionID'] == $_COOKIE['sid'] && $_COOKIE['auth'] == "true"){  //資訊正確
                          session_start();
-                         $id = $row['userID'];
-                         $dbm = mysql_query("SELECT debugMode FROM member WHERE id = '$id'");
-                         $dbmData = mysql_fetch_assoc($dbm);
-                         if($dbmData['debugMode'] != 0){
-                              $debugMde = 1;
-                         }else{
-                              $debugMde = 0;
-                         }
-                         $sid = session_id();
-                         $newhsid = hash("sha512", $sid);
-                         $sql = mysql_query("SELECT * FROM member WHERE id = '$id'");
-                         $datarow = @mysql_fetch_array($sql, MYSQL_BOTH);
+                         $username = $row['userName'];
+                         $newsid = session_id();
+                         $sql = mysqli_query($connect, "SELECT * FROM `member` WHERE `userName` = '$username'");
+                         $datarow = mysqli_fetch_array($sql, MYSQLI_BOTH);
                          $_SESSION['auth'] = "true";
-                         $_SESSION['user'] = $datarow['nickname'];
-                         $_SESSION['id'] = $id;
-                         date_default_timezone_set("Asia/Taipei");
+                         $_SESSION['user'] = $datarow['userNickname'];
+                         $_SESSION['uid'] = $username;
                          $ltime = date("Y-m-d H:i:s");
                          $iprmtaddr = $_SERVER['REMOTE_ADDR'];
-                         $ipXFwFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                         $iphttpvia = $_SERVER['HTTP_VIA'];
-                         mysql_query("UPDATE sessions SET loginTime = '$ltime', sessionID = '$sid', hashSID = '$newhsid' WHERE hashSID = '$hsid'");
+                         $ipXFwFor = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : "";
+                         $iphttpvia = (isset($_SERVER['HTTP_VIA'])) ? $_SERVER['HTTP_VIA'] : "";
+                         mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");
                          if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia){ //IP不同就更新資料
                               $liprmtaddr = $row['ipRmtAddr'];
                               $lipxfwfor = $row['ipXFwFor'];
                               $liphttpvia = $row['ipHttpVia'];
-                              mysql_query("UPDATE sessions SET ipRmtAddr = '$iprmtaddr', ipXFwFor = '$ipXFwFor', ipHttpVia = '$iphttpvia', lastipRmtAddr = '$liprmtaddr', lastipXFwFor = '$lipxfwfor', lastipHttpVia = '$liphttpvia' WHERE hashSID = '$newhsid'");                //修改這次IP和上次IP
+                              mysqli_query($connect, "UPDATE `sessions` SET `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
                          }
-                         setcookie("user", $id, time()+2592000); //設定cookie一個月後過期
-                         setcookie("hsid", $newhsid, time()+2592000);
+                         setcookie("user", $username, time()+2592000); //設定cookie一個月後過期
+                         setcookie("sid", $newsid, time()+2592000);
                          setcookie("auth", "true", time()+2592000);
-                         mysql_close($connect);
+                         mysqli_close($connect);
                     }
                     break;
-               default:                                          //hsid的cookie不存在
+               default:                                          //sid的cookie不存在
                     setcookie("user", "", time()-3600);
                     setcookie("auth", "", time()-3600);
                     session_start();
                     session_unset();
                     session_destroy();
                     session_start();
-                    mysql_close($connect);
-                    $debugMde = 0;
+                    mysqli_close($connect);
                     break;
           }
      }

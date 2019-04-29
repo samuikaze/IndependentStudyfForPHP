@@ -1,12 +1,13 @@
 <?php
     require_once "admin/config.ini.php";
-    //requier_once "sessionCheck.php";      //改寫完請把註解拿掉
-    session_start();
+    require_once "sessionCheck.php";
 
     // 如果不是 POST 資料進來就重導到登入頁面
-    if($_SERVER["REQUEST_METHOD"] != "POST" && $_GET["action"] != "login" && $_GET["action"] != "register"){
-        header("Location: member.php?action=login");
-        exit;
+    if($_SERVER["REQUEST_METHOD"] != "POST"){
+        if($_GET["action"] != "logout"){
+            header("Location: member.php?action=login");
+            exit;
+        }
     }
 
     // 輸入字元安全性處理
@@ -50,7 +51,7 @@
                 exit;
             }else{
                 $password = inputCheck($_POST["password"]);
-                $password = hash("sha512", $password);
+                //$password = hash("sha512", $password);
             }
             // 都不為空就開始比對資料
             mysqli_query($connect, "SET NAMES 'utf8'");
@@ -68,7 +69,7 @@
             }else{
                 /* 登入區塊會有幾個參數
                  * SESSION部分有「auth」、「user」和「uid」
-                 * COOKIE部分有「user」、「hsid」和「auth」
+                 * COOKIE部分有「user」、「sid」和「auth」
                  * MySQL部分有「sID」、「userName」、「sessionID」和「loginTime」
                  */
                 // PHP SESSION 寫入
@@ -93,7 +94,7 @@
                 mysqli_query($connect, "INSERT INTO sessions (userName, sessionID, ipRmtAddr, ipXFwFor, ipHttpVia, loginTime) VALUES ('$username', '$sessionID', '$iprmtaddr', '$ipXFwFor', '$iphttpvia', '$ltime')");
                 // Cookie 寫入 （登入後未瀏覽任一頁面則效期一個月）
                 setcookie("user", $username, time() + 2592000);
-                setcookie("sid", $sid, time() + 2592000);
+                setcookie("sid", $sessionID, time() + 2592000);
                 setcookie("auth", "true", time() + 2592000);
                 mysqli_close($connect);
                 header("Location: $refer");
@@ -108,13 +109,13 @@
         if($_SESSION['auth'] != True){
             mysqli_close($connect);
             header("Location: index.php");
-        // 開始登出並清資料庫的　session　表
+        // 開始登出並清資料庫的 session 表
         }else{                                                      
             $_SESSION['auth'] == '';
             $_SESSION['user'] == '';
             $_SESSION['uid'] == '';
             $sid = $_COOKIE['sid'];
-            // 清除資料庫中的session記錄
+            // 清除資料庫中的 session 記錄
             mysqli_query($connect, "SET NAMES 'utf8'");
             mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
             mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8"); 

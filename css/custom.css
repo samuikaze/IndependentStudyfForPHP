@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');
+/*@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');*/
 
 /*
  * 此 CSS 用於快速覆蓋原版型的樣式
@@ -92,6 +92,19 @@ input:focus{
 
 .testimonials-section {
     background: rgba(203, 203, 203, 0.7);
+}
+
+.memberForm {
+    /*border: 1px solid gray;*/
+    width: 80% !important;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.member-warn {
+    color: red;
+    font-weight: bold;
+    margin: 10px 0;
 }
 
 /* 
