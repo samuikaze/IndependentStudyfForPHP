@@ -21,7 +21,7 @@
     /* 連線 MySQL 資料庫
      * mysql_connect 為非永久性連線，mysqli_connect 則為永久性連線
      */
-    $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME);
+    $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
     if ( mysqli_connect_errno() ) {
         die('無法連線到資料庫: ' . mysqli_connect_error());
     }

@@ -1,6 +1,6 @@
 <?php
      require_once 'admin/config.ini.php';
-     $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME);
+     $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
      mysqli_query($connect, "SET NAMES 'utf8'");
      mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
      mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8"); 
