@@ -1,4 +1,10 @@
-<?php require_once "sessionCheck.php"; ?>
+<?php 
+    require_once "sessionCheck.php"; 
+    $self = basename(__FILE__);
+    if(empty($_SERVER['QUERY_STRING']) != True){
+        $self .= "?" . $_SERVER['QUERY_STRING'];
+    }
+?>
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -32,7 +38,7 @@
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                                 <li class="dropdown-header">使用者選單</li>
                                 <li><a>使用者設定（尚未完成）</a></li>
-                                <li><a href="member.php?action=logout&refer=<?php echo substr($_SERVER['PHP_SELF'], 1); ?>">登出</a></li>
+                                <li><a href="member.php?action=logout&refer=<?php echo $self; ?>">登出</a></li>
                             </ul>
                         </div>
                     <?php } ?>

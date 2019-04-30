@@ -40,7 +40,7 @@
                         <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                             <li class="dropdown-header">使用者選單</li>
                             <li><a>使用者設定（尚未完成）</a></li>
-                            <li><a href="member.php?action=logout&refer=<?php echo substr($_SERVER['PHP_SELF'], 1); ?>">登出</a></li>
+                            <li><a href="member.php?action=logout&refer=<?php echo (empty($_GET['refer']) == True) ? "index.html" : $_GET['refer']; ?>">登出</a></li>
                         </ul>
                     </div>
                     <?php } ?>

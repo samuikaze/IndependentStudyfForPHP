@@ -11,7 +11,7 @@
                         <form method="POST" action="authentication.php?action=login">
                             <div class="form-group"><input type="text" class="form-control" name="username" placeholder="請輸入帳號" /></div>
                             <div class="form-group"><input type="password" class="form-control" name="password" placeholder="請輸入密碼" /></div>
-                            <input type="hidden" name="refer" value="<?php echo substr($_SERVER['PHP_SELF'], 1); ?>" />
+                            <input type="hidden" name="refer" value="<?php echo $self; ?>" />
                             <div class="text-center" style="margin: 10px auto 0 0;">
                                 <input type="submit" class="btn btn-success" name="submit" value="登入" />
                                 <input type="button" id="register" class="btn btn-info" name="register" value="註冊" />

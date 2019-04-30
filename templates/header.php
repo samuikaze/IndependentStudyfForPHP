@@ -18,11 +18,11 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a <?php echo (substr($_SERVER['PHP_SELF'], 1) == "about.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="about.php">關於團隊</a></li>
-                        <li><a <?php echo (substr($_SERVER['PHP_SELF'], 1) == "news.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="news.php">最新消息</a></li>
-                        <li><a <?php echo (substr($_SERVER['PHP_SELF'], 1) == "products.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="products.php">作品一覽</a></li>
-                        <li><a <?php echo (substr($_SERVER['PHP_SELF'], 1) == "goods.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="goods.php">周邊產品</a></li>
-                        <li><a <?php echo (substr($_SERVER['PHP_SELF'], 1) == "bbs.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="bbs.php">討論專區</a></li>
+                        <li><a <?php echo ($self == "about.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="about.php">關於團隊</a></li>
+                        <li><a <?php echo ($self == "news.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="news.php">最新消息</a></li>
+                        <li><a <?php echo ($self == "products.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="products.php">作品一覽</a></li>
+                        <li><a <?php echo ($self == "goods.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="goods.php">周邊產品</a></li>
+                        <li><a <?php echo ($self == "bbs.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="bbs.php">討論專區</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
                             <ul class="dropdown-menu">
