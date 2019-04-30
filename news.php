@@ -1,89 +1,41 @@
+<?php require_once "sessionCheck.php"; ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
-	<title>最新消息 | 洛嬉遊戲 L.S. Games</title>
-	<!-- Meta Tags -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="洛嬉遊戲 L.S. Games LSGames" />
-	<script type="application/x-javascript">
-		addEventListener("load", function () {
-			setTimeout(hideURLbar, 0);
-		}, false);
-
-		function hideURLbar() {
-			window.scrollTo(0, 1);
-		}
-	</script>
-    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/PreloadJS.js"></script>   <!-- 載入動畫（修改中） -->
-    <script type="text/javascript" src="js/slick.min.js"></script>    <!-- 圖片輪播 -->
-    <script src="js/custom.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
-	<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-	<link href="css/font-awesome.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-    <link rel="stylesheet" href="css/custom.css" />
+    <title>最新消息 | 洛嬉遊戲 L.S. Games</title>
+    <?php include_once "templates/metas.php"; ?>
 </head>
-
 <body onload="loadProgress()">
     <!-- 要加入載入動畫這邊請加上 onload="loadProgress()" -->
-    <div class="loadscr">
-        <div class="loadTitle"><img src="images/logo.png" class="logo" />&nbsp;&nbsp;&nbsp;L.S. Games</div>
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <span class="sr-only">75% Complete</span>
-            </div>
-        </div>
-        <div class="loadHint">頁面載入中...</div>
-    </div>
+    <?php include_once "templates/loadscr.php"; ?>
     <div class="pageWrap">
-        <div id="home" class="banner banner-load inner-banner">
-            <header style="padding: 15px;">
-                <div class="header-bottom-w3layouts">
-                    <div class="main-w3ls-logo">
-                        <a href="index.html"><h1><img src="images/logo.png">洛嬉遊戲</h1></a>
-                    </div>
-                    <nav class="navbar navbar-default">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav">
-                                <li><a class="colorTran" href="about.html">關於團隊</a></li>
-                                <li><a class="active" href="news.html">最新消息</a></li>
-                                <li><a class="colorTran" href="products.html">作品一覽</a></li>
-                                <li><a class="colorTran" href="goods.html">周邊產品</a></li>
-                                <li><a class="colorTran" href="bbs.html">討論專區</a></li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="recruit.html">招募新血</a></li>
-                                        <li><a href="faq.html">常見問題</a></li>
-                                        <li><a href="contact.html">連絡我們</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-                <div class="clearfix"></div>
-            </header>
-        </div>
+        <?php
+            if (isset($_COOKIE['sid']) == False) {
+                include_once "templates/loginform.php";
+            }
+            include_once "templates/header.php";
+        ?>
         <div class="courses">
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                     <li class="thisPosition">最新消息</li>
+                    <?php if (isset($_COOKIE['sid']) == False) { ?>
+                        <a id="loginForm" class="btn btn-info pull-right">登入</a>
+                    <?php } else { ?>
+                        <div class="dropdown pull-right" style="display: inline-block; ">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <?php echo $_SESSION['user']; ?>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                                <li class="dropdown-header">使用者選單</li>
+                                <li><a>使用者設定（尚未完成）</a></li>
+                                <li><a href="member.php?action=logout&refer=<?php echo substr($_SERVER['PHP_SELF'], 1); ?>">登出</a></li>
+                            </ul>
+                        </div>
+                    <?php } ?>
                 </ol>
                 <div class="container-fluid">
                     <div class="row">
@@ -157,16 +109,7 @@
                 </div>
             </div>
         </div>
-        <div class="copyright-w3layouts">
-            <div class="container">
-                <p>洛嬉遊戲，為造遊戲而生，為玩家利益而存。</p>
-                <p>&copy; 2019 L.S. Games. All Rights NOT Reserved. | DO NOT PUBLISH THIS SITE TO ANY OTHER SERVER OR SERVICE.</p>
-            </div>
-        </div>
-        <a href="#home" class="scroll toTop" style="display: block;"><img src="images/arr.png" class="toTop" /></a>
+        <?php include_once "templates/footer.php"; ?>
     </div>
-	<!-- 搜尋列-->
-	<script src="js/main.js"></script>
-	<script src="js/bootstrap.js"></script>
 </body>
 </html>

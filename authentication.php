@@ -40,14 +40,14 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             // 帳號欄位為空，重導回登入頁面
             if( empty( $_POST["username"] ) ){
-                header("Location: member.php?action=login&loginErrType=1");
+                header("Location: member.php?action=login&loginErrType=1&refer=$refer");
                 exit;
             }else{
                 $username = inputCheck( $_POST["username"] );
             }
             // 密碼欄位為空
             if( empty( $_POST["password"] ) ){
-                header("Location: member.php?action=login&loginErrType=2");
+                header("Location: member.php?action=login&loginErrType=2&refer=$refer");
                 exit;
             }else{
                 $password = inputCheck($_POST["password"]);
@@ -63,7 +63,7 @@
             // 資料錯誤
             if ( $row['userName'] != $username || $row['userPW'] != $password ){
                 mysqli_close($connect);
-                header("Location: member.php?action=login&&loginErrType=3");
+                header("Location: member.php?action=login&&loginErrType=3&refer=$refer");
                 exit;
             // 資料正確
             }else{
@@ -127,7 +127,8 @@
             mysqli_close($connect);
             session_unset();
             session_destroy();
-            header("Location: index.html");
+            $refer = ( isset($_GET['refer']) == True ) ? $_GET['refer'] : "index.html";
+            header("Location: $refer");
         }
    }
 ?>
