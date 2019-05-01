@@ -1,14 +1,16 @@
 <?php
     require_once 'sessionCheck.php';
+    if($_GET['action'] == 'relogin'){
+        $refer = "admin/";
+    }elseif(empty($_GET['refer'])){
+        $refer = "/";
+    }else{
+        $refer = $_GET['refer'];
+    }
     if(empty($_GET['action'])){
         header("Location: member.php?action=login");
         exit;
     }elseif($_GET['action'] == 'logout'){
-        if( isset($_GET['refer']) == True ){
-            $refer = $_GET['refer'];
-        }else{
-            $refer = "index.html";
-        }
         header("Location: authentication.php?action=logout&refer=$refer");
         exit;
     }
@@ -34,19 +36,7 @@
                 <ol class="breadcrumb">
                     <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                     <li class="thisPosition">會員首頁</li>
-                    <?php if (isset($_COOKIE['sid']) == True){ ?>
-                    <div class="dropdown pull-right" style="display: inline-block; ">
-                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <?php echo $_SESSION['user']; ?>
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
-                            <li class="dropdown-header">使用者選單</li>
-                            <li><a>使用者設定（尚未完成）</a></li>
-                            <li><a href="member.php?action=logout&refer=<?php echo (empty($_GET['refer']) == True) ? "index.html" : $_GET['refer']; ?>">登出</a></li>
-                        </ul>
-                    </div>
-                    <?php } ?>
+                    <?php include "templates/loginbutton.php"; ?>
                 </ol>
                 <?php if(empty($_SESSION['auth']) || $_SESSION['auth'] != True){?>
                 <!-- 登入 / 註冊表單 -->
@@ -56,11 +46,11 @@
                         <div class="col-md-12 col-xs-12">
                             <!-- Bootstrap 標籤頁 -->
                             <ul class="nav nav-tabs">
-                                <?php echo ($_GET['action'] == 'login') ? "<li class=\"active\">" : "<li>"; ?><a href="#login-form" data-toggle="tab">登入</a></li>
+                                <?php echo ($_GET['action'] == 'login' || $_GET['action'] == 'relogin') ? "<li class=\"active\">" : "<li>"; ?><a href="#login-form" data-toggle="tab">登入</a></li>
                                 <?php echo ($_GET['action'] == 'register') ? "<li class=\"active\">" : "<li>"; ?><a href="#register-form" data-toggle="tab">註冊</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active fade<?php echo ($_GET['action'] == 'login') ? " in" : ""; ?>" id="login-form">
+                                <div class="tab-pane active fade<?php echo ($_GET['action'] == 'login' || $_GET['action'] == 'relogin') ? " in" : ""; ?>" id="login-form">
                                     <?php if(!empty($_GET['loginErrType']) && $_GET['loginErrType'] == 1){ ?>
                                         <h3 class="member-warn">帳號欄位不能為空！</h3>
                                     <?php }elseif(!empty($_GET['loginErrType']) && $_GET['loginErrType'] == 2){ ?>
@@ -69,11 +59,13 @@
                                         <h3 class="member-warn">您輸入的帳號或密碼有誤！</h3>
                                     <?php }elseif(!empty($_GET['regErrType']) && $_GET['regErrType'] == 8){ ?>
                                         <h3 class="member-warn" style="color: green;">註冊成功！</h3>
+                                        <?php }elseif($_GET['action'] == 'relogin'){ ?>
+                                        <h3 class="member-warn">您的權限不足，請登入較高權限的帳號後再試一次！</h3>
                                     <?php }else{ echo ""; } ?>   
                                     <form method="POST" action="authentication.php?action=login">
                                         <input type="text" name="username" placeholder="請輸入使用者名稱" />
                                         <input type="password" name="password" placeholder="請輸入密碼" />
-                                        <input type="hidden" name="refer" value="<?php echo ( empty($_GET['refer']) ) ? "index.html" : $_GET['refer'];?>" />
+                                        <input type="hidden" name="refer" value="<?php echo $refer;?>" />
                                         <input type="submit" name="submit" value="登入" />
                                     </form>
                                 </div>
@@ -100,7 +92,7 @@
                                         <input type="password" name="passwordConfirm" placeholder="請再次輸入密碼" />
                                         <input type="email" name="email" placeholder="請輸入電子信箱地址" />
                                         <input type="hidden" name="refer" value="member.php?action=login" />
-                                        <input type="hidden" name="refer" value="<?php echo ( empty($_GET['refer']) ) ? "index.html" : $_GET['refer'];?>" />
+                                        <input type="hidden" name="refer" value="<?php echo $refer;?>" />
                                         <input type="submit" name="submit" value="註冊" />
                                     </form>
                                 </div>

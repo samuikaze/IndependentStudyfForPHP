@@ -1,10 +1,18 @@
+<?php
+$type = "important";
+require "../sessionCheck.php";
+if($_SESSION['priv'] != 99){
+    header("Location: ../member.php?action=logout&refer=member.php?action=relogin");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+<title>後台管理 | 洛嬉遊戲 L.S. Games</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>後台管理 | 洛嬉遊戲 L.S. Games</title>
 <script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 <script src="../js/bootstrap.js"></script>
@@ -60,7 +68,7 @@
                                 </ul>
                             </li>
                             <li><a href="#">商品管理</a></li>
-                            <li><a href="#">登出後台</a></li>
+                            <li><a href="../">離開後台</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->

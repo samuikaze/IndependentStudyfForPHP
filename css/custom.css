@@ -258,7 +258,7 @@ textarea:focus{
 }
 
 .releaseTime {
-    width: 150px;
+    width: 12em;
     font-size: 20px;
 }
 

@@ -205,3 +205,14 @@ $(document).ready(function(){
     });
 });
 
+// URL 變更
+/*$(document).ready(function(){
+    $('a.urlPush').on('click', function(){
+        // 先判斷有沒有GET值，沒有就加問號，然後取得 URL
+        // $(location).attr('search').substr(0, 1) != '?'
+        var url = $(this).attr('href').replace('#', "?type=");
+
+        // 推送 URL 至瀏覽器
+        window.history.pushState(null, null, url);
+    });
+});*/

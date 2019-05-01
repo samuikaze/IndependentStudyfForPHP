@@ -28,13 +28,13 @@
 
     // 登入
     /*
-     * 登入錯誤碼 1 = 帳號欄位為空，2 = 密碼欄位為空，3 = 資料有誤
+     * 登入錯誤碼 1 = 帳號欄位為空，2 = 密碼欄位為空，3 = 資料有誤，4 = 權限不足
      */
     if($_GET["action"] == "login"){
         if ( !empty($_POST["refer"]) ){
             $refer = $_POST["refer"];
         }else{
-            $refer = "index.html";      // 全面更新 PHP 檔後請用尋找取代把.html取代為.php
+            $refer = "/";
         }
         // 資料判別
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -68,7 +68,7 @@
             // 資料正確
             }else{
                 /* 登入區塊會有幾個參數
-                 * SESSION部分有「auth」、「user」和「uid」
+                 * SESSION部分有「auth」、「user」、「uid」和「priv」
                  * COOKIE部分有「user」、「sid」和「auth」
                  * MySQL部分有「sID」、「userName」、「sessionID」和「loginTime」
                  */
@@ -76,6 +76,7 @@
                 $_SESSION['auth'] = True;
                 $_SESSION['user'] = $row['userNickname'];
                 $_SESSION['uid'] = $row['userName'];
+                $_SESSION['priv'] = $row['userPriviledge'];
                 // MySQL sessions 資料表寫入
                 $username = $row['userName'];
                 $sessionID = session_id();
@@ -111,7 +112,7 @@
         if ( !empty($_POST["refer"]) ){
             $refer = $_POST["refer"];
         }else{
-            $refer = "index.html";      // 全面更新 PHP 檔後請用尋找取代把.html取代為.php
+            $refer = "/";
         }
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             if( empty( $_POST["username"] ) ){
@@ -161,9 +162,11 @@
             $regSql = "INSERT INTO `member` (`userName`, `userPW`, `userNickname`, `userEmail`, `userPriviledge`) VALUES ('$username', '$password', '$usernickname', '$email', '1')";
             mysqli_query($connect, $regSql);
             if(mysqli_errno($connect) == 1062){
+                mysqli_close($connect);
                 header("Location: member.php?action=register&regErrType=7&refer=$refer");
                 exit;
             }else{
+                mysqli_close($connect);
                 header("Location: member.php?action=login&regErrType=8&refer=$refer");
                 exit;
             }
@@ -194,7 +197,7 @@
             mysqli_close($connect);
             session_unset();
             session_destroy();
-            $refer = ( isset($_GET['refer']) == True ) ? $_GET['refer'] : "index.html";
+            $refer = ( isset($_GET['refer']) == True ) ? $_GET['refer'] : "/";
             header("Location: $refer");
         }
    }

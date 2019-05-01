@@ -33,10 +33,11 @@
                          $_SESSION['auth'] = "true";
                          $_SESSION['user'] = $datarow['userNickname'];
                          $_SESSION['uid'] = $username;
+                         $_SESSION['priv'] = $datarow['userPriviledge'];
                          $ltime = date("Y-m-d H:i:s");
                          $iprmtaddr = $_SERVER['REMOTE_ADDR'];
-                         $ipXFwFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                         $iphttpvia = $_SERVER['HTTP_VIA'];
+                         $ipXFwFor = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : "";
+                         $iphttpvia = (isset($_SERVER['HTTP_VIA'])) ? $_SERVER['HTTP_VIA'] : "";
                          mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");
                          if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia){ //IP不同就更新資料
                               $liprmtaddr = $row['ipRmtAddr'];
@@ -47,7 +48,7 @@
                          setcookie("user", $username, time()+2592000);
                          setcookie("sid", $newsid, time()+2592000);
                          setcookie("auth", "true", time()+2592000);
-                         mysql_close($connect);
+                         mysqli_close($connect);
                     }
                     break;
                default:                                        //sid的cookie不存在
@@ -89,6 +90,7 @@
                          $_SESSION['auth'] = "true";
                          $_SESSION['user'] = $datarow['userNickname'];
                          $_SESSION['uid'] = $username;
+                         $_SESSION['priv'] = $datarow['userPriviledge'];
                          $ltime = date("Y-m-d H:i:s");
                          $iprmtaddr = $_SERVER['REMOTE_ADDR'];
                          $ipXFwFor = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : "";
