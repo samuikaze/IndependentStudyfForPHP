@@ -51,7 +51,7 @@
                 exit;
             }else{
                 $password = inputCheck($_POST["password"]);
-                //$password = hash("sha512", $password);
+                $password = hash("sha512", $password);
             }
             // 都不為空就開始比對資料
             mysqli_query($connect, "SET NAMES 'utf8'");
@@ -98,6 +98,73 @@
                 setcookie("auth", "true", time() + 2592000);
                 mysqli_close($connect);
                 header("Location: $refer");
+                exit;
+            }
+        }
+    }
+
+    // 註冊
+    /*
+     * 註冊錯誤碼 1=帳號欄位為空 2=密碼欄為空 3=密碼確認欄為空 4=電子郵件欄位為空 5=密碼確認欄與密碼欄資料不同 6=暱稱欄位為空 7=帳號重複 8=註冊成功
+     */
+    if($_GET['action'] == 'register'){
+        if ( !empty($_POST["refer"]) ){
+            $refer = $_POST["refer"];
+        }else{
+            $refer = "index.html";      // 全面更新 PHP 檔後請用尋找取代把.html取代為.php
+        }
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            if( empty( $_POST["username"] ) ){
+                header("Location: member.php?action=register&regErrType=1&refer=$refer");
+                exit;
+            }else{
+                $username = inputCheck( $_POST["username"] );
+            }
+            // 密碼欄位為空
+            if( empty( $_POST["password"] ) ){
+                header("Location: member.php?action=register&regErrType=2&refer=$refer");
+                exit;
+            }else{
+                // 密碼確認欄位為空
+                if( empty( $_POST["passwordConfirm"] ) ){
+                    header("Location: member.php?action=register&regErrType=3&refer=$refer");
+                    exit;
+                }else{
+                    $password = inputCheck($_POST["password"]);
+                    $passwordConfirm = inputCheck($_POST["passwordConfirm"]);
+                    // 密碼欄位與密碼確認欄位資料不符
+                    if($password != $passwordConfirm){
+                        header("Location: member.php?action=register&regErrType=5&refer=$refer");
+                        exit;
+                    }else{
+                        $password = hash("sha512", $password);
+                    }
+                }
+            }
+            // 電子郵件欄位為空
+            if( empty( $_POST["email"] ) ){
+                header("Location: member.php?action=register&regErrType=4&refer=$refer");
+                exit;
+            }else{
+                $email = inputCheck($_POST["email"]);
+            }
+            if( empty( $_POST["usernickname"] ) ){
+                header("Location: member.php?action=register&regErrType=6&refer=$refer");
+                exit;
+            }else{
+                $usernickname = inputCheck($_POST["usernickname"]);
+            }
+            // 都不為空就開始寫入資料
+            mysqli_query($connect, "SET NAMES 'utf8'");
+            mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
+            mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
+            $regSql = "INSERT INTO `member` (`userName`, `userPW`, `userNickname`, `userEmail`, `userPriviledge`) VALUES ('$username', '$password', '$usernickname', '$email', '1')";
+            mysqli_query($connect, $regSql);
+            if(mysqli_errno($connect) == 1062){
+                header("Location: member.php?action=register&regErrType=7&refer=$refer");
+                exit;
+            }else{
+                header("Location: member.php?action=login&regErrType=8&refer=$refer");
                 exit;
             }
         }

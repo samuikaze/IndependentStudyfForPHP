@@ -140,9 +140,9 @@ $(document).ready(function(){
                 $('.hp_register').fadeOut(200);
                 regActionID = 0;
             }
-            
-            
-            return false;
+            if(e2.target.id != "reg-submit"){
+                return false;
+            }
         }
     });
 });
