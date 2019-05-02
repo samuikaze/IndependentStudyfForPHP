@@ -12,11 +12,9 @@
         <li role="presentation" class="active"><a href="#adminNews" aria-controls="adminNews" role="tab" data-toggle="tab">管理消息</a></li>
         <li role="presentation"><a href="#postNews" aria-controls="postNews" role="tab" data-toggle="tab">張貼新消息</a></li>
     </ul>
-    <?php } ?>
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="adminNews">
-            <?php if ($_GET['action'] == 'article_news') { ?>
                 <table class="table table-hover">
                     <thead>
                         <tr class="warning">
@@ -135,6 +133,9 @@
                 <?php } ?>
 
             <?php } ?>
+            <div role="tabpanel" class="tab-pane" id="postnews">
+
+            </div>
         </div>
     </div>
 </div>
