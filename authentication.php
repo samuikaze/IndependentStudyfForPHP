@@ -40,14 +40,14 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             // 帳號欄位為空，重導回登入頁面
             if( empty( $_POST["username"] ) ){
-                header("Location: member.php?action=login&loginErrType=1&refer=$refer");
+                header("Location: member.php?action=login&loginErrType=1&refer=" . urlencode($refer));
                 exit;
             }else{
                 $username = inputCheck( $_POST["username"] );
             }
             // 密碼欄位為空
             if( empty( $_POST["password"] ) ){
-                header("Location: member.php?action=login&loginErrType=2&refer=$refer");
+                header("Location: member.php?action=login&loginErrType=2&refer=" . urlencode($refer));
                 exit;
             }else{
                 $password = inputCheck($_POST["password"]);
@@ -63,7 +63,7 @@
             // 資料錯誤
             if ( $row['userName'] != $username || $row['userPW'] != $password ){
                 mysqli_close($connect);
-                header("Location: member.php?action=login&&loginErrType=3&refer=$refer");
+                header("Location: member.php?action=login&&loginErrType=3&refer=" . urlencode($refer));
                 exit;
             // 資料正確
             }else{
@@ -98,6 +98,7 @@
                 setcookie("sid", $sessionID, time() + 2592000);
                 setcookie("auth", "true", time() + 2592000);
                 mysqli_close($connect);
+                $refer = str_replace("+", "&", $refer);
                 header("Location: $refer");
                 exit;
             }
@@ -116,26 +117,26 @@
         }
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             if( empty( $_POST["username"] ) ){
-                header("Location: member.php?action=register&regErrType=1&refer=$refer");
+                header("Location: member.php?action=register&regErrType=1&refer=" . urlencode($refer));
                 exit;
             }else{
                 $username = inputCheck( $_POST["username"] );
             }
             // 密碼欄位為空
             if( empty( $_POST["password"] ) ){
-                header("Location: member.php?action=register&regErrType=2&refer=$refer");
+                header("Location: member.php?action=register&regErrType=2&refer=" . urlencode($refer));
                 exit;
             }else{
                 // 密碼確認欄位為空
                 if( empty( $_POST["passwordConfirm"] ) ){
-                    header("Location: member.php?action=register&regErrType=3&refer=$refer");
+                    header("Location: member.php?action=register&regErrType=3&refer=" . urlencode($refer));
                     exit;
                 }else{
                     $password = inputCheck($_POST["password"]);
                     $passwordConfirm = inputCheck($_POST["passwordConfirm"]);
                     // 密碼欄位與密碼確認欄位資料不符
                     if($password != $passwordConfirm){
-                        header("Location: member.php?action=register&regErrType=5&refer=$refer");
+                        header("Location: member.php?action=register&regErrType=5&refer=" . urlencode($refer));
                         exit;
                     }else{
                         $password = hash("sha512", $password);
@@ -144,13 +145,13 @@
             }
             // 電子郵件欄位為空
             if( empty( $_POST["email"] ) ){
-                header("Location: member.php?action=register&regErrType=4&refer=$refer");
+                header("Location: member.php?action=register&regErrType=4&refer=" . urlencode($refer));
                 exit;
             }else{
                 $email = inputCheck($_POST["email"]);
             }
             if( empty( $_POST["usernickname"] ) ){
-                header("Location: member.php?action=register&regErrType=6&refer=$refer");
+                header("Location: member.php?action=register&regErrType=6&refer=" . urlencode($refer));
                 exit;
             }else{
                 $usernickname = inputCheck($_POST["usernickname"]);
@@ -163,11 +164,12 @@
             mysqli_query($connect, $regSql);
             if(mysqli_errno($connect) == 1062){
                 mysqli_close($connect);
-                header("Location: member.php?action=register&regErrType=7&refer=$refer");
+                header("Location: member.php?action=register&regErrType=7&refer=" . urlencode($refer));
                 exit;
             }else{
                 mysqli_close($connect);
-                header("Location: member.php?action=login&regErrType=8&refer=$refer");
+                $refer = str_replace("+", "&", $refer);
+                header("Location: member.php?action=login&regErrType=8&refer=" . urlencode($refer));
                 exit;
             }
         }
@@ -197,7 +199,8 @@
             mysqli_close($connect);
             session_unset();
             session_destroy();
-            $refer = ( isset($_GET['refer']) == True ) ? $_GET['refer'] : "/";
+            $refer = ( empty($_GET['refer']) == false ) ? $_GET['refer'] : "/";
+            $refer = str_replace("+", "&", $refer);
             header("Location: $refer");
         }
    }

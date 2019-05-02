@@ -3,8 +3,10 @@ require_once "sessionCheck.php";
 $self = basename(__FILE__);
 if (empty($_SERVER['QUERY_STRING']) != True) {
     $self .= "?" . $_SERVER['QUERY_STRING'];
+    $self = str_replace("&", "+", $self);
 }else{
     header("Location: news.php?action=viewnews");
+    exit;
 }
 $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
 if (mysqli_connect_errno()) {
@@ -76,7 +78,7 @@ mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                                         while ($newsRows = mysqli_fetch_array($query, MYSQLI_BOTH)) { ?>
                                             <tr>
                                                 <td class="newsType"><span class="badge <?php echo ($newsRows['newsType'] == "一般") ? "badge-primary" : "badge-success"?>"><?php echo $newsRows['newsType']; ?></span></td>
-                                                <td><a href="?action=viewcontent&nid=<?php echo $newsRows['newsOrder']; ?>&refer=<?php echo $page; ?>"><?php echo $newsRows['newsTitle']; ?></a><?php /* 一周內顯示 NEW 標籤 */ echo (strtotime("now") - strtotime($newsRows['postTime']) <= 604800) ? "&nbsp;&nbsp;<span class=\"badge badge-warning\">NEW!</span>" : ""; ?></td>
+                                                <td><a href="?action=viewcontent&nid=<?php echo $newsRows['newsOrder']; ?>&refpage=<?php echo $page; ?>"><?php echo $newsRows['newsTitle']; ?></a><?php /* 一周內顯示 NEW 標籤 */ echo (strtotime("now") - strtotime($newsRows['postTime']) <= 604800) ? "&nbsp;&nbsp;<span class=\"badge badge-warning\">NEW!</span>" : ""; ?></td>
                                                 <td class="releaseTime"><?php echo $newsRows['postTime']; ?></td>
                                             </tr>
                                         <?php } ?>
@@ -125,7 +127,7 @@ mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                                         <div class="news-time"><?php echo $row['postTime']; ?>&nbsp;・&nbsp;<span class="badge <?php echo ($row['newsType'] == "一般") ? "badge-primary" : "badge-success"?>"><?php echo $row['newsType']; ?></span></div>
                                         <h2 class="text-info news-title"><?php echo $row['newsTitle']; ?></div><hr />
                                         <div class="news-content"><?php echo $row['newsContent']; ?></div>
-                                        <div class="container-fluid text-center" style="margin: 3em 0 0 0;"><a href="?action=viewnews&p=<?php echo (empty($_GET['refer'])) ? "1" : $_GET['refer']; ?>" class="btn btn-lg btn-success">返回消息列表</a></div>
+                                        <div class="container-fluid text-center" style="margin: 3em 0 0 0;"><a href="?action=viewnews&p=<?php echo (empty($_GET['refpage'])) ? "1" : urlencode($_GET['refpage']); ?>" class="btn btn-lg btn-success">返回消息列表</a></div>
                                     <?php } ?>
                                 </div>
                                 <?php }else{ ?>

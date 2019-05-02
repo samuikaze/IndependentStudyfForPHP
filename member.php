@@ -6,12 +6,13 @@
         $refer = "/";
     }else{
         $refer = $_GET['refer'];
+        //$refer = urlencode($refer);
     }
     if(empty($_GET['action'])){
         header("Location: member.php?action=login");
         exit;
     }elseif($_GET['action'] == 'logout'){
-        header("Location: authentication.php?action=logout&refer=$refer");
+        header("Location: authentication.php?action=logout&refer=" . urlencode($refer));
         exit;
     }
     $self = basename(__FILE__);

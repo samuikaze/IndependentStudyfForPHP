@@ -3,6 +3,7 @@
     $self = basename(__FILE__);
     if(empty($_SERVER['QUERY_STRING']) != True){
         $self .= "?" . $_SERVER['QUERY_STRING'];
+        $self = str_replace("&", "+", $self);
     }
 ?>
 <!DOCTYPE html>
