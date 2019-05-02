@@ -86,6 +86,19 @@ input:focus{
     font-size: 0.8em;
 }
 
+.news-warn{
+    color: red !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.news-title{
+    margin: 0.1em 0 0 0;
+    font-weight: bold;
+}
+
 .testimonials-section {
     padding: 1em;
 }

@@ -3,6 +3,8 @@ require_once "sessionCheck.php";
 $self = basename(__FILE__);
 if (empty($_SERVER['QUERY_STRING']) != True) {
     $self .= "?" . $_SERVER['QUERY_STRING'];
+}else{
+    header("Location: news.php?action=viewnews");
 }
 $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
 if (mysqli_connect_errno()) {
@@ -41,6 +43,7 @@ mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-10" style="float:unset; margin: 0 auto;">
+                            <?php if($_GET['action'] == 'viewnews'){ ?>
                             <!-- 消息面版v2 -->
                             <div class="tab-content">
                                 <!-- 全部公告 -->
@@ -65,14 +68,15 @@ mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                                         }else{
                                             $page = $_GET['p'];
                                         }
-                                        $tlimit = ($page - 1) * 7;
-                                        $blimit = $page * 7 - 1;
+                                        $npp = 9;   //每頁消息數
+                                        $tlimit = ($page - 1) * $npp;   //SQL 語法用，LIMIT 第一項
+                                        $blimit = $page * $npp - 1;     //SQL 語法用，LIMIT 第二項
                                         $sql = "SELECT * FROM `news` ORDER BY `newsOrder` DESC LIMIT $tlimit, $blimit;";
                                         $query = mysqli_query($connect, $sql);
                                         while ($newsRows = mysqli_fetch_array($query, MYSQLI_BOTH)) { ?>
                                             <tr>
-                                                <td class="newsType"><span class="badge badge-primary"><?php echo $newsRows['newsType']; ?></span></td>
-                                                <td><a href="#"><?php echo $newsRows['newsTitle']; ?></a><?php /* 一周內顯示 NEW 標籤 */ echo (strtotime("now") - strtotime($newsRows['postTime']) <= 604800) ? "&nbsp;&nbsp;<span class=\"badge badge-warning\">new!</span>" : ""; ?></td>
+                                                <td class="newsType"><span class="badge <?php echo ($newsRows['newsType'] == "一般") ? "badge-primary" : "badge-success"?>"><?php echo $newsRows['newsType']; ?></span></td>
+                                                <td><a href="?action=viewcontent&nid=<?php echo $newsRows['newsOrder']; ?>&refer=<?php echo $page; ?>"><?php echo $newsRows['newsTitle']; ?></a><?php /* 一周內顯示 NEW 標籤 */ echo (strtotime("now") - strtotime($newsRows['postTime']) <= 604800) ? "&nbsp;&nbsp;<span class=\"badge badge-warning\">NEW!</span>" : ""; ?></td>
                                                 <td class="releaseTime"><?php echo $newsRows['postTime']; ?></td>
                                             </tr>
                                         <?php } ?>
@@ -84,30 +88,54 @@ mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                             //判斷所有資料筆數「$rows['筆數']」
                             $sql = mysqli_query($connect, "SELECT COUNT(*) AS `times` FROM `news`;");
                             $rows = mysqli_fetch_array($sql, MYSQLI_BOTH);
-                            // 如果總筆數除以 7 筆大於 1，意即大於一頁
-                            $tpg = ceil($rows['times'] / 7);
+                            // 如果總筆數除以 $npp 筆大於 1，意即大於一頁
+                            $tpg = ceil($rows['times'] / $npp);
                             if($tpg > 1){ ?>
                             <!-- 頁數按鈕開始 -->
                             <div class="text-center">
                                 <ul class="pagination">
-                                <?php echo ($page == 1) ? "<li class=\"disabled\">" : "<li>";?><a <?php echo ($page == 1) ? "" : "href=\"?p=" . ($page - 1) . "\"";?> aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                <?php echo ($page == 1) ? "<li class=\"disabled\">" : "<li>";?><a <?php echo ($page == 1) ? "" : "href=\"?action=viewnews&p=" . ($page - 1) . "\"";?> aria-label="Previous"><span aria-hidden="true">«</span></a></li>
                                     <?php
                                     // 目前頁數
                                     $i = 1;
                                     // WHILE 運算不要改到原值
                                     $pg = $tpg;
                                     while($pg > 0){ ?>
-                                    <?php /* 如果這頁就是這顆按鈕就變顏色 */ echo ($page == $i) ? "<li class=\"active\">" : "<li>";?><a href="news.php?p=<?php /* 印出頁數 */ echo $i;?>"><?php echo $i;?> <?php echo ($page == $i) ? "<span class=\"sr-only\">(current)</span>" : "";?></a></li>
+                                    <?php /* 如果這頁就是這顆按鈕就變顏色 */ echo ($page == $i) ? "<li class=\"active\">" : "<li>";?><a <?php /* 如果是這頁就不印出連結 */  echo ($page == $i) ? "" : "href=\"?action=viewnews&p=$i\""; ?>><?php echo $i;?> <?php echo ($page == $i) ? "<span class=\"sr-only\">(current)</span>" : "";?></a></li>
                                     <?php 
                                     $i += 1;
                                     $pg -= 1;
                                     }
                                     ?>
-                                    <?php echo ($page == $tpg) ? "<li class=\"disabled\">" : "<li>";?><a <?php echo ($page == $tpg) ? "" : "href=\"?p=". ($page + 1) . "\""; ?> aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <?php echo ($page == $tpg) ? "<li class=\"disabled\">" : "<li>";?><a <?php echo ($page == $tpg) ? "" : "href=\"?action=viewnews&p=". ($page + 1) . "\""; ?> aria-label="Next"><span aria-hidden="true">»</span></a></li>
                                 </ul>
                             </div>
                             <!-- 頁數按鈕結束 -->
                             <?php } ?>
+                            <?php }elseif($_GET['action'] == 'viewcontent'){ 
+                                if(!empty($_GET['nid'])){
+                                    $nid = $_GET['nid'];
+                                    $sql = mysqli_query($connect, "SELECT * FROM `news` WHERE `newsOrder`='$nid';");
+                                    $datarows = mysqli_num_rows($sql);
+                                    if($datarows == 0){ ?>
+                                        <h2 class="news-warn">找不到該則公告！<br /><a href="?action=viewnews" class="btn btn-lg btn-info">按此返回消息列表</a></h2>
+                                    <?php }else{
+                                        $row = mysqli_fetch_array($sql, MYSQLI_BOTH); ?>
+                                        <div class="news-view">
+                                        <div class="news-time"><?php echo $row['postTime']; ?>&nbsp;・&nbsp;<span class="badge <?php echo ($row['newsType'] == "一般") ? "badge-primary" : "badge-success"?>"><?php echo $row['newsType']; ?></span></div>
+                                        <h2 class="text-info news-title"><?php echo $row['newsTitle']; ?></div><hr />
+                                        <div class="news-content"><?php echo $row['newsContent']; ?></div>
+                                        <div class="container-fluid text-center" style="margin: 3em 0 0 0;"><a href="?action=viewnews&p=<?php echo (empty($_GET['refer'])) ? "1" : $_GET['refer']; ?>" class="btn btn-lg btn-success">返回消息列表</a></div>
+                                    <?php } ?>
+                                </div>
+                                <?php }else{ ?>
+                                    <h2 class="news-warn">找不到該則公告！<br /><a href="?action=viewnews" class="btn btn-lg btn-info">按此返回消息列表</a></h2>
+                                <?php } ?>
+                                <div>
+                            <?php }else{
+                                header("Location: news.php?action=viewnews");
+                                exit;
+                            } ?>
                         </div>
                     </div>
                 </div>
