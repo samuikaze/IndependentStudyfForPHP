@@ -39,3 +39,24 @@
 .news-admin a {
     margin-right: 0.5em;
 }
+
+.news-warn{
+    color: red !important;
+    padding: 0 auto;
+    margin: 25vh auto 3em;
+    text-align: center;
+    width: 100%;
+}
+
+.admTabType {
+    width: 30%;
+    text-align: right;
+}
+
+.admTabOpt {
+    text-align: left;
+}
+
+.noResize {
+    resize: none !important;
+}

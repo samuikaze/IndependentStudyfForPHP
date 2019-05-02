@@ -23,7 +23,7 @@ if($_SESSION['priv'] != 99){
 <link rel="stylesheet" href="css/custom.css" type="text/css" />
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="width: 80%;">
         <div class="row">
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container">
@@ -78,7 +78,7 @@ if($_SESSION['priv'] != 99){
             <?php
                 if(empty($_SERVER['QUERY_STRING']) || $_GET['action'] == 'index'){
                     include("frontpage.php");
-                }elseif($_GET['action'] == 'article_news'){
+                }elseif($_GET['action'] == 'article_news' || $_GET['action'] == 'modifynews'){
                     include("article_news.php");
                 }elseif($_GET['action'] == 'article_product'){
                     include("article_product.php");
