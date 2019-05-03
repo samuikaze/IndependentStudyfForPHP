@@ -1,10 +1,10 @@
 <?php
 require_once 'sessionCheck.php';
-if ($_GET['action'] == 'relogin') {
-    $refer = "admin/";
-} elseif (empty($_GET['refer'])) {
+if (empty($_GET['refer'])) {
     $refer = "/";
-} else {
+} elseif ($_GET['action'] == 'relogin') {
+    $refer = "admin/" . $_GET['refer'];
+}  else {
     $refer = $_GET['refer'];
     //$refer = urlencode($refer);
 }
@@ -79,14 +79,31 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                 <h4><strong>註冊成功，請利用下方表單登入帳號</strong></h4>
                                             </div>
-                                        <?php } elseif ($_GET['action'] == 'relogin') { ?>
+                                        <?php } elseif ($_GET['action'] == 'relogin') { 
+                                            if(empty($_GET['loginErr'])){ ?>
                                             <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                 <h4><strong>您的權限不足，請登入較高權限的帳號後再試一次！</strong></h4>
                                             </div>
+                                            <?php }else{ ?>
+                                            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4><strong>該功能須登入後才可使用！</strong></h4>
+                                            </div>
+                                            <?php } ?>
+                                        <?php } elseif (!empty($_GET['loginErrType']) && $_GET['loginErrType'] == 4) { ?>
+                                            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4><strong>您的登入資訊有誤，請重新登入！</strong></h4>
+                                            </div>
+                                        <?php } elseif (!empty($_GET['loginErrType']) && $_GET['loginErrType'] == 5) { ?>
+                                            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4><strong>該功能須登入後才可使用！</strong></h4>
+                                            </div>
                                         <?php } else {
                                         echo "";
-                                    } ?>
+                                        } ?>
                                         <form method="POST" action="authentication.php?action=login" style="margin-top: 1em;">
                                             <div class="form-group text-left">
                                                 <label for="username">使用者名稱</label>

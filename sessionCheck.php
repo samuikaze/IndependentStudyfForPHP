@@ -4,6 +4,7 @@
      mysqli_query($connect, "SET NAMES 'utf8'");
      mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
      mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8"); 
+     date_default_timezone_set("Asia/Taipei");
      //$self = substr($_SERVER['PHP_SELF'], $webdirstrnum);
      //網站後台
      if (isset($type) == true && $type == "important"){
@@ -20,7 +21,9 @@
                          setcookie("sid", "", time()-3600);
                          setcookie("auth", "", time()-3600);
                          mysqli_close($connect);
-                         $refurl = 'member.php?action=login&refer=' . $self . "?" . $_SERVER['QUERY_STRING'];
+                         // 網站的後台管理登入資訊有誤
+                         
+                         $refurl = "../member.php?action=login&loginErr=4&refer=" . urlencode($self); 
                          header("Location: $refurl");
                          exit;
                     }
@@ -59,7 +62,7 @@
                     session_destroy();
                     session_start();
                     mysqli_close($connect);
-                    $refurl = 'member.php?action=login&refer=' . $self . "?" . $_SERVER['QUERY_STRING'];
+                    $refurl = "../member.php?action=relogin&loginErr=5&refer=" . urlencode($self);
                     header("Location: $refurl");
                     exit;
                     break;

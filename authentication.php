@@ -199,7 +199,7 @@
             mysqli_close($connect);
             session_unset();
             session_destroy();
-            $refer = ( empty($_GET['refer']) == false ) ? $_GET['refer'] : "/";
+            $refer = ( empty($_GET['refer']) == false ) ? $_GET['refer'] : "./";
             $refer = str_replace("+", "&", $refer);
             header("Location: $refer");
         }

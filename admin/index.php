@@ -1,8 +1,23 @@
 <?php
 $type = "important";
+$admin = true;
+$self = basename(__FILE__);
+if (empty($_SERVER['QUERY_STRING']) != True) {
+    $self .= "?" . $_SERVER['QUERY_STRING'];
+}
 require "../sessionCheck.php";
 if($_SESSION['priv'] != 99){
     header("Location: ../member.php?action=logout&refer=member.php?action=relogin");
+    exit;
+}
+include "../templates/functions.php";
+if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
+    // 刪除cookie
+    setcookie("user", "", time()-3600);
+    setcookie("sid", "", time()-3600);
+    setcookie("auth", "", time()-3600);
+    mysqli_close($connect);
+    header("Location: ../");
     exit;
 }
 ?>
@@ -19,7 +34,7 @@ if($_SESSION['priv'] != 99){
 <script src="js/custom.js"></script>
 <link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css" />
 <link rel="stylesheet" href="../css/bootstrap.css" type="text/css" media="all" />
-<link rel="stylesheet" href="../css/font-awesome.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.css" type="text/css" />
 <link rel="stylesheet" href="css/custom.css" type="text/css" />
 </head>
 <body>
@@ -42,12 +57,12 @@ if($_SESSION['priv'] != 99){
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="?action=index">首頁</a></li>
+                            <?php echo (empty($_GET['action']) || $_GET['action'] == 'index') ? "<li class=\"active\">" : "<li>"; ?><a href="?action=index">首頁</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">文章管理 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">關於我們</a></li>
-                                    <li><a href="?action=article_news">最新消息</a></li>
+                                    <li><a href="?action=article_news&type=newslist">最新消息</a></li>
                                     <li><a href="?action=article_product">作品一覽</a></li>
                                     <li><a href="#">招募新血</a></li>
                                     <li><a href="#">常見問題</a></li>
@@ -68,7 +83,7 @@ if($_SESSION['priv'] != 99){
                                 </ul>
                             </li>
                             <li><a href="#">商品管理</a></li>
-                            <li><a href="../">離開後台</a></li>
+                            <li><a href="index.php?action=backendlogout">離開後台</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -76,16 +91,18 @@ if($_SESSION['priv'] != 99){
         </div>
         <div class="row">
             <?php
+                // 後台首頁
                 if(empty($_SERVER['QUERY_STRING']) || $_GET['action'] == 'index'){
                     include("frontpage.php");
-                }elseif($_GET['action'] == 'article_news' || $_GET['action'] == 'modifynews'){
+                // 消息管理
+                }elseif($_GET['action'] == 'article_news' || $_GET['action'] == 'modifynews' || $_GET['action'] == 'delnews' || $_GET['action'] == 'postnewnews'){
                     include("article_news.php");
+                // 商品管理
                 }elseif($_GET['action'] == 'article_product'){
                     include("article_product.php");
                 }
             ?>
         </div>
     </div>
-
 </body>
 </html>
