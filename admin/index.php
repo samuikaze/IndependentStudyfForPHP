@@ -98,7 +98,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                 }elseif($_GET['action'] == 'article_news' || $_GET['action'] == 'modifynews' || $_GET['action'] == 'delnews' || $_GET['action'] == 'postnewnews'){
                     include("article_news.php");
                 // 討論板管理
-                }elseif($_GET['action'] == 'board_admin' || $_GET['action'] == 'editboard'){
+                }elseif($_GET['action'] == 'board_admin' || $_GET['action'] == 'editboard' || $_GET['action'] == 'delboard'){
                     include("boardadmin.php");
                 // 商品管理
                 }elseif($_GET['action'] == 'article_product'){

@@ -17,7 +17,6 @@ if(empty($_SERVER['QUERY_STRING'])){
     exit;
 }else{
     $refer = $_POST['refer'];
-
     // 修改消息
     if($_GET['action'] == 'modifynews'){
         // 若消息標題為空
@@ -96,49 +95,60 @@ if(empty($_SERVER['QUERY_STRING'])){
     // 修改討論板
     }elseif($_GET['action'] == 'modifyboard'){
         $refpage = $_POST['refpage'];
+        $bid = $_POST['bid'];
+        // 討論版名稱為空
         if(empty($_POST['boardname'])){
-            header("Location: ?modifyerr=1&$refer");
+            mysqli_close($connect);
+            header("Location: index.php?modifyerr=1&$refer");
             exit;
+        // 討論版描述為空
         }elseif(empty($_POST['boarddescript'])){
-            header("Location: ?modifyerr=2&$refer");
+            mysqli_close($connect);
+            header("Location: index.php?modifyerr=2&$refer");
             exit;
-        }elseif($_FILES["boardimage"]["error"] > 0){
+        // 檔案上傳有錯誤碼
+        }else{
             // 檔案大小過大
             if($_FILES["boardimage"]["error"] == 1 || $_FILES["boardimage"]["error"] == 2){
-                header("Location: ?modifyerr=3&$refer");
+                mysqli_close($connect);
+                header("Location: index.php?modifyerr=3&$refer");
                 exit;
             }
-            //沒有上傳檔案
-            if($_FILES["boardimage"]["error"] == 4){
+            // 沒有上傳檔案
+            if($_FILES["boardimage"]["error"] == 4 || empty($_FILES['boardimage']['name'])){
                 $fileUpload = false;
-                $sql = "UPDATE `bbsboard` SET `boardName`='$boardname', `boardDescript`='$boarddescript' WHERE `boardID`=$bid;";
             }else{
                 $fileextension = pathinfo($_FILES['boardimage']['name'], PATHINFO_EXTENSION);
                 // 檔案類型不正確
                 if( !in_array($fileextension, array('jpg', 'png', 'gif') ) ){
-                    header("Location: ?modifyerr=4&$refer");
+                    mysqli_close($connect);
+                    header("Location: index.php?modifyerr=4&$refer");
                     exit;
                 }
+                // 儲存的檔名
                 $targetfilename = "board-" . $bid . ".$fileextension";
                 $fileUpload = true;
             }
-        }else{
             $boardname = $_POST['boardname'];
-            $boarddescript = $_POST['boarddescript'];
-            $bid = $_POST['bid'];
-            if($fileUpload = true){
-                if( file_exists("../images/bbs/board/$targetfilename") ){
-                    unlink("../images/bbs/board/$targetfilename");
-                }
-                move_uploaded_file($_FILES["boardimage"]["tmp_name"],"../images/bbs/board/$targetfilename");
+            $boarddescript = inputCheck($_POST['boarddescript']);
+            // 有要上傳檔案
+            if($fileUpload == true){
+                // 把新的檔案移到正確的路徑
+                move_uploaded_file($_FILES["boardimage"]["tmp_name"], "../images/bbs/board/$targetfilename");
                 $sql = "UPDATE `bbsboard` SET `boardName`='$boardname', `boardImage`='$targetfilename', `boardDescript`='$boarddescript' WHERE `boardID`=$bid;";
+            // 沒有要上傳檔案
+            }else{
+                $sql = "UPDATE `bbsboard` SET `boardName`='$boardname', `boardDescript`='$boarddescript' WHERE `boardID`=$bid;";
             }
             mysqli_query($connect, $sql);
             mysqli_close($connect);
-            header("Location: ?action=board_admin&type=boardlist&p=$refpage");
+            header("Location: index.php?modifyerr=5&action=board_admin&type=boardlist&p=$refpage");
             exit;
         }
-        
+    // 刪除討論板
+    }elseif($_GET['action'] == 'delboard'){
+        // 跟刪消息一樣要有判斷
+        // 然後之後如果討論板文章也寫好的話要把文章部份也一併刪除，沒有討論板就沒有討論文章
     }else{
         mysqli_close($connect);
         header("Location: index.php?action=index");

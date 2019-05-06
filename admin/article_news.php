@@ -209,27 +209,20 @@
                 } 
             //刪除消息
             } elseif ($_GET['action'] == 'delnews') {
-                $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
-                if (mysqli_connect_errno()) {
-                    die('無法連線到資料庫: ' . mysqli_connect_error());
-                }
-                mysqli_query($connect, "SET NAMES 'utf8'");
-                mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
-                mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                 $page = $_GET['refpage'];
                 // 沒有 nid
-                if (empty($_GET['nid'])) {
-                    header("Location: index.php?action=article_news&type=newslist&p=$refpage&msg=delerror1");
-                    exit;
+                if (empty($_GET['nid'])) { ?>
+                    <h2 class="news-warn">找不到這則公告！<br /><a href="?action=article_news&type=newslist&p=1" class="btn btn-lg btn-info">按此返回消息列表</a></h2>
+                    <?php exit;
                 } else {
                     $nid = $_GET['nid'];
                     $sql = mysqli_query($connect, "SELECT * FROM `news` WHERE `newsOrder`=$nid;");
                     // 取得資料筆數
                     $datarows = mysqli_num_rows($sql);
                     // 沒有取得半筆資料，意即找不到公告
-                    if ($datarows == 0) {
-                        header("Location: index.php?action=article_news&type=newslist&p=$refpage&msg=delerror1");
-                        exit;
+                    if ($datarows == 0) { ?>
+                        <h2 class="news-warn">找不到這則公告！<br /><a href="?action=article_news&type=newslist&p=1" class="btn btn-lg btn-info">按此返回消息列表</a></h2>
+                        <?php exit;
                         // 找到公告開始印確認刪除的資料內容
                     } else { 
                         $row = mysqli_fetch_array($sql, MYSQLI_BOTH);
