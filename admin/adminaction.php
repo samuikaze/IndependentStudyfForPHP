@@ -92,9 +92,53 @@ if(empty($_SERVER['QUERY_STRING'])){
         mysqli_close($connect);
         header("Location: index.php?msg=addnewssuccess&action=article_news&type=newslist");
         exit;
-    }elseif($_POST[''] == ''){
 
-    // 如果上述條件都不符合跳回後台首頁
+    // 修改討論板
+    }elseif($_GET['action'] == 'modifyboard'){
+        $refpage = $_POST['refpage'];
+        if(empty($_POST['boardname'])){
+            header("Location: ?modifyerr=1&$refer");
+            exit;
+        }elseif(empty($_POST['boarddescript'])){
+            header("Location: ?modifyerr=2&$refer");
+            exit;
+        }elseif($_FILES["boardimage"]["error"] > 0){
+            // 檔案大小過大
+            if($_FILES["boardimage"]["error"] == 1 || $_FILES["boardimage"]["error"] == 2){
+                header("Location: ?modifyerr=3&$refer");
+                exit;
+            }
+            //沒有上傳檔案
+            if($_FILES["boardimage"]["error"] == 4){
+                $fileUpload = false;
+                $sql = "UPDATE `bbsboard` SET `boardName`='$boardname', `boardDescript`='$boarddescript' WHERE `boardID`=$bid;";
+            }else{
+                $fileextension = pathinfo($_FILES['boardimage']['name'], PATHINFO_EXTENSION);
+                // 檔案類型不正確
+                if( !in_array($fileextension, array('jpg', 'png', 'gif') ) ){
+                    header("Location: ?modifyerr=4&$refer");
+                    exit;
+                }
+                $targetfilename = "board-" . $bid . ".$fileextension";
+                $fileUpload = true;
+            }
+        }else{
+            $boardname = $_POST['boardname'];
+            $boarddescript = $_POST['boarddescript'];
+            $bid = $_POST['bid'];
+            if($fileUpload = true){
+                if( file_exists("../images/bbs/board/$targetfilename") ){
+                    unlink("../images/bbs/board/$targetfilename");
+                }
+                move_uploaded_file($_FILES["boardimage"]["tmp_name"],"../images/bbs/board/$targetfilename");
+                $sql = "UPDATE `bbsboard` SET `boardName`='$boardname', `boardImage`='$targetfilename', `boardDescript`='$boarddescript' WHERE `boardID`=$bid;";
+            }
+            mysqli_query($connect, $sql);
+            mysqli_close($connect);
+            header("Location: ?action=board_admin&type=boardlist&p=$refpage");
+            exit;
+        }
+        
     }else{
         mysqli_close($connect);
         header("Location: index.php?action=index");

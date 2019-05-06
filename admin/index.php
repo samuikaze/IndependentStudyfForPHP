@@ -71,8 +71,8 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">討論區管理 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">註冊審核</a></li>
-                                    <li><a href="#">會員管理</a></li>
+                                    <li><a href="?action=board_admin&type=boardlist">討論板管理</a></li>
+                                    <li><a href="#">文章管理</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -97,6 +97,9 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                 // 消息管理
                 }elseif($_GET['action'] == 'article_news' || $_GET['action'] == 'modifynews' || $_GET['action'] == 'delnews' || $_GET['action'] == 'postnewnews'){
                     include("article_news.php");
+                // 討論板管理
+                }elseif($_GET['action'] == 'board_admin' || $_GET['action'] == 'editboard'){
+                    include("boardadmin.php");
                 // 商品管理
                 }elseif($_GET['action'] == 'article_product'){
                     include("article_product.php");

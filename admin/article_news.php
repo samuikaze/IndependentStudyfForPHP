@@ -9,22 +9,22 @@
 <div class="col-md-12">
     <?php if ($_GET['action'] == 'article_news') {
         if (!empty($_GET['msg']) && $_GET['msg'] == 'modifynewssuccess') { ?>
-    <div class="alert alert-success alert-dismissible" role="alert" style="margin-top: 1em;">
+    <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4><strong>消息編輯成功！</strong></h4>
     </div>
         <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delerror1') { ?>
-    <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4><strong>找不到該則公告，請依正常程序刪除公告！</strong></h4>
     </div>
         <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delnewssuccess') { ?>
-    <div class="alert alert-success alert-dismissible" role="alert" style="margin-top: 1em;">
+    <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4><strong>消息刪除成功！</strong></h4>
     </div>
         <?php }elseif(!empty($_GET['msg']) && $_GET['msg'] == 'addnewssuccess'){ ?>
-    <div class="alert alert-success alert-dismissible" role="alert" style="margin-top: 1em;">
+    <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4><strong>新增消息成功！</strong></h4>
     </div>
@@ -47,13 +47,6 @@
                 </thead>
                 <tbody>
                     <?php 
-                    $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
-                    if (mysqli_connect_errno()) {
-                        die('無法連線到資料庫: ' . mysqli_connect_error());
-                    }
-                    mysqli_query($connect, "SET NAMES 'utf8'");
-                    mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
-                    mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                     // 目前頁數
                     if (empty($_GET['p'])) {
                         $page = 1;
@@ -63,15 +56,17 @@
                     //一頁顯示幾項
                     $npp = 10;
                     $tlimit = ($page - 1) * $npp;   //SQL 語法用，LIMIT 第一項
-                    $blimit = $page * $npp - 1;     //SQL 語法用，LIMIT 第二項
+                    $blimit = $page * $npp;     //SQL 語法用，LIMIT 第二項
                     $sql = mysqli_query($connect, "SELECT * FROM `news` ORDER BY `newsOrder` DESC LIMIT $tlimit, $blimit;");
+                    $newsid = 1;
                     while ($row = mysqli_fetch_array($sql, MYSQLI_BOTH)) { ?>
                     <tr>
-                        <td class="news-order"><?php echo $row['newsOrder']; ?></td>
+                        <td class="news-order"><?php echo ($page - 1) * $npp + $newsid; ?></td>
                         <td class="news-title"><span class="badge <?php echo ($row['newsType'] == '一般') ? "badge-primary" : "badge-success"; ?>"><?php echo $row['newsType']; ?></span>&nbsp;<?php echo $row['newsTitle']; ?></td>
                         <td class="news-admin"><a href="?action=modifynews&nid=<?php echo $row['newsOrder']; ?>&refpage=<?php echo $page; ?>" class="btn btn-info">編輯</a><a href="?action=delnews&nid=<?php echo $row['newsOrder']; ?>&refpage=<?php echo $page; ?>" class="btn btn-danger">刪除</a></td>
                     </tr>
-                        <?php } ?>
+                        <?php $newsid += 1;
+                        } ?>
                 </tbody>
             </table>
                 <?php
@@ -109,22 +104,22 @@
         <!-- 張貼新消息 -->
         <div role="tabpanel" class="tab-pane fade<?php echo (!empty($_GET['type']) && $_GET['type'] == 'postnewnews') ? " active in" : ""; ?>" id="postNews">
             <?php if(!empty($_GET['msg']) && $_GET['msg'] == 'addnewserrtitle'){ ?>
-            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4><strong>消息標題不可留空！</strong></h4>
             </div>
             <?php }elseif(!empty($_GET['msg']) && $_GET['msg'] == 'addnewserrtype'){?>
-            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4><strong>請確實選擇一個消息類型！</strong></h4>
             </div>
             <?php }elseif(!empty($_GET['msg']) && $_GET['msg'] == 'addnewserrcontent'){ ?>
-            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4><strong>消息內容不可留空！</strong></h4>
             </div>
             <?php }elseif(!empty($_GET['msg']) && $_GET['msg'] == 'addnewserruid'){?>
-            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4><strong>無法取得您的身分或身分與資料不符，請依正常程序新增消息！</strong></h4>
             </div>
@@ -155,22 +150,16 @@
     </div>
                 <?php // 修改消息
                 } elseif ($_GET['action'] == 'modifynews') {
+                    if (empty($_GET['refpage'])) {
+                        $refer = 1;
+                    } else {
+                        $refer = $_GET['refpage'];
+                    }
                     // 沒有消息ID
                     if (empty($_GET['nid'])) {
-                        if (empty($_GET['refer'])) {
-                            $refer = 1;
-                        } else {
-                            $refer = $_GET['refer'];
-                        } ?>
+                         ?>
     <h2 class="news-warn">找不到這則公告！<br /><a href="?action=article_news&type=newslist&p=<?php echo $refer; ?>" class="btn btn-lg btn-info">按此返回列表</a></h2>
                 <?php } else {
-                    $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
-                    if (mysqli_connect_errno()) {
-                        die('無法連線到資料庫: ' . mysqli_connect_error());
-                    }
-                    mysqli_query($connect, "SET NAMES 'utf8'");
-                    mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
-                    mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                     $nid = $_GET['nid'];
                     $sql = mysqli_query($connect, "SELECT * FROM `news` WHERE `newsOrder`='$nid';");
                     $datarows = mysqli_num_rows($sql);  // 取得資料筆數
@@ -178,7 +167,6 @@
     <h2 class="news-warn">找不到這則公告！<br /><a href="?action=article_news&type=newslist&p=<?php echo $refer; ?>" class="btn btn-lg btn-info">按此返回消息列表</a></h2>
                     <?php } else {
                         $row = mysqli_fetch_array($sql);
-                    } 
                     if (!empty($_GET['modifyErr']) && $_GET['modifyErr'] == 1) { ?>
     <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -217,7 +205,8 @@
             <a href="?action=article_news&type=newslist&p=<?php echo $_GET['refpage']; ?>" class="btn btn-info">取消</a>
         </div>
     </form>
-                <?php } 
+                    <?php }
+                } 
             //刪除消息
             } elseif ($_GET['action'] == 'delnews') {
                 $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
