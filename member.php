@@ -6,12 +6,13 @@ if (empty($_GET['refer'])) {
     $refer = "admin/" . $_GET['refer'];
 }  else {
     $refer = $_GET['refer'];
-    //$refer = urlencode($refer);
 }
 if (empty($_GET['action'])) {
+    mysqli_close($connect);
     header("Location: member.php?action=login");
     exit;
 } elseif ($_GET['action'] == 'logout') {
+    mysqli_close($connect);
     header("Location: authentication.php?action=logout&refer=" . urlencode($refer));
     exit;
 }
@@ -22,12 +23,10 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
     <title>會員專區 | 洛嬉遊戲 L.S. Games</title>
     <?php include_once "templates/metas.php"; ?>
 </head>
-
 <body onload="loadProgress()">
     <!-- 要加入載入動畫這邊請加上 onload="loadProgress()" -->
     <?php include_once "templates/loadscr.php"; ?>
@@ -202,5 +201,5 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
         <?php include_once "templates/footer.php"; ?>
     </div>
 </body>
-
 </html>
+<?php mysqli_close($connect); ?>

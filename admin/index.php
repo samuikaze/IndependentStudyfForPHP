@@ -106,3 +106,4 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
     </div>
 </body>
 </html>
+<?php if(empty($connect)){ mysqli_close($connect); } ?>

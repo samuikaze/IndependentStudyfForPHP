@@ -5,25 +5,17 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
     $self .= "?" . $_SERVER['QUERY_STRING'];
     $self = str_replace("&", "+", $self);
 }else{
+    mysqli_close($connect);
     header("Location: news.php?action=viewnews");
     exit;
 }
-$connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
-if (mysqli_connect_errno()) {
-    die('無法連線到資料庫: ' . mysqli_connect_error());
-}
-mysqli_query($connect, "SET NAMES 'utf8'");
-mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
-mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
     <title>最新消息 | 洛嬉遊戲 L.S. Games</title>
     <?php include_once "templates/metas.php"; ?>
 </head>
-
 <body onload="loadProgress()">
     <!-- 要加入載入動畫這邊請加上 onload="loadProgress()" -->
     <?php include_once "templates/loadscr.php"; ?>
@@ -39,7 +31,8 @@ mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
-                    <li class="thisPosition">最新消息</li>
+                    <?php echo ($_GET['action'] == 'viewnews') ? "<li class=\"thisPosition\">" : "<li><a href=\"news.php?action=viewnews&p=" . ( (empty($_GET['refpage'])) ? 1 : $_GET['refpage'] ) . "\">"; ?>最新消息<?php echo ($_GET['action'] == 'viewnews') ? "" : "</a>"; ?></li>
+                    <?php echo ($_GET['action'] == 'viewcontent') ? "<li class=\"thisPosition\">檢視消息</li>" : ""; ?>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
                 <div class="container-fluid">
@@ -135,6 +128,7 @@ mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
                                 <?php } ?>
                                 <div>
                             <?php }else{
+                                mysqli_close($connect);
                                 header("Location: news.php?action=viewnews");
                                 exit;
                             } ?>

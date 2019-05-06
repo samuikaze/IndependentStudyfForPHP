@@ -12,27 +12,22 @@ function inputCheck($data){   //輸入字元安全性處理
 }
 // 若沒有 GET 值就跳回後台首頁
 if(empty($_SERVER['QUERY_STRING'])){
+    mysqli_close($connect);
     header("Location: index.php?action=index");
     exit;
 }else{
     $refer = $_POST['refer'];
-    $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
-    if (mysqli_connect_errno()) {
-        die('無法連線到資料庫: ' . mysqli_connect_error());
-    }
-    mysqli_query($connect, "SET NAMES 'utf8'");
-    mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
-    mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
-    date_default_timezone_set("Asia/Taipei");
 
     // 修改消息
     if($_GET['action'] == 'modifynews'){
         // 若消息標題為空
         if(empty($_POST['newsTitle'])){
+            mysqli_close($connect);
             header("Location: index.php?modifyErr=1&$refer");
             exit;
         // 若消息內容為空
         }elseif(empty($_POST['newsContent'])){
+            mysqli_close($connect);
             header("Location: index.php?modifyErr=2&$refer");
             exit;
         // 都沒問題開始寫入資料
@@ -60,15 +55,19 @@ if(empty($_SERVER['QUERY_STRING'])){
     // 新增消息
     }elseif($_GET['action'] == 'addnews'){
         if(empty($_POST['newstitle'])){
+            mysqli_close($connect);
             header("Location: index.php?msg=addnewserrtitle&action=article_news&type=postnewnews");
             exit;
         }elseif(empty($_POST['newscontent'])){
+            mysqli_close($connect);
             header("Location: index.php?msg=addnewserrcontent&action=article_news&type=postnewnews");
             exit;
         }elseif(empty($_POST['newstype'])){
+            mysqli_close($connect);
             header("Location: index.php?msg=addnewserrtype&action=article_news&type=postnewnews");
             exit;
         }elseif(empty($_POST['uid'])){
+            mysqli_close($connect);
             header("Location: index.php?msg=addnewserruid&action=article_news&type=postnewnews");
             exit;
         }else{
@@ -79,6 +78,7 @@ if(empty($_SERVER['QUERY_STRING'])){
             $row = mysqli_fetch_array($sql, MYSQLI_BOTH);
             // 若暱稱與資料不符
             if($row['uid'] != $uid){
+                mysqli_close($connect);
                 header("Location: index.php?msg=addnewserruid&action=article_news&type=postnewnews");
                 exit;
             }
@@ -87,15 +87,16 @@ if(empty($_SERVER['QUERY_STRING'])){
         $newstype = $_POST['newstype'];
         $newscontent = inputCheck($_POST['newscontent']);
         $uid = $_POST['uid'];
-        date_default_timezone_set("Asia/Taipei");
         $posttime = date('Y-m-d H:i:s');
         mysqli_query($connect, "INSERT INTO `news` (`newsType`, `newsTitle`, `newsContent`, `postTime`, `postUser`) VALUES ('$newstype', '$newstitle', '$newscontent', '$posttime', '$uid');");
+        mysqli_close($connect);
         header("Location: index.php?msg=addnewssuccess&action=article_news&type=newslist");
         exit;
     }elseif($_POST[''] == ''){
 
     // 如果上述條件都不符合跳回後台首頁
     }else{
+        mysqli_close($connect);
         header("Location: index.php?action=index");
         exit;
     }

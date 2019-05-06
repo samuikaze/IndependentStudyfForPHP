@@ -5,6 +5,7 @@
     // 如果不是 POST 資料進來就重導到登入頁面
     if($_SERVER["REQUEST_METHOD"] != "POST"){
         if($_GET["action"] != "logout"){
+            mysqli_close($connect);
             header("Location: member.php?action=login");
             exit;
         }
@@ -16,14 +17,6 @@
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
-    }
-
-    /* 連線 MySQL 資料庫
-     * mysql_connect 為非永久性連線，mysqli_connect 則為永久性連線
-     */
-    $connect = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DBNAME, $DB_PORT);
-    if ( mysqli_connect_errno() ) {
-        die('無法連線到資料庫: ' . mysqli_connect_error());
     }
 
     // 登入
@@ -40,6 +33,7 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             // 帳號欄位為空，重導回登入頁面
             if( empty( $_POST["username"] ) ){
+                mysqli_close($connect);
                 header("Location: member.php?action=login&loginErrType=1&refer=" . urlencode($refer));
                 exit;
             }else{
@@ -47,16 +41,13 @@
             }
             // 密碼欄位為空
             if( empty( $_POST["password"] ) ){
+                mysqli_close($connect);
                 header("Location: member.php?action=login&loginErrType=2&refer=" . urlencode($refer));
                 exit;
             }else{
                 $password = inputCheck($_POST["password"]);
                 $password = hash("sha512", $password);
             }
-            // 都不為空就開始比對資料
-            mysqli_query($connect, "SET NAMES 'utf8'");
-            mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
-            mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
             // 取資料
             $sql = mysqli_query($connect, "SELECT * FROM member WHERE userName = '$username'");
             $row = mysqli_fetch_array($sql, MYSQLI_BOTH);
@@ -117,6 +108,7 @@
         }
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             if( empty( $_POST["username"] ) ){
+                mysqli_close($connect);
                 header("Location: member.php?action=register&regErrType=1&refer=" . urlencode($refer));
                 exit;
             }else{
@@ -124,11 +116,13 @@
             }
             // 密碼欄位為空
             if( empty( $_POST["password"] ) ){
+                mysqli_close($connect);
                 header("Location: member.php?action=register&regErrType=2&refer=" . urlencode($refer));
                 exit;
             }else{
                 // 密碼確認欄位為空
                 if( empty( $_POST["passwordConfirm"] ) ){
+                    mysqli_close($connect);
                     header("Location: member.php?action=register&regErrType=3&refer=" . urlencode($refer));
                     exit;
                 }else{
@@ -136,6 +130,7 @@
                     $passwordConfirm = inputCheck($_POST["passwordConfirm"]);
                     // 密碼欄位與密碼確認欄位資料不符
                     if($password != $passwordConfirm){
+                        mysqli_close($connect);
                         header("Location: member.php?action=register&regErrType=5&refer=" . urlencode($refer));
                         exit;
                     }else{
@@ -145,21 +140,20 @@
             }
             // 電子郵件欄位為空
             if( empty( $_POST["email"] ) ){
+                mysqli_close($connect);
                 header("Location: member.php?action=register&regErrType=4&refer=" . urlencode($refer));
                 exit;
             }else{
                 $email = inputCheck($_POST["email"]);
             }
             if( empty( $_POST["usernickname"] ) ){
+                mysqli_close($connect);
                 header("Location: member.php?action=register&regErrType=6&refer=" . urlencode($refer));
                 exit;
             }else{
                 $usernickname = inputCheck($_POST["usernickname"]);
             }
             // 都不為空就開始寫入資料
-            mysqli_query($connect, "SET NAMES 'utf8'");
-            mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
-            mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8");
             $regSql = "INSERT INTO `member` (`userName`, `userPW`, `userNickname`, `userEmail`, `userPriviledge`) VALUES ('$username', '$password', '$usernickname', '$email', '1')";
             mysqli_query($connect, $regSql);
             if(mysqli_errno($connect) == 1062){
@@ -188,9 +182,9 @@
             $_SESSION['uid'] == '';
             $sid = $_COOKIE['sid'];
             // 清除資料庫中的 session 記錄
-            mysqli_query($connect, "SET NAMES 'utf8'");
+            /*mysqli_query($connect, "SET NAMES 'utf8'");
             mysqli_query($connect, "SET CHARACTER_SET_CLIENT=utf8");
-            mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8"); 
+            mysqli_query($connect, "SET CHARACTER_SET_RESULTS=utf8"); */
             mysqli_query($connect, "DELETE FROM sessions WHERE sessionID='$sid'");
             // 刪除cookie
             setcookie("user", "", time()-3600);
