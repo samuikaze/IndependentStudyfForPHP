@@ -150,7 +150,7 @@ $(document).ready(function(){
 
 
 //禁止 class=active 的連結有反應
-$(document).scroll(function(){
+$(document).ready(function(){
     $('a.active').on("click", function(){
         return false;
     });
