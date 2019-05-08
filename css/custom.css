@@ -270,6 +270,18 @@ textarea:focus{
     width: 100px;
 }
 
+.post-nums {
+    width: 10%;
+}
+
+.post-title {
+    width: 75%;
+}
+
+.post-time {
+    width: 15%;
+}
+
 .releaseTime {
     width: 12em;
     font-size: 20px;

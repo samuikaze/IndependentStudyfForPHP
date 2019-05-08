@@ -4,6 +4,9 @@
     if(empty($_SERVER['QUERY_STRING']) != True){
         $self .= "?" . $_SERVER['QUERY_STRING'];
         $self = str_replace("&", "+", $self);
+    }else{
+        header("Location: $self?action=viewboard");
+        exit;
     }
 ?>
 <!DOCTYPE html>
@@ -27,60 +30,22 @@
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
-                    <li class="thisPosition">討論區首頁</li>
+                    <li <?php echo (!empty($_GET['action']) && $_GET['action'] == 'viewboard')? "class=\"thisPosition\"" : ""; ?>><?php echo (!empty($_GET['action']) && $_GET['action'] != 'viewboard')? "<a href=\"?action=viewboard\">" : ""; ?>討論區首頁<?php echo (!empty($_GET['action']) && $_GET['action'] != 'viewboard')? "</a>" : ""; ?></li>
+                    <?php echo (!empty($_GET['action']) && $_GET['action'] == 'viewbbspost')? "<li class=\"thisPosition\">檢視討論板</li>" : ""; ?>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
-                <!-- 討論版塊放置區 -->
-                <div class="row" style="margin-top: 0px; padding-top: 0px;">
-                    <div class="col-md-4 courses-info">
-                        <div class="thumbnail">
-                            <a href="#"><img src="images/services1.jpg"></a>
-                            <div class="caption">
-                                <p class="numbers fRight">文章數 <span>99,999</span></p>
-                                <h3 class="pull-left">作品一板</h3>
-                                <p class="fLeft">作品一說明文字</p>
-                                <div class="clearfix"></div>
-                                <p class="text-center">
-                                    <div class="text-center" style="margin-bottom: 15px;">
-                                        <a href="bbs-prod01.html" class="btn btn-block btn-warning">進入討論板</a>
-                                    </div>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 courses-info">
-                        <div class="thumbnail">
-                            <a href="#"><img src="images/nowprint.jpg"></a>
-                            <div class="caption">
-                                <p class="numbers fRight">文章數 <span>99,999</span></p>
-                                <h3 class="pull-left">作品二板</h3>
-                                <p class="fLeft">作品二說明文字</p>
-                                <div class="clearfix"></div>
-                                <p class="text-center">
-                                    <div class="text-center" style="margin-bottom: 15px;">
-                                        <a href="bbs-prod01.html" class="btn btn-block btn-warning">進入討論板</a>
-                                    </div>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 courses-info">
-                        <div class="thumbnail">
-                            <a href="#"><img src="images/nowprint.jpg"></a>
-                            <div class="caption">
-                                <p class="numbers fRight">文章數 <span>99,999</span></p>
-                                <h3 class="pull-left">作品三板</h3>
-                                <p class="fLeft">作品三說明文字</p>
-                                <div class="clearfix"></div>
-                                <p class="text-center">
-                                    <div class="text-center" style="margin-bottom: 15px;">
-                                        <a href="bbs-prod01.html" class="btn btn-block btn-warning">進入討論板</a>
-                                    </div>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                if(!empty($_GET['action']) && $_GET['action'] == 'viewboard'){
+                    include "templates/viewboard.php";
+                }elseif(!empty($_GET['action']) && $_GET['action'] == 'viewbbspost'){
+                    include "templates/viewbbspost.php";
+                }elseif(!empty($_GET['action']) && $_GET['action'] == 'addnewpost'){
+                    include "templates/addnewpost.php";
+                }else{
+                    header("Location: $self?action=viewboard");
+                    exit;
+                }
+                ?>
             </div>
         </div>
         <?php include_once "templates/footer.php"; ?>

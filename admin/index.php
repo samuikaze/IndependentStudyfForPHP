@@ -26,6 +26,9 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
 <head>
 <title>後台管理 | 洛嬉遊戲 L.S. Games</title>
 <meta charset="UTF-8">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="Cache-Control" content="no-store" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script>

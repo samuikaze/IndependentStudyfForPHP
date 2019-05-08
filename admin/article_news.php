@@ -199,7 +199,6 @@
         <input type="hidden" name="newsID" value="<?php echo $row['newsOrder']; ?>" />
         <input type="hidden" name="refer" value="<?php echo "action=modifynews&nid=$nid&refer=" . $_SERVER['QUERY_STRING']; ?>" />
         <input type="hidden" name="refpage" value="<?php echo $_GET['refpage']; ?>" />
-        <!-- 還有一些隱藏欄位要加進來 -->
         <div class="form-group text-center">
             <input type="submit" name="submit" value="送出" class="btn btn-success" />
             <a href="?action=article_news&type=newslist&p=<?php echo $_GET['refpage']; ?>" class="btn btn-info">取消</a>

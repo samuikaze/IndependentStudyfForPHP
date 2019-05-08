@@ -36,6 +36,22 @@
     width: 20%;
 }
 
+.board-order {
+    width: 5%;
+}
+
+.board-title {
+    width: 60%;
+}
+
+.board-status {
+    width: 10%;
+}
+
+.board-admin {
+    width: 20%;
+}
+
 .news-admin a {
     margin-right: 0.5em;
 }
