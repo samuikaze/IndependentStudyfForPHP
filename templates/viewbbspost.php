@@ -6,6 +6,11 @@ if (empty($_GET['bid'])) { ?>
 } else {
     $bid = $_GET['bid'];
 }
+if(empty($_GET['pid'])){
+    $pid = 1;
+}else{
+    $pid = $_GET['pid'];
+}
 $sql = mysqli_query($connect, "SELECT * FROM `bbspost` WHERE `postBoard`=$bid ORDER BY `postTime` DESC;");
 $datarows = mysqli_num_rows($sql);
 ?>
@@ -33,10 +38,11 @@ $datarows = mysqli_num_rows($sql);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while($row = mysqli_fetch_array($sql, MYSQLI_BOTH)){ ?>
+                    <?php while($row = mysqli_fetch_array($sql, MYSQLI_BOTH)){ 
+                        $refer = urlencode("&bid=$bid&pid=$pid");?>
                         <tr>
                             <td class="post-nums text-left"><?php echo $datarows; ?></td>
-                            <td class="post-title"><a href="?action=viewpostcontent&postid=<?php echo $row['postID']; ?>"><span class="badge badge-warning"><?php echo $row['postType']; ?></span> <?php echo $row['postTitle']; ?></a></td>
+                            <td class="post-title"><a href="?action=viewpostcontent&postid=<?php echo $row['postID']; ?>&refbid=<?php echo $bid; ?>&refpage=<?php echo $pid; ?>"><span class="badge badge-warning"><?php echo $row['postType']; ?></span> <?php echo $row['postTitle']; ?></a></td>
                             <td class="post-time"><?php echo $row['postUserID']; ?><br /><?php echo $row['postTime']; ?></td>
                         </tr>
                     <?php } ?>

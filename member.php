@@ -42,7 +42,7 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
-                    <li class="thisPosition">會員首頁</li>
+                    <?php echo (!empty($_GET['action']) && ($_GET['action'] == 'login' || $_GET['action'] == 'register') )? "<li class=\"thisPosition\">登入 / 註冊</li>" : ""; ?>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
                 <?php if (empty($_SESSION['auth']) || $_SESSION['auth'] != True) { ?>
