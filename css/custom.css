@@ -275,11 +275,33 @@ textarea:focus{
 }
 
 .post-title {
-    width: 65%;
+    width: 60%;
 }
 
 .post-time {
-    width: 25%;
+    width: 15%;
+}
+
+.postTitle {
+    color: black;
+    font-weight: bold;
+    margin: 0.3em 0 0.3em 0.3em;
+}
+
+.postHR {
+    margin: 2px 0 10px !important;
+}
+
+.postContent {
+    margin: 0 0 0 0.3em;
+}
+
+.post-link,
+.post-link :hover,
+.post-link :link,
+.post-link :visited
+.post-link :active {
+    color: white !important;
 }
 
 .releaseTime {

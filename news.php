@@ -65,7 +65,7 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                                         }
                                         $npp = 9;   //每頁消息數
                                         $tlimit = ($page - 1) * $npp;   //SQL 語法用，LIMIT 第一項
-                                        $blimit = $page * $npp - 1;     //SQL 語法用，LIMIT 第二項
+                                        $blimit = $page * $npp;         //SQL 語法用，LIMIT 第二項
                                         $sql = "SELECT * FROM `news` ORDER BY `newsOrder` DESC LIMIT $tlimit, $blimit;";
                                         $query = mysqli_query($connect, $sql);
                                         while ($newsRows = mysqli_fetch_array($query, MYSQLI_BOTH)) { ?>

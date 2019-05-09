@@ -56,7 +56,7 @@
                     //一頁顯示幾項
                     $npp = 10;
                     $tlimit = ($page - 1) * $npp;   //SQL 語法用，LIMIT 第一項
-                    $blimit = $page * $npp;     //SQL 語法用，LIMIT 第二項
+                    $blimit = $page * $npp;         //SQL 語法用，LIMIT 第二項
                     $sql = mysqli_query($connect, "SELECT * FROM `news` ORDER BY `newsOrder` DESC LIMIT $tlimit, $blimit;");
                     $newsid = 1;
                     while ($row = mysqli_fetch_array($sql, MYSQLI_BOTH)) { ?>

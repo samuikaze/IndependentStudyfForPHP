@@ -1,16 +1,4 @@
 <?php
-if($_GET['action'] == 'debug'){
-    $sql = mysqli_query($connect, "SELECT * FROM `member` ORDER BY `uid` ASC;");
-    $mem_i = 0;
-    $memberRow = array();
-    while($memberRow[$mem_i] = mysqli_fetch_array($sql, MYSQLI_ASSOC)){
-        $mem_i += 1;
-    }
-    foreach($memberRow as $i => $val){
-        //echo "$i, " . print_r($val) . "<br />\n\r";
-    }
-    echo $memberRow[0]['userNickname'];
-}else{
 // 上面是DEBUG用，用完可以刪除，包含此檔案最下方的 } 及 bbs.php 中的 action 條件式
 
 if (empty($_GET['refpage'])) {
@@ -28,7 +16,7 @@ if (empty($_GET['postid'])) { ?>
     <?php
 } else {
     $postid = $_GET['postid'];
-    $sql = mysqli_query($connect, "SELECT `bbspost`.*, `bbsarticle`.* FROM `bbspost` RIGHT OUTER JOIN `bbsarticle` ON `bbsarticle`.`articlePost`=`bbspost`.`postID` WHERE `bbspost`.`postID`=$postid;");
+    $sql = mysqli_query($connect, "SELECT `bbspost`.*, `bbsarticle`.* FROM `bbspost` LEFT OUTER JOIN `bbsarticle` ON `bbsarticle`.`articlePost`=`bbspost`.`postID` WHERE `bbspost`.`postID`=$postid;");
     $datarows = mysqli_num_rows($sql);
     if ($datarows == 0) { ?>
         <h2 class="news-warn">找不到這則文章！<br /><br />
@@ -68,7 +56,8 @@ if (empty($_GET['postid'])) { ?>
             }
         }
     }
-    echo $sqlcondition;
+    // 釋放暫存陣列
+    unset($temp);
     $sql = mysqli_query($connect, "SELECT * FROM `member` WHERE `userName` IN ($sqlcondition) ORDER BY `uid` ASC;");
     $mem_i = 0;
     $memberRow = array();
@@ -76,22 +65,62 @@ if (empty($_GET['postid'])) { ?>
     while($memberRow[$mem_i] = mysqli_fetch_array($sql, MYSQLI_ASSOC)){
         $mem_i += 1;
     }
+    // 釋放不須使用的變數
+    unset($sqlcondition);
     ?>
 <div class="container-fluid">
     <div class="row">
+        <div class="dropdown pull-right">
+                <!--<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">全部主題 <span class="caret"></span></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">綜合討論</a></li>
+                    <li><a href="#">板務公告</a></li>
+                    <li><a href="#">攻略心得</a></li>
+                    <li><a href="#">同人創作</a></li>
+                </ul>-->
+                <a href="?action=replypost&id=<?php echo $postid; ?>" class="btn btn-lg btn-success">回覆此文章</a>
+            </div>
         <?php
         // 開始正式處理貼文，下面這行改用 foreach 實作，然後會員暱稱用迴圈取，當帳號相符就取Nickname
         // 注意不用在去資料庫撈資料了，上面都撈完了，剩下就是 PHP 程式處理就好
-        while ($row = mysqli_fetch_array($sql, MYSQLI_BOTH)) { ?>
+        foreach($row as $i => $val){
+            if(empty($val)){
+                break;
+            }
+            if($i == 0){
+                // 取得這篇主貼文的使用者暱稱
+                foreach($memberRow as $j => $val_mem){
+                    // 第一次才需要拿主貼文者的暱稱
+                    if($j == 0){
+                        if($val_mem['userName'] == $val['postUserID']){
+                            $postuid = $val_mem['userNickname'];
+                        }else{
+                            continue;
+                        }
+                        if($val_mem['userName'] == $val['articleUserID']){
+                            $articleuid = $val_mem['userNickname'];
+                        }else{
+                            continue;
+                        }
+                    // 第二次開始只要找回文者的暱稱就好
+                    }else{
+                        if($val_mem['userName'] == $val['articleUserID']){
+                            $articleuid = $val_mem['userNickname'];
+                        }else{
+                            continue;
+                        }
+                    }
+                    
+                } ?>
             <div class="col-xs-12 col-sm-12 col-md-12 articles">
-                <!-- 一個貼文 -->
+                <!-- 主貼文開始 -->
                 <div class="col-xs-12 col-sm-12 col-md-2 noPadding">
                     <div class="postUser">
                         <div class="row">
                             <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/bbs/exampleAvator.jpg" class="img-responsive avator" /></div>
                             <div class="col-md-12 col-xs-6 col-sm-6">
-                                <h3>使用者暱稱</h3>
-                                <p>等級: 100</p>
+                                <h3><?php echo $postuid; ?></h3>
+                                <!--<p>等級: 100</p>-->
                             </div>
                         </div>
                     </div>
@@ -99,23 +128,56 @@ if (empty($_GET['postid'])) { ?>
                 <div class="col-xs-12 col-sm-12 col-md-10 noPadding">
                     <div class="post">
                         <div class="postControl">
-                            <span class="pull-left">2019/04/08 02:57</span>
-                            <span>編輯 | 刪除 | 大 中 小</span>
+                            <span class="pull-left">#0&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['postTime']; ?></span>
+                            <span><?php echo (!empty($_SESSION['uid']) && $val['postUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=post&id=" . $val['postID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=post&id=" . $val['postID'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
                         </div>
-                        <p>貼文內容貼文內容貼文內容貼文內容貼文內容<br />貼文內容貼文內容貼文內容貼文內容貼文內容<br />貼文內容貼文內容貼文內容貼文內容貼文內容<br />貼文內容貼文內容貼文內容貼文內容貼文內容</p>
+                        <?php echo (!empty($val['postTitle']))? "<h2 class=\"postTitle\">" . $val['postTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['postContent']; ?></p>
                     </div>
                 </div>
-            </div> <!-- /一個貼文 -->
-        <?php } ?>
-        <div class="col-xs-12 col-sm-12 col-md-12 articles">
-            <!-- 一個貼文 -->
+            </div> <!-- 主貼文結束 -->
+            <?php if(!empty($val['articleContent'])){ ?>
+            <div class="col-xs-12 col-sm-12 col-md-12 articles">
+                <!-- 第一則回文開始 -->
+                <div class="col-xs-12 col-sm-12 col-md-2 noPadding">
+                    <div class="postUser">
+                        <div class="row">
+                            <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/bbs/exampleAvator.jpg" class="img-responsive avator" /></div>
+                            <div class="col-md-12 col-xs-6 col-sm-6">
+                                <h3><?php echo $articleuid; ?></h3>
+                                <!--<p>等級: 100</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-10 noPadding">
+                    <div class="post">
+                        <div class="postControl">
+                            <span class="pull-left">#<?php echo $i + 1; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['articleTime']; ?></span>
+                            <span><?php echo (!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
+                        </div>
+                        <?php echo (!empty($val['articleTitle']))? "<h2 class=\"postTitle\">" . $val['articleTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['articleContent']; ?></p>
+                    </div>
+                </div>
+            </div> <!-- 第一則回文結束 -->
+            <?php }
+         }else{ 
+            foreach($memberRow as $j => $val_mem){
+                // 拿回文者的暱稱
+                if($val_mem['userName'] == $val['articleUserID']){
+                    $articleuid = $val_mem['userNickname'];
+                }else{
+                    continue;
+                }                
+            } ?>
+            <div class="col-xs-12 col-sm-12 col-md-12 articles">
+            <!-- 其它則回文開始 -->
             <div class="col-xs-12 col-sm-12 col-md-2 noPadding">
                 <div class="postUser">
                     <div class="row">
                         <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/bbs/exampleAvator.jpg" class="img-responsive avator" /></div>
                         <div class="col-md-12 col-xs-6 col-sm-6">
-                            <h3>使用者暱稱</h3>
-                            <p>等級: 100</p>
+                            <h3><?php echo $articleuid; ?></h3>
+                            <!--<p>等級: 100</p>-->
                         </div>
                     </div>
                 </div>
@@ -123,15 +185,16 @@ if (empty($_GET['postid'])) { ?>
             <div class="col-xs-12 col-sm-12 col-md-10 noPadding">
                 <div class="post">
                     <div class="postControl">
-                        <span class="pull-left">2019/04/08 02:57</span>
-                        <span>編輯 | 刪除 | 大 中 小</span>
+                        <span class="pull-left">#<?php echo $i + 1; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['articleTime']; ?></span>
+                        <span><?php echo (!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
                     </div>
-                    <p>貼文內容貼文內容貼文內容貼文內容貼文內容<br />貼文內容貼文內容貼文內容貼文內容貼文內容<br />貼文內容貼文內容貼文內容貼文內容貼文內容<br />貼文內容貼文內容貼文內容貼文內容貼文內容</p>
+                    <?php echo (!empty($val['articleTitle']))? "<h2 class=\"postTitle\">" . $val['articleTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['articleContent']; ?></p>
                 </div>
             </div>
-        </div> <!-- /一個貼文 -->
+        </div> <!-- 其它回文結束 -->
+        <?php }
+     } ?>
     </div>
 </div>
     <?php } 
-} 
-}?>
+} ?>

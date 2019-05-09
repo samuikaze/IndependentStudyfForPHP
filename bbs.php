@@ -8,6 +8,11 @@
         header("Location: $self?action=viewboard");
         exit;
     }
+    // 張貼新文章必須登入後才可使用
+    if($_GET['action'] == 'addnewpost' && empty($_SESSION['uid'])){
+        header("Location: member.php?action=login&refer=" . urlencode($self) );
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
@@ -56,7 +61,7 @@
                     include "templates/viewboard.php";
                 }elseif(!empty($_GET['action']) && $_GET['action'] == 'viewbbspost'){
                     include "templates/viewbbspost.php";
-                }elseif(!empty($_GET['action']) && ($_GET['action'] == 'viewpostcontent' || $_GET['action'] == 'debug')){
+                }elseif(!empty($_GET['action']) && ($_GET['action'] == 'viewpostcontent')){
                     include "templates/viewpostcontent.php";
                 }elseif(!empty($_GET['action']) && $_GET['action'] == 'addnewpost'){
                     include "templates/addnewpost.php";
