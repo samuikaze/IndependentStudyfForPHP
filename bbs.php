@@ -8,9 +8,9 @@
         header("Location: $self?action=viewboard");
         exit;
     }
-    // 張貼新文章必須登入後才可使用
-    if($_GET['action'] == 'addnewpost' && empty($_SESSION['uid'])){
-        header("Location: member.php?action=login&refer=" . urlencode($self) );
+    // 張貼新文章、刪除文章必須登入後才可使用
+    if(($_GET['action'] == 'addnewpost' || $_GET['action'] == 'delpost') && empty($_SESSION['uid'])){
+        header("Location: member.php?action=login&loginErrType=5&refer=" . urlencode($self) );
         exit;
     }
 ?>
@@ -39,7 +39,7 @@
                     <?php
                         if(!empty($_GET['action']) && $_GET['action'] == 'viewbbspost'){
                             echo "<li class=\"thisPosition\">檢視討論板</li>";
-                        }elseif(!empty($_GET['action']) && $_GET['action'] == 'viewpostcontent'){
+                        }elseif(!empty($_GET['action']) && ($_GET['action'] == 'viewpostcontent' || $_GET['action'] == 'delpost')){
                             if(empty($_GET['refbid'])){
                                 echo "<li><a style=\"cursor: not-allowed;\" title=\"無法取得您最後瀏覽的討論板識別碼\">檢視討論板</a></li>";
                             }else{
@@ -54,6 +54,13 @@
                         }
                     ?>
                     <?php echo (!empty($_GET['action']) && $_GET['action'] == 'viewpostcontent')? "<li class=\"thisPosition\">檢視討論板文章</li>" : ""; ?>
+                    <?php if (!empty($_GET['action']) && $_GET['action'] == 'delpost'){
+                        if(empty($_GET['refpostid'])){
+                            echo "<li><a style=\"cursor: not-allowed;\" title=\"無法取得您最後瀏覽的討論板文章識別碼\">檢視討論板文章</a></li><li class=\"thisPosition\">刪除貼文／回文</li>";
+                        }else{
+                            echo "<li><a href=\"?action=viewpostcontent&postid=" . $_GET['refpostid'] . "&refbid=$refbid&refpage=$refpage\">檢視討論板文章</a></li><li class=\"thisPosition\">刪除貼文／回文</li>";
+                        }
+                    } ?>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
                 <?php
@@ -65,6 +72,8 @@
                     include "templates/viewpostcontent.php";
                 }elseif(!empty($_GET['action']) && $_GET['action'] == 'addnewpost'){
                     include "templates/addnewpost.php";
+                }elseif(!empty($_GET['action']) && $_GET['action'] == 'delpost'){
+                    include "templates/delpost.php";
                 }else{
                     header("Location: $self?action=viewboard");
                     exit;

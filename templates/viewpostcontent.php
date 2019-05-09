@@ -129,7 +129,7 @@ if (empty($_GET['postid'])) { ?>
                     <div class="post">
                         <div class="postControl">
                             <span class="pull-left">#0&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['postTime']; ?></span>
-                            <span><?php echo (!empty($_SESSION['uid']) && $val['postUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=post&id=" . $val['postID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=post&id=" . $val['postID'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
+                            <span><?php echo (!empty($_SESSION['uid']) && $val['postUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=post&id=" . $val['postID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=post&id=" . $val['postID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
                         </div>
                         <?php echo (!empty($val['postTitle']))? "<h2 class=\"postTitle\">" . $val['postTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['postContent']; ?></p>
                     </div>

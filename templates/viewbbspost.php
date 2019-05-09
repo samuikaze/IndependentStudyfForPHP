@@ -12,10 +12,10 @@ if(empty($_GET['pid'])){
     $pid = $_GET['pid'];
 }
 // 設定一頁顯示多少筆文章
-$postPerPage = 15;
+$postPerPage = 9;
 $tlimit = ($pid - 1) * $postPerPage;    // SQL 語法用，LIMIT 第一項
 $blimit = $pid * $postPerPage;          // SQL 語法用，LIMIT 第二項
-$sql = mysqli_query($connect, "SELECT * FROM `bbspost` WHERE `postBoard`=$bid ORDER BY `lastUpdateTime` ASC LIMIT $tlimit, $blimit;");
+$sql = mysqli_query($connect, "SELECT * FROM `bbspost` WHERE `postBoard`=$bid ORDER BY `lastUpdateTime` DESC LIMIT $tlimit, $blimit;");
 $datarows = mysqli_num_rows($sql);
 // 設定當文章數大於多少時強調該數字
 $hotPost = 100;
@@ -79,20 +79,20 @@ $hotPost = 100;
             <!-- 頁數按鈕開始 -->
             <div class="text-center">
                 <ul class="pagination">
-                <?php echo ($pid == 1) ? "<li class=\"disabled\">" : "<li>";?><a <?php echo ($pid == 1) ? "" : "href=\"?action=viewbbspost&p=" . ($pid - 1) . "\"";?> aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                <?php echo ($pid == 1) ? "<li class=\"disabled\">" : "<li>";?><a <?php echo ($pid == 1) ? "" : "href=\"?action=viewbbspost&bid=$bid&pid=" . ($pid - 1) . "\"";?> aria-label="Previous"><span aria-hidden="true">«</span></a></li>
                     <?php
                     // 目前頁數
                     $i = 1;
                     // WHILE 運算不要改到原值
                     $pg = $tpg;
                     while($pg > 0){ ?>
-                    <?php /* 如果這頁就是這顆按鈕就變顏色 */ echo ($pid == $i) ? "<li class=\"active\">" : "<li>";?><a <?php /* 如果是這頁就不印出連結 */  echo ($pid == $i) ? "" : "href=\"?action=viewbbspost&p=$i\""; ?>><?php echo $i;?> <?php echo ($pid == $i) ? "<span class=\"sr-only\">(current)</span>" : "";?></a></li>
+                    <?php /* 如果這頁就是這顆按鈕就變顏色 */ echo ($pid == $i) ? "<li class=\"active\">" : "<li>";?><a <?php /* 如果是這頁就不印出連結 */  echo ($pid == $i) ? "" : "href=\"?action=viewbbspost&bid=$bid&pid=$i\""; ?>><?php echo $i;?> <?php echo ($pid == $i) ? "<span class=\"sr-only\">(current)</span>" : "";?></a></li>
                     <?php 
                     $i += 1;
                     $pg -= 1;
                     }
                     ?>
-                    <?php echo ($pid == $tpg) ? "<li class=\"disabled\">" : "<li>";?><a <?php echo ($pid == $tpg) ? "" : "href=\"?action=viewbbspost&p=". ($pid + 1) . "\""; ?> aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                    <?php echo ($pid == $tpg) ? "<li class=\"disabled\">" : "<li>";?><a <?php echo ($pid == $tpg) ? "" : "href=\"?action=viewbbspost&bid=$bid&pid=". ($pid + 1) . "\""; ?> aria-label="Next"><span aria-hidden="true">»</span></a></li>
                 </ul>
             </div>
             <!-- 頁數按鈕結束 -->
