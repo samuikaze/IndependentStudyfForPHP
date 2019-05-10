@@ -4,7 +4,7 @@ if (empty($_GET['refer'])) {
     $refer = "/";
 } elseif ($_GET['action'] == 'relogin') {
     $refer = "admin/" . $_GET['refer'];
-}  else {
+} else {
     $refer = $_GET['refer'];
 }
 if (empty($_GET['action'])) {
@@ -23,26 +23,28 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <title>會員專區 | 洛嬉遊戲 L.S. Games</title>
     <?php include_once "templates/metas.php"; ?>
 </head>
+
 <body onload="loadProgress()">
     <!-- 要加入載入動畫這邊請加上 onload="loadProgress()" -->
     <?php include_once "templates/loadscr.php"; ?>
     <div class="pageWrap">
         <?php
-            if (isset($_COOKIE['sid']) == False) {
-                include_once "templates/loginform.php";
-            }
-            include_once "templates/header.php";
+        if (isset($_COOKIE['sid']) == False) {
+            include_once "templates/loginform.php";
+        }
+        include_once "templates/header.php";
         ?>
         <div class="courses">
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
-                    <?php echo (!empty($_GET['action']) && ($_GET['action'] == 'login' || $_GET['action'] == 'register') )? "<li class=\"thisPosition\">登入 / 註冊</li>" : ""; ?>
+                    <?php echo (!empty($_GET['action']) && ($_GET['action'] == 'login' || $_GET['action'] == 'register')) ? "<li class=\"thisPosition\">登入 / 註冊</li>" : ""; ?>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
                 <?php if (empty($_SESSION['auth']) || $_SESSION['auth'] != True) { ?>
@@ -78,17 +80,17 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                 <h4><strong>註冊成功，請利用下方表單登入帳號</strong></h4>
                                             </div>
-                                        <?php } elseif ($_GET['action'] == 'relogin') { 
-                                            if(empty($_GET['loginErr'])){ ?>
-                                            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                <h4><strong>您的權限不足，請登入較高權限的帳號後再試一次！</strong></h4>
-                                            </div>
-                                            <?php }else{ ?>
-                                            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                <h4><strong>該功能須登入後才可使用！</strong></h4>
-                                            </div>
+                                        <?php } elseif ($_GET['action'] == 'relogin') {
+                                        if (empty($_GET['loginErr'])) { ?>
+                                                <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4><strong>您的權限不足，請登入較高權限的帳號後再試一次！</strong></h4>
+                                                </div>
+                                            <?php } else { ?>
+                                                <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4><strong>該功能須登入後才可使用！</strong></h4>
+                                                </div>
                                             <?php } ?>
                                         <?php } elseif (!empty($_GET['loginErrType']) && $_GET['loginErrType'] == 4) { ?>
                                             <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 1em;">
@@ -102,7 +104,7 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                                             </div>
                                         <?php } else {
                                         echo "";
-                                        } ?>
+                                    } ?>
                                         <form method="POST" action="authentication.php?action=login" style="margin-top: 1em;">
                                             <div class="form-group text-left">
                                                 <label for="username">使用者名稱</label>
@@ -190,8 +192,19 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12 col-xs-12 text-center">
-                                <h3 class="member-warn">您已經登入了</h3>
-                                <a href="authentication.php?action=logout" class="btn btn-lg btn-info">按此登出</a>
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">錯誤</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h2 class="news-warn">您已經登入了！<br /><br />
+                                            <div class="btn-group" role="group">
+                                                <?php echo "<a class=\"btn btn-lg btn-success\" onClick=\"javascript:history.back();\">返回上一頁</a>"; ?>
+                                                <a href="authentication.php?action=logout" class="btn btn-lg btn-danger">按此登出</a>
+                                            </div>
+                                        </h2>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -201,5 +214,6 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
         <?php include_once "templates/footer.php"; ?>
     </div>
 </body>
+
 </html>
 <?php mysqli_close($connect); ?>

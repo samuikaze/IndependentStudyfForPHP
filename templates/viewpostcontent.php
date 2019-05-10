@@ -1,30 +1,38 @@
 <?php
 // 上面是DEBUG用，用完可以刪除，包含此檔案最下方的 } 及 bbs.php 中的 action 條件式
-
-if (empty($_GET['refpage'])) {
-    $refpage = 1;
-} else {
-    $refpage = $_GET['refpage'];
-}
 if (empty($_GET['postid'])) { ?>
-    <h2 class="news-warn">找不到這則文章！<br /><br />
-        <div class="btn-group" role="group">
-            <a class="btn btn-lg btn-info" onClick="javascript:history.back();">返回上一頁</a>
-            <a href="bbs.php?action=viewboard" class="btn btn-lg btn-success">返回討論板列表</a>
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">錯誤</h3>
         </div>
-    </h2>
+        <div class="panel-body text-center">
+            <h2 class="news-warn">找不到這則文章！<br /><br />
+                <div class="btn-group" role="group">
+                    <a class="btn btn-lg btn-info" onClick="javascript:history.back();">返回上一頁</a>
+                    <a href="bbs.php?action=viewboard" class="btn btn-lg btn-success">返回討論板列表</a>
+                </div>
+            </h2>
+        </div>
+    </div>
     <?php
 } else {
     $postid = $_GET['postid'];
     $sql = mysqli_query($connect, "SELECT `bbspost`.*, `bbsarticle`.* FROM `bbspost` LEFT OUTER JOIN `bbsarticle` ON `bbsarticle`.`articlePost`=`bbspost`.`postID` WHERE `bbspost`.`postID`=$postid;");
     $datarows = mysqli_num_rows($sql);
     if ($datarows == 0) { ?>
-        <h2 class="news-warn">找不到這則文章！<br /><br />
-            <div class="btn-group" role="group">
-                <a class="btn btn-lg btn-info" onClick="javascript:history.back();">返回上一頁</a>
-                <a href="bbs.php?action=viewboard" class="btn btn-lg btn-success">返回討論板列表</a>
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">錯誤</h3>
             </div>
-        </h2>
+            <div class="panel-body text-center">
+                <h2 class="news-warn">找不到這則文章！<br /><br />
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-lg btn-info" onClick="javascript:history.back();">返回上一頁</a>
+                        <a href="bbs.php?action=viewboard" class="btn btn-lg btn-success">返回討論板列表</a>
+                    </div>
+                </h2>
+            </div>
+        </div>
 <?php }else{ 
     $data_i = 0;
     $row = array();
@@ -70,16 +78,15 @@ if (empty($_GET['postid'])) { ?>
     ?>
 <div class="container-fluid">
     <div class="row">
+    <?php if (!empty($_GET['msg']) && $_GET['msg'] == 'delarticlesuccess') { ?>
+        <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4><strong>刪除回文成功！</strong></h4>
+        </div>
+    <?php } ?>
         <div class="dropdown pull-right">
-                <!--<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">全部主題 <span class="caret"></span></button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">綜合討論</a></li>
-                    <li><a href="#">板務公告</a></li>
-                    <li><a href="#">攻略心得</a></li>
-                    <li><a href="#">同人創作</a></li>
-                </ul>-->
-                <a href="?action=replypost&id=<?php echo $postid; ?>" class="btn btn-lg btn-success">回覆此文章</a>
-            </div>
+            <a href="?action=replypost&id=<?php echo $postid; ?>" class="btn btn-success">回覆此文章</a>
+        </div>
         <?php
         // 開始正式處理貼文，下面這行改用 foreach 實作，然後會員暱稱用迴圈取，當帳號相符就取Nickname
         // 注意不用在去資料庫撈資料了，上面都撈完了，剩下就是 PHP 程式處理就好
@@ -153,7 +160,7 @@ if (empty($_GET['postid'])) { ?>
                     <div class="post">
                         <div class="postControl">
                             <span class="pull-left">#<?php echo $i + 1; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['articleTime']; ?></span>
-                            <span><?php echo (!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
+                            <span><?php echo (!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
                         </div>
                         <?php echo (!empty($val['articleTitle']))? "<h2 class=\"postTitle\">" . $val['articleTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['articleContent']; ?></p>
                     </div>
@@ -186,7 +193,7 @@ if (empty($_GET['postid'])) { ?>
                 <div class="post">
                     <div class="postControl">
                         <span class="pull-left">#<?php echo $i + 1; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['articleTime']; ?></span>
-                        <span><?php echo (!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
+                        <span><?php echo (!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid'])? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : "";?>大 中 小</span>
                     </div>
                     <?php echo (!empty($val['articleTitle']))? "<h2 class=\"postTitle\">" . $val['articleTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['articleContent']; ?></p>
                 </div>

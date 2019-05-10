@@ -17,7 +17,7 @@
                         setcookie("auth", "", time()-3600);
                         // 網站的後台管理登入資訊有誤
                         mysqli_close($connect);
-                        $refurl = "../member.php?action=login&loginErr=4&refer=" . urlencode($self); 
+                        $refurl = "../member.php?action=login&loginErrType=4&refer=" . urlencode($self); 
                         header("Location: $refurl");
                         exit;
                 }
@@ -55,7 +55,7 @@
                 session_destroy();
                 session_start();
                 mysqli_close($connect);
-                $refurl = "../member.php?action=relogin&loginErr=5&refer=" . urlencode($self);
+                $refurl = "../member.php?action=relogin&loginErrType=5&refer=" . urlencode($self);
                 header("Location: $refurl");
                 exit;
                 break;

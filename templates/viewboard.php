@@ -1,3 +1,9 @@
+<?php if(!empty($_GET['msg']) && $_GET['msg'] == 'delpostsuccessnobid'){ ?>
+<div class="alert alert-warning alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4><strong>文章刪除成功，但因為無法識別討論板 ID ，故無法執行頁面跳轉。</strong></h4>
+</div>
+<?php } ?>
 <!-- 討論版塊放置區 -->
 <div class="row" style="margin-top: 0px; padding-top: 0px;">
     <?php 

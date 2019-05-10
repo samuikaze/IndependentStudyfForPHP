@@ -13,6 +13,16 @@
         header("Location: member.php?action=login&loginErrType=5&refer=" . urlencode($self) );
         exit;
     }
+    if (empty($_GET['refpage'])) {
+        $refpage = 1;
+    } else {
+        $refpage = $_GET['refpage'];
+    }
+    if(!empty($_GET['refbid'])){
+        $refbid = $_GET['refbid'];
+    }else{
+        $refbid = "";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
