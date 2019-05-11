@@ -129,7 +129,7 @@ if (empty($_GET['refpage'])) {
                         <h4><strong>無法取得您的身分或身分與資料不符，請依正常程序新增討論板！</strong></h4>
                     </div>
                 <?php } ?>
-                <form method="POST" action="adminaction.php?action=createboard">
+                <form method="POST" action="adminaction.php?action=createboard" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="boardname">討論板名稱</label>
                         <input type="text" class="form-control" name="boardname" id="boardname" placeholder="請輸入討論板名稱" />

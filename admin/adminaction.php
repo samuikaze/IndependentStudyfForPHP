@@ -199,7 +199,7 @@ if(empty($_SERVER['QUERY_STRING'])){
         // 判別檔案上傳的狀態
         }else{
             // 沒有上傳檔案
-            if(empty($_FILES['boardimage']) || $_FILES["boardimage"]["error"] == 4){
+            if($_FILES["boardimage"]["error"] == 4 || empty($_FILES["boardimage"])){
                 $fileUpload = false;
             // 有上傳檔案
             }else{
@@ -216,8 +216,6 @@ if(empty($_SERVER['QUERY_STRING'])){
                     header("Location: index.php?modifyerr=4&$refer");
                     exit;
                 }
-                // 儲存的檔名
-                $targetfilename = "board-" . $bid . ".$fileextension";
                 $fileUpload = true;
             }
             // 找 session 儲存的暱稱
@@ -232,7 +230,7 @@ if(empty($_SERVER['QUERY_STRING'])){
                 header("Location: index.php?msg=createboarderruser&action=board_admin&type=createboard");
                 exit;
             }
-            if($_POST['hideboard'] == "true"){
+            if(!empty($_POST['hideboard'])){
                 $hideboard = 1;
             }else{
                 $hideboard = 0;
@@ -240,16 +238,18 @@ if(empty($_SERVER['QUERY_STRING'])){
             $boardname = $_POST['boardname'];
             $boarddescript = inputCheck($_POST['boarddescript']);
             $boardctime = date("Y-m-d H:i:s");
-            // 有要上傳檔案
+            // 不論有沒有要上傳檔案都先建立討論板
+            $sql = "INSERT INTO `bbsboard` (`boardName`, `boardDescript`, `boardCTime`, `boardCreator`, `boardHide`) VALUES ('$boardname', '$boarddescript', '$boardctime', '$uid', $hideboard);";
+            mysqli_query($connect, $sql);
+            // 若有要上傳檔案就取得討論板ID當作檔名
             if($fileUpload == true){
+                $idsql = mysqli_query($connect, "SELECT * FROM `bbsboard` ORDER BY `boardID` DESC LIMIT 0, 1;");
+                $idRow = mysqli_fetch_array($idsql, MYSQLI_ASSOC);
+                $targetfilename = "board-" . $idRow['boardID'] . ".$fileextension";
                 // 把新的檔案移到正確的路徑
                 move_uploaded_file($_FILES["boardimage"]["tmp_name"], "../images/bbs/board/$targetfilename");
-                $sql = "INSERT INTO `bbsboard` (`boardName`, `boardImage`, `boardDescript`, `boardCTime`, `boardCreator`, `boardHide`) VALUES ('$boardname', '$targetfilename', '$boarddescript', '$boardctime', '$uid', $hideboard);";
-            // 沒有要上傳檔案
-            }else{
-                $sql = "INSERT INTO `bbsboard` (`boardName`, `boardDescript`, `boardCTime`, `boardCreator`, `boardHide`) VALUES ('$boardname', '$boarddescript', '$boardctime', '$uid', $hideboard);";
+                mysqli_query($connect, "UPDATE `bbsboard` SET `boardImage`='$targetfilename' WHERE `boardID`=" . $idRow['boardID']);
             }
-            mysqli_query($connect, $sql);
             mysqli_close($connect);
             header("Location: index.php?action=board_admin&type=boardlist&msg=createboardsuccess");
             exit;
