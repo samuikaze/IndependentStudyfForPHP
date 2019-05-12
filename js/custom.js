@@ -36,8 +36,6 @@ function loadProgress(){
         }
     });
     
-    console.log(manifest);
-    
     // 正式開始載入
     // LoadQueue() 中的 true 表示優先使用 XHR 方法載入
     preload = new createjs.LoadQueue(true);
