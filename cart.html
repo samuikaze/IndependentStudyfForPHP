@@ -21,12 +21,54 @@
 		}
     </script>
     <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css" />
-	<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-	<link href="css/font-awesome.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style.min.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/slick.css"/>
     <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
-    <link rel="stylesheet" href="css/custom.css" />
+    <style type="text/css">
+        /* Loading Screen */
+        .loadscr {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(196, 134, 0);
+            z-index: 999;
+        }
+    
+        .loadscr .progress {
+            width: 50%;
+            margin: 15px auto;
+        }
+    
+        .loadscr .loadTitle {
+            font-size: 3.5em;
+            color: white;
+            text-align: center;
+            width: 100vw;
+            padding-top: 30vh;
+        }
+    
+        .loadscr .logo {
+            width: 1.7em;
+        }
+    
+        .loadscr .loadHint {
+            width: 100%;
+            text-align: center;
+            font-size: 1.1em;
+            color: white;
+        }
+    
+        .pageWrap {
+            display: none;
+        }
+    
+        #progBar {
+            width: 45%;
+        }
+    </style>
 </head>
 
 <body>

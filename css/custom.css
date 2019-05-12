@@ -1,4 +1,4 @@
-/*@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');*/
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Noto+Sans+TC');
 /*
  * 此 CSS 用於快速覆蓋原版型的樣式
  * 有網路時或上傳到伺服器前請將第一行的註解拿掉
@@ -657,50 +657,6 @@ div .prodText {
 
 .goodDescript {
     padding-top: 1em;
-}
-
-/* Loading Screen */
-.loadscr {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(196, 134, 0);
-    z-index: 999;
-}
-
-.loadscr .progress {
-    width: 50%;
-    margin: 15px auto;
-}
-
-.loadscr .loadTitle {
-    font-size: 3.5em;
-    color: white;
-    text-align: center;
-    width: 100vw;
-    padding-top: 30vh;
-}
-
-.loadscr .logo {
-    width: 1.7em;
-}
-
-.loadscr .loadHint {
-    width: 100%;
-    text-align: center;
-    font-size: 1.1em;
-    color: white;
-}
-
-.pageWrap {
-    display: none;
-}
-
-#progBar {
-    width: 45%;
 }
 
 /* 購物車的 CSS */
