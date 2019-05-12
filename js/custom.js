@@ -7,11 +7,16 @@ var manifest = new Array();
 var preload;
 var percent;
 var filePercent;
+var loadText = ["頁面載入中，F5 連打不是好文明喔！",
+                "最新消息可以掌握團隊想告知的訊息！",
+                "覺得滿腔熱血想分享攻略？討論區是你的好選擇！",
+                "對於製作遊戲有興趣嗎？現在立刻加入我們！"];
+var temp = Math.random() * loadText.length;
 
 function loadProgress(){
     // 初始化
     //initCheck();
-    var i = 0;
+    $('.loadHint').html(loadText[Math.floor(temp)]);
     
     //關閉其他 preload 線程
     if (preload != null){
@@ -54,6 +59,8 @@ function loadEvent(){
 
 // 整體進度事件
 function progressEventListener(event){
+    // 文字淡入淡出效果
+    //setTimeout($('.loadHint').fadeTo(500, 0.6).fadeTo(500, 1.0) ,500);
     // 「event.progress」值為 0 ~ 1。
     percent = event.progress * 100 + '%';
     ariaValue = event.progress * 100;
