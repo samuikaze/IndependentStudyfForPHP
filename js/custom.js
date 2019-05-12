@@ -21,33 +21,22 @@ function loadProgress(){
     //資料收集 img → script → css
     //遍歷所有 img 標籤
     $('img').each(function(){
-        manifest[i] = $(this).attr('src');
-        i = i + 1;
+        manifest.push($(this).attr('src'));
     });
-    if ($('body').css('backgroundImage') != null){              //最後從 CSS 把背景圖的 URL 加進去
-        var bodyBGImg = $('body').css('backgroundImage');
-        bodyBGImg = bodyBGImg.replace('url(','').replace(')','').replace(/\"/gi, "");
-        manifest[manifest.length] = bodyBGImg;
-    }
-
     if ($('.banner').css('backgroundImage') != null){           // 頭部 BANNER 圖片
         var bannerBGImg = $('.banner').css('backgroundImage');
-        bannerBGImg = bannerBGImg.replace('url(','').replace(')','').replace(/\"/gi, "");
-        manifest[manifest.length] = bannerBGImg;
+        bannerBGImg = bannerBGImg.replace('url(','').replace(')','').replace(/\"/gi, "").replace("/css", "");
+        manifest.push(bannerBGImg);
     }
-    
+
     //遍歷所有 css 和 icon 檔案
     $('link').each(function(){
-        if (linkStylesheetEach != true){   //第一次執行變數 i 宣告
-            var i = manifest.length;
-            var linkStylesheetEach = true;
-        }
         if ($(this).attr('rel') == 'stylesheet' || $(this).attr('rel') == 'shortcut icon' && $(this).attr('href') != null){
-            manifest[i] = $(this).attr('href');
+            manifest.push($(this).attr('href'));
         }
-        i = i + 1;
     });
     
+    console.log(manifest);
     
     // 正式開始載入
     // LoadQueue() 中的 true 表示優先使用 XHR 方法載入
