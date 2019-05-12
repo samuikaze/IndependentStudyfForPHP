@@ -63,4 +63,8 @@
     #progBar {
         width: 45%;
     }
+
+    .sr-only {
+        display: none;
+    }
 </style>
