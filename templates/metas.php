@@ -67,4 +67,63 @@
     .sr-only {
         display: none;
     }
+
+    @media(max-width:480px) {
+        .loadscr .loadTitle {
+            font-size: 3em;
+            color: white;
+            text-align: center;
+            width: 100vw;
+            padding-top: 30vh;
+        }
+        
+        .loadscr .logo {
+            width: 1.4em;
+        }
+        
+        .loadscr .loadHint {
+            width: 100%;
+            text-align: center;
+            font-size: 1em;
+            color: white;
+        }
+
+        .loadscr .progress {
+            width: 80%;
+            margin: 15px auto;
+        }
+    }
+
+    @media(max-width:568px) {
+        .loadscr .loadTitle {
+            font-size: 3em;
+            color: white;
+            text-align: center;
+            width: 100vw;
+            padding-top: 30vh;
+        }
+        
+        .loadscr .logo {
+            width: 1.4em;
+        }
+        
+        .loadscr .loadHint {
+            width: 100%;
+            text-align: center;
+            font-size: 1em;
+            color: white;
+        }
+
+        .loadscr .progress {
+            width: 90%;
+            margin: 15px auto;
+        }
+    }
+
+    @media(max-width:991px) {
+        .loadscr .progress {
+            width: 60%;
+            margin: 15px auto;
+        }
+    }
 </style>
