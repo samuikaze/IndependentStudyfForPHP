@@ -132,25 +132,11 @@ if (empty($_GET['postid'])) { ?>
                     if ($i == 0) {
                         // 取得這篇主貼文的使用者暱稱
                         foreach ($memberRow as $j => $val_mem) {
-                            // 第一次才需要拿主貼文者的暱稱
-                            if ($j == 0) {
-                                if ($val_mem['userName'] == $val['postUserID']) {
-                                    $postuid = $val_mem['userNickname'];
-                                } else {
-                                    continue;
-                                }
-                                if ($val_mem['userName'] == $val['articleUserID']) {
-                                    $articleuid = $val_mem['userNickname'];
-                                } else {
-                                    continue;
-                                }
-                                // 第二次開始只要找回文者的暱稱就好
-                            } else {
-                                if ($val_mem['userName'] == $val['articleUserID']) {
-                                    $articleuid = $val_mem['userNickname'];
-                                } else {
-                                    continue;
-                                }
+                            if ($val_mem['userName'] == $val['postUserID']) {
+                                $postuid = $val_mem['userNickname'];
+                            }
+                            if ($val_mem['userName'] == $val['articleUserID']) {
+                                $articleuid = $val_mem['userNickname'];
                             }
                         } ?>
                         <div class="col-xs-12 col-sm-12 col-md-12 articles">
@@ -208,8 +194,6 @@ if (empty($_GET['postid'])) { ?>
                         // 拿回文者的暱稱
                         if ($val_mem['userName'] == $val['articleUserID']) {
                             $articleuid = $val_mem['userNickname'];
-                        } else {
-                            continue;
                         }
                     } ?>
                         <div class="col-xs-12 col-sm-12 col-md-12 articles">
