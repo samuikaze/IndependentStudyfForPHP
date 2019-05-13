@@ -9,7 +9,7 @@
         exit;
     }
     // 張貼新文章、刪除文章必須登入後才可使用
-    if(($_GET['action'] == 'addnewpost' || $_GET['action'] == 'delpost') && empty($_SESSION['uid'])){
+    if(($_GET['action'] == 'addnewpost' || $_GET['action'] == 'delpost' || $_GET['action'] == 'replypost' || $_GET['action'] == 'editpost') && empty($_SESSION['uid'])){
         header("Location: member.php?action=login&loginErrType=5&refer=" . urlencode($self) );
         exit;
     }
@@ -75,15 +75,19 @@
                 </ol>
                 <?php
                 if(!empty($_GET['action']) && $_GET['action'] == 'viewboard'){
-                    include "templates/viewboard.php";
+                    include "templates/bbs/viewboard.php";
                 }elseif(!empty($_GET['action']) && $_GET['action'] == 'viewbbspost'){
-                    include "templates/viewbbspost.php";
+                    include "templates/bbs/viewbbspost.php";
                 }elseif(!empty($_GET['action']) && ($_GET['action'] == 'viewpostcontent')){
-                    include "templates/viewpostcontent.php";
+                    include "templates/bbs/viewpostcontent.php";
                 }elseif(!empty($_GET['action']) && $_GET['action'] == 'addnewpost'){
-                    include "templates/addnewpost.php";
+                    include "templates/bbs/addnewpost.php";
+                }elseif(!empty($_GET['action']) && $_GET['action'] == 'editpost'){
+                    include "templates/bbs/editpost.php";
                 }elseif(!empty($_GET['action']) && $_GET['action'] == 'delpost'){
-                    include "templates/delpost.php";
+                    include "templates/bbs/delpost.php";
+                }elseif(!empty($_GET['action']) && $_GET['action'] == 'replypost'){
+                    include "templates/bbs/addnewreply.php";
                 }else{
                     header("Location: $self?action=viewboard");
                     exit;
