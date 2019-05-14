@@ -147,7 +147,7 @@ if (empty($_GET['postid'])) { ?>
                         <?php } ?>
                         <div class="col-xs-12 col-sm-12 col-md-12 articles">
                             <!-- 主貼文開始 -->
-                            <div class="col-xs-12 col-sm-12 col-md-2 noPadding flex-container">
+                            <div class="col-xs-12 col-sm-12 col-md-2 noPadding">
                                 <div class="postUser">
                                     <div class="row">
                                         <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/bbs/exampleAvator.jpg" class="img-responsive avator" /></div>
