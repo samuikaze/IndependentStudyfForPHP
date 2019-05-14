@@ -1,5 +1,4 @@
 <?php
-require "templates/functions.php";
 // 沒有參考頁數
 if (empty($_GET['refpage'])) {
     $refpage = 1;
