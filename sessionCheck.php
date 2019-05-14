@@ -1,5 +1,7 @@
 <?php
     require_once 'admin/config.ini.php';
+    require_once 'templates/functions.php';
+    $usebrowser = get_browser_name($_SERVER['HTTP_USER_AGENT']);
     //$self = substr($_SERVER['PHP_SELF'], $webdirstrnum);
     //網站後台
     if (isset($type) == true && $type == "important"){
@@ -40,7 +42,7 @@
                             $liprmtaddr = $row['ipRmtAddr'];
                             $lipxfwfor = $row['ipXFwFor'];
                             $liphttpvia = $row['ipHttpVia'];
-                            mysqli_query($connect, "UPDATE `sessions` SET `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
+                            mysqli_query($connect, "UPDATE `sessions` SET `useBrowser` = '$usebrowser', `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
                         }
                         setcookie("user", $username, time()+2592000);
                         setcookie("sid", $newsid, time()+2592000);
@@ -95,7 +97,7 @@
                             $liprmtaddr = $row['ipRmtAddr'];
                             $lipxfwfor = $row['ipXFwFor'];
                             $liphttpvia = $row['ipHttpVia'];
-                            mysqli_query($connect, "UPDATE `sessions` SET `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
+                            mysqli_query($connect, "UPDATE `sessions` SET `useBrowser` = '$usebrowser', `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
                         }
                         setcookie("user", $username, time()+2592000); //設定cookie一個月後過期
                         setcookie("sid", $newsid, time()+2592000);
