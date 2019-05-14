@@ -161,7 +161,8 @@ if (empty($_GET['id'])) { ?>
                             <?php } ?>
                             <div class="form-group">
                                 <label for="content"><?php echo ($_GET['type'] == 'post') ? "主貼文內容" : "回文內容"; ?></label>
-                                <textarea name="content" class="form-control" rows="3" placeholder="請輸入<?php echo ($_GET['type'] == 'post') ? "主貼文內容" : "回文內容"; ?>，此為必填項"><?php echo br2nl(($_GET['type'] == 'post') ? $row['postContent'] : $row['articleContent']); ?></textarea>
+                                <textarea id="editor1" name="content" class="form-control" rows="3" placeholder="請輸入<?php echo ($_GET['type'] == 'post') ? "主貼文內容" : "回文內容"; ?>，此為必填項"><?php echo ($_GET['type'] == 'post') ? $row['postContent'] : $row['articleContent']; ?></textarea>
+                                <script>CKEDITOR.replace( 'editor1' );</script>
                             </div>
                             <input type="hidden" name="type" value="<?php echo $_GET['type']; ?>" />
                             <input type="hidden" name="author" value="<?php echo ($_GET['type'] == 'post')? $row['postUserID'] : $row['articleUserID']; ?>" />

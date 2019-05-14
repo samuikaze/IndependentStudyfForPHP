@@ -25,7 +25,7 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
 <html lang="zh-TW">
 
 <head>
-    <title>會員專區 | 洛嬉遊戲 L.S. Games</title>
+    <title>會員 Actions | 洛嬉遊戲 L.S. Games</title>
     <?php include_once "templates/metas.php"; ?>
 </head>
 
@@ -49,7 +49,6 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                 </ol>
                 <?php if (empty($_SESSION['auth']) || $_SESSION['auth'] != True) { ?>
                     <!-- 登入 / 註冊表單 -->
-                    <!-- 要有一個導向原頁面的隱藏欄位，這個欄位可以用 GET 取值 -->
                     <div class="memberForm">
                         <div class="row">
                             <div class="col-md-12 col-xs-12">

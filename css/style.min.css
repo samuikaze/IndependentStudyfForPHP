@@ -354,6 +354,26 @@ h3.fLeft {
     width: 65%;
 }
 
+.session-table {
+    border: 1px #dddddd solid;
+}
+
+.ss-id {
+    width: 10%;
+}
+
+.ss-operate {
+    width: 15%;
+}
+
+.ss-other {
+    width: 18.75%;
+}
+
+.ss-thead {
+    font-size: 0.9em;
+}
+
 /*.top-main-banner-wrapper .slick-dots {
     text-align: center;
 }
@@ -986,19 +1006,22 @@ a.cpns {
 
 /* 討論串樣式 */
 .articles {
-    height: 500px;
-    min-height: 500px;
+    position: relative;
+    height: 100%;
     border: 2px solid #999;
     padding: 0px;
     margin: 5px 0 5px 0;
+    bottom: 0px;
+    background-color: rgb(236, 236, 236);
 }
 
 .postUser {
     width: 100%;
     background-color: rgb(236, 236, 236);
     color: black;
-    padding: 0 0 0 10px;
+    padding: 0 0 10px 10px;
     height: 100%;
+    
 }
 
 .avator{
@@ -1008,6 +1031,8 @@ a.cpns {
 
 .post {
     height: 100%;
+    min-height: 500px;
+    background-color: white;
 }
 
 .post p {

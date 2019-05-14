@@ -66,7 +66,7 @@
                 }else{
                     $posttitle = $_POST['posttitle'];
                     $posttype = $_POST['posttype'];
-                    $postcontent = inputCheck($_POST['postcontent']);
+                    $postcontent = $_POST['postcontent'];
                     $targetboard = $_POST['targetboard'];
                     $userid = $_POST['userid'];
                     $posttime = date("Y-m-d H:i:s");
@@ -213,7 +213,7 @@
                     }else{
                         $id = $_POST['id'];
                         $title = $_POST['title'];
-                        $content = inputCheck($_POST['content']);
+                        $content = $_POST['content'];
                         $updateuser = $_SESSION['uid'];
                         $updateTime = date("Y-m-d H:i:s");
                         $refbid = (empty($_POST['refbid']))? "" : $_POST['refbid'];
@@ -270,7 +270,7 @@
             }else{
                 // 找 session 儲存的帳號
                 $username = $_SESSION['uid'];
-                $articlecontent = inputCheck($_POST['articlecontent']);
+                $articlecontent = $_POST['articlecontent'];
                 $postid = $_POST['postid'];
                 $posttime = date("Y-m-d H:i:s");
                 // 若沒有輸入標題
@@ -289,6 +289,39 @@
                 $refbid = (empty($_POST['refbid']))? "" : "&refbid=" . $_POST['refbid'];
                 header("Location: bbs.php?msg=addreplysuccess&action=viewpostcontent&postid=$postid" . $refbid);
                 exit;
+            }
+        }// 刪除登入階段
+        elseif(!empty($_GET['action']) && $_GET['action'] == 'delsession'){
+            $refer = "user.php?action=sessioncontrol";
+            // 若 SESSION ID 為空
+            if(empty($_GET['sid'])){
+                mysqli_close($connect);
+                header("Location: $refer&msg=delsessionerrsid");
+                exit;
+            }else{
+                $sid = $_GET['sid'];
+                $chksql = mysqli_query($connect, "SELECT `userName` FROM `sessions` WHERE `sID`='$sid';");
+                $chksqlNums = mysqli_num_rows($chksql);
+                // 若找不到資料
+                if($chksqlNums == 0){
+                    mysqli_close($connect);
+                    header("Location: $refer&msg=delsessionerrnodata");
+                    exit;
+                }else{
+                    $chkrow = mysqli_fetch_array($chksql, MYSQLI_ASSOC);
+                    // 操作者非本人 
+                    if($_SESSION['uid'] != $chkrow['userName']){
+                        mysqli_close($connect);
+                        header("Location: $refer&msg=delsessionerroperator");
+                        exit;
+                    // 都正確就把那條紀錄刪除
+                    }else{
+                        mysqli_query($connect, "DELETE FROM `sessions` WHERE `sID`=$sid;");
+                        mysqli_close($connect);
+                        header("Location: $refer&msg=delsessionsuccess");
+                        exit;
+                    }
+                }
             }
         }
     }

@@ -139,7 +139,8 @@
                 </div>
                 <div class="form-group">
                     <label for="newscontent">消息內容</label>
-                    <textarea name="newscontent" class="form-control noResize" rows="3" placeholder="請輸入消息內容"></textarea>
+                    <textarea id="editor1" name="newscontent" class="form-control noResize" rows="3" placeholder="請輸入消息內容"></textarea>
+                    <script>CKEDITOR.replace( 'editor1' );</script>
                 </div>
                 <input type="hidden" name="uid" value="<?php echo $uidrow['uid']; ?>" />
                 <div class="form-group text-center">
@@ -194,7 +195,8 @@
         </div>
         <div class="form-group">
             <label for="newsContent">消息內容</label>
-            <textarea name="newsContent" class="form-control noResize" rows="3"><?php echo br2nl($row['newsContent']); ?></textarea>
+            <textarea id="editor1" name="newsContent" class="form-control noResize" rows="3"><?php echo $row['newsContent']; ?></textarea>
+            <script>CKEDITOR.replace( 'editor1' );</script>
         </div>
         <input type="hidden" name="newsID" value="<?php echo $row['newsOrder']; ?>" />
         <input type="hidden" name="refer" value="<?php echo "action=modifynews&nid=$nid&refer=" . $_SERVER['QUERY_STRING']; ?>" />

@@ -17,6 +17,7 @@
 <script src="js/custom.js"></script>
 <script src="js/main.js"></script>
 <script src="js/bootstrap.js"></script>
+<script src="ckeditor/ckeditor.js"></script>
 <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 <link href="css/style.min.css" rel="stylesheet" type="text/css" media="all" />
 <style type="text/css">

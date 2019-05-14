@@ -35,6 +35,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
 <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 <script src="../js/bootstrap.js"></script>
 <script src="js/custom.js"></script>
+<script src="../ckeditor/ckeditor.js"></script>
 <link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css" />
 <link rel="stylesheet" href="css/package.min.css" type="text/css" />
 <link rel="stylesheet" href="css/custom.css" type="text/css" />

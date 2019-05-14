@@ -138,10 +138,16 @@ if (empty($_GET['postid'])) { ?>
                             if ($val_mem['userName'] == $val['articleUserID']) {
                                 $articleuid = $val_mem['userNickname'];
                             }
-                        } ?>
+                        } 
+                        if($val['postStatus'] == 2 || $val['postStatus'] == 3){ ?>
+                            <div class="alert alert-danger alert-dismissible fade in col-md-11" role="alert" style="margin-top: 1em;">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4><strong>本討論文章已被鎖定！</strong></h4>
+                            </div>
+                        <?php } ?>
                         <div class="col-xs-12 col-sm-12 col-md-12 articles">
                             <!-- 主貼文開始 -->
-                            <div class="col-xs-12 col-sm-12 col-md-2 noPadding">
+                            <div class="col-xs-12 col-sm-12 col-md-2 noPadding flex-container">
                                 <div class="postUser">
                                     <div class="row">
                                         <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/bbs/exampleAvator.jpg" class="img-responsive avator" /></div>

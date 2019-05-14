@@ -15,7 +15,23 @@
                         </h2>
                     </div>
                 </div>
-            <?php } elseif(empty($_GET['postid'])) { ?>
+            <?php } else { 
+                $sql = mysqli_query($connect, "SELECT `postStatus` FROM `bbspost` WHERE `postID`=" . $_GET['postid']);
+                $pStatus = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+                if($pStatus['postStatus'] == 2 || $pStatus['postStatus'] == 3){?>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">錯誤</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <h2 class="news-warn">該文章已被鎖定，不可以新增回文！<br /><br />
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-lg btn-info" onClick="javascript:history.back();">返回上一頁</a>
+                                <?php echo (empty($_GET['refbid'])) ? "<a href=\"bbs.php?action=viewboard\" class=\"btn btn-lg btn-success\">返回討論板列表</a>" : "<a href=\"bbs.php?action=viewpostcontent&postid=" . $_GET['refbid'] . "&refbid=" . $_GET['refbid'] . "\" class=\"btn btn-lg btn-success\">返回討論文章</a>"; ?>
+                            </div>
+                        </h2>
+                    </div>
+                </div>
             <?php } else {
             $refbid = (empty($_GET['refbid'])) ? "" : $_GET['refbid']; ?>
                 <?php if (!empty($_GET['msg']) && $_GET['msg'] == 'addarticleerrcontent') { ?>
@@ -36,7 +52,8 @@
                     </div>
                     <div class="form-group">
                         <label for="articlecontent">回文內容</label>
-                        <textarea name="articlecontent" class="form-control noResize" rows="3" placeholder="請輸入回文內容，此為必填項"></textarea>
+                        <textarea id="editor1" name="articlecontent" class="form-control noResize" rows="3" placeholder="請輸入回文內容，此為必填項"></textarea>
+                        <script>CKEDITOR.replace( 'editor1' );</script>
                     </div>
                     <input type="hidden" name="refer" value="action=replypost&postid=<?php echo $_GET['postid']; ?>&refbid=<?php echo $_GET['refbid']; ?>" />
                     <input type="hidden" name="postid" value="<?php echo $_GET['postid']; ?>" />
@@ -46,7 +63,8 @@
                         <a href="?action=viewpostcontent&postid=<?php echo $_GET['postid']; ?>&refbid=<?php echo $refbid; ?>" class="btn btn-info">取消</a>
                     </div>
                 </form>
-            <?php } ?>
+            <?php } 
+            } ?>
         </div>
     </div>
 </div>

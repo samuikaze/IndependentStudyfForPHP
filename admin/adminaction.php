@@ -35,7 +35,7 @@ if(empty($_SERVER['QUERY_STRING'])){
             $newsID = $_POST['newsID'];
             $newsType = $_POST['newsType'];
             $newsTitle = $_POST['newsTitle'];
-            $newsContent = inputCheck($_POST['newsContent']);
+            $newsContent = $_POST['newsContent'];
             mysqli_query($connect, "UPDATE `news` SET `newsType`='$newsType', `newsTitle`='$newsTitle', `newsContent`='$newsContent' WHERE `newsOrder`=$newsID;");
             mysqli_close($connect);
             header("Location: index.php?msg=modifynewssuccess&action=article_news&type=newslist&p=$pid");
@@ -85,7 +85,7 @@ if(empty($_SERVER['QUERY_STRING'])){
         }
         $newstitle = $_POST['newstitle'];
         $newstype = $_POST['newstype'];
-        $newscontent = inputCheck($_POST['newscontent']);
+        $newscontent = $_POST['newscontent'];
         $posttime = date('Y-m-d H:i:s');
         mysqli_query($connect, "INSERT INTO `news` (`newsType`, `newsTitle`, `newsContent`, `postTime`, `postUser`) VALUES ('$newstype', '$newstitle', '$newscontent', '$posttime', '$uid');");
         mysqli_close($connect);

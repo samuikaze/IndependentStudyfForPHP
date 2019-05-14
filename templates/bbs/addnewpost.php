@@ -54,7 +54,8 @@
                     </div>
                 <div class="form-group">
                     <label for="postcontent">文章內容</label>
-                    <textarea name="postcontent" class="form-control noResize" rows="3" placeholder="請輸入文章內容，此為必填項"></textarea>
+                    <textarea id="editor1" name="postcontent" class="form-control noResize" rows="3" placeholder="請輸入文章內容，此為必填項"></textarea>
+                    <script>CKEDITOR.replace( 'editor1' );</script>
                 </div>
                 <input type="hidden" name="refer" value="action=addnewpost&boardid=<?php echo $_GET['boardid']; ?>" />
                 <input type="hidden" name="targetboard" value="<?php echo $_GET['boardid']; ?>" />

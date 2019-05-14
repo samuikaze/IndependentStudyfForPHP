@@ -1,6 +1,6 @@
 <?php
-    require_once "admin/config.ini.php";
     require_once "sessionCheck.php";
+    require_once "templates/functions.php";
 
     // 如果不是 POST 資料進來就重導到登入頁面
     if($_SERVER["REQUEST_METHOD"] != "POST"){
@@ -83,7 +83,8 @@
                 }else{
                     $iphttpvia = $_SERVER['HTTP_VIA'];
                 }
-                mysqli_query($connect, "INSERT INTO sessions (userName, sessionID, ipRmtAddr, ipXFwFor, ipHttpVia, loginTime) VALUES ('$username', '$sessionID', '$iprmtaddr', '$ipXFwFor', '$iphttpvia', '$ltime')");
+                $browser = get_browser_name($_SERVER['HTTP_USER_AGENT']);
+                mysqli_query($connect, "INSERT INTO sessions (userName, sessionID, useBrowser, ipRmtAddr, ipXFwFor, ipHttpVia, loginTime) VALUES ('$username', '$sessionID', '$browser', '$iprmtaddr', '$ipXFwFor', '$iphttpvia', '$ltime')");
                 // Cookie 寫入 （登入後未瀏覽任一頁面則效期一個月）
                 setcookie("user", $username, time() + 2592000);
                 setcookie("sid", $sessionID, time() + 2592000);
