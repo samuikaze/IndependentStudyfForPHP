@@ -93,6 +93,11 @@ if (empty($_SESSION['auth'])) {
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4><strong>修改語刪除虛擬形象無法同時進行，請確定是要刪除還是修改！</strong></h4>
                                 </div>
+                            <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'usrseterravatornodel') { ?>
+                                <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4><strong>目前並沒有虛擬形象可以刪除！</strong></h4>
+                                </div>
                             <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'usersettingsuccess') { ?>
                                 <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -118,6 +123,7 @@ if (empty($_SESSION['auth'])) {
                                     <input type="file" id="avatorimage" name="avatorimage" />
                                     <p class="help-block">接受格式為 JPG、PNG、GIF，另虛擬形象只會顯示於討論區中</p>
                                 </div>
+                                <?php if($datarow['userAvator'] != 'exampleAvator.jpg'){ ?>
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label>
@@ -125,6 +131,7 @@ if (empty($_SESSION['auth'])) {
                                         </label>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <div class="form-group">
                                     <label for="password">密碼</label>
                                     <input type="password" name="password" class="form-control" id="password" placeholder="如不修改請留空" />

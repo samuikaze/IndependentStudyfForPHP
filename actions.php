@@ -384,6 +384,11 @@
                         mysqli_close($connect);
                         header("Location: $refer&msg=usrseterravatorupdel");
                         exit;
+                    // 本來就還沒上傳虛擬形象
+                    }elseif($usrRs['userAvator'] == "exampleAvator.jpg"){
+                        mysqli_close($connect);
+                        header("Location: $refer&msg=usrseterravatornodel");
+                        exit;
                     // 沒問題就把圖片先刪除
                     }else{
                         if($usrRs['userAvator'] != "exampleAvator.jpg"){
