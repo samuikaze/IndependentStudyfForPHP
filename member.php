@@ -101,6 +101,11 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                 <h4><strong>該功能須登入後才可使用！</strong></h4>
                                             </div>
+                                        <?php } elseif (!empty($_GET['type']) && $_GET['type'] == 'updatepwd') { ?>
+                                            <div class="alert alert-success alert-dismissible" role="alert" style="margin-top: 1em;">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4><strong>您的密碼更新成功，請重新登入驗證新密碼！</strong></h4>
+                                            </div>
                                         <?php } else {
                                         echo "";
                                     } ?>

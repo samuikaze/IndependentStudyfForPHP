@@ -34,15 +34,18 @@
                         $_SESSION['uid'] = $username;
                         $_SESSION['priv'] = $datarow['userPriviledge'];
                         $ltime = date("Y-m-d H:i:s");
-                        $iprmtaddr = $_SERVER['REMOTE_ADDR'];
-                        $ipXFwFor = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : "";
-                        $iphttpvia = (isset($_SERVER['HTTP_VIA'])) ? $_SERVER['HTTP_VIA'] : "";
-                        mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");
-                        if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia){ //IP不同就更新資料
+                        $iprmtaddr = (empty($_SERVER['REMOTE_ADDR'])) ? "" : $_SERVER['REMOTE_ADDR'];
+                        $ipXFwFor = (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? "" : $_SERVER['HTTP_X_FORWARDED_FOR'];
+                        $iphttpvia = (empty($_SERVER['HTTP_VIA'])) ? "" : $_SERVER['HTTP_VIA'];
+                        $iphttpcip = (empty($_SERVER["HTTP_CLIENT_IP"])) ? "" : $_SERVER["HTTP_CLIENT_IP"];
+                        if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia || $row['ipHTTPCIP'] != $iphttpcip){ //IP不同就更新資料
                             $liprmtaddr = $row['ipRmtAddr'];
                             $lipxfwfor = $row['ipXFwFor'];
                             $liphttpvia = $row['ipHttpVia'];
-                            mysqli_query($connect, "UPDATE `sessions` SET `useBrowser` = '$usebrowser', `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
+                            $liphttpcip = $row['ipHTTPCIP'];
+                            mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid', `useBrowser` = '$usebrowser', `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `ipHTTPCIP` = '$iphttpcip', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia', `lastipHTTPCIP`='$liphttpcip' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
+                        }else{
+                            mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");
                         }
                         setcookie("user", $username, time()+2592000);
                         setcookie("sid", $newsid, time()+2592000);
@@ -89,15 +92,18 @@
                         $_SESSION['uid'] = $username;
                         $_SESSION['priv'] = $datarow['userPriviledge'];
                         $ltime = date("Y-m-d H:i:s");
-                        $iprmtaddr = $_SERVER['REMOTE_ADDR'];
-                        $ipXFwFor = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : "";
-                        $iphttpvia = (isset($_SERVER['HTTP_VIA'])) ? $_SERVER['HTTP_VIA'] : "";
-                        mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");
-                        if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia){ //IP不同就更新資料
+                        $iprmtaddr = (empty($_SERVER['REMOTE_ADDR'])) ? "" : $_SERVER['REMOTE_ADDR'];
+                        $ipXFwFor = (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? "" : $_SERVER['HTTP_X_FORWARDED_FOR'];
+                        $iphttpvia = (empty($_SERVER['HTTP_VIA'])) ? "" : $_SERVER['HTTP_VIA'];
+                        $iphttpcip = (empty($_SERVER['HTTP_CLIENT_IP']))? "" : $_SERVER['HTTP_CLIENT_IP'];
+                        if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia || $row['ipHTTPCIP'] != $iphttpcip){ //IP不同就更新資料
                             $liprmtaddr = $row['ipRmtAddr'];
                             $lipxfwfor = $row['ipXFwFor'];
                             $liphttpvia = $row['ipHttpVia'];
-                            mysqli_query($connect, "UPDATE `sessions` SET `useBrowser` = '$usebrowser', `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
+                            $liphttpcip = $row['ipHTTPCIP'];
+                            mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid', `useBrowser` = '$usebrowser', `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `ipHTTPCIP` = '$iphttpcip', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia', `lastipHTTPCIP` = '$liphttpcip' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
+                        }else{
+                            mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");
                         }
                         setcookie("user", $username, time()+2592000); //設定cookie一個月後過期
                         setcookie("sid", $newsid, time()+2592000);

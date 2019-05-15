@@ -10,7 +10,6 @@ if($_SESSION['priv'] != 99){
     header("Location: ../member.php?action=logout&refer=member.php?action=relogin");
     exit;
 }
-include "../templates/functions.php";
 if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
     // 刪除cookie
     setcookie("user", "", time()-3600);

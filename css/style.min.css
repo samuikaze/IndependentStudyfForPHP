@@ -162,6 +162,11 @@ input:focus{
     margin: 0;
 }
 
+.sessionCtrlTable {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
 /* 返回頂端圖片設定 */
 .toTop {
     position: fixed;

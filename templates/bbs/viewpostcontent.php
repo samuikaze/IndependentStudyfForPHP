@@ -134,9 +134,11 @@ if (empty($_GET['postid'])) { ?>
                         foreach ($memberRow as $j => $val_mem) {
                             if ($val_mem['userName'] == $val['postUserID']) {
                                 $postuid = $val_mem['userNickname'];
+                                $postavator = $val_mem['userAvator'];
                             }
                             if ($val_mem['userName'] == $val['articleUserID']) {
                                 $articleuid = $val_mem['userNickname'];
+                                $articleavator = $val_mem['userAvator'];
                             }
                         } 
                         if($val['postStatus'] == 2 || $val['postStatus'] == 3){ ?>
@@ -150,7 +152,7 @@ if (empty($_GET['postid'])) { ?>
                             <div class="col-xs-12 col-sm-12 col-md-2 noPadding">
                                 <div class="postUser">
                                     <div class="row">
-                                        <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/bbs/exampleAvator.jpg" class="img-responsive avator" /></div>
+                                        <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/userAvator/<?php echo $postavator; ?>" class="img-responsive avator" /></div>
                                         <div class="col-md-12 col-xs-6 col-sm-6">
                                             <h3><?php echo $postuid; ?></h3>
                                             <h4 style="font-weight: normal;"><?php echo $val['postUserID']; ?></h4>
@@ -175,7 +177,7 @@ if (empty($_GET['postid'])) { ?>
                                 <div class="col-xs-12 col-sm-12 col-md-2 noPadding">
                                     <div class="postUser">
                                         <div class="row">
-                                            <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/bbs/exampleAvator.jpg" class="img-responsive avator" /></div>
+                                            <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/userAvator/<?php echo $articleavator; ?>" class="img-responsive avator" /></div>
                                             <div class="col-md-12 col-xs-6 col-sm-6">
                                                 <h3><?php echo $articleuid; ?></h3>
                                                 <h4 style="font-weight: normal;"><?php echo $val['articleUserID']; ?></h4>
@@ -200,6 +202,7 @@ if (empty($_GET['postid'])) { ?>
                         // 拿回文者的暱稱
                         if ($val_mem['userName'] == $val['articleUserID']) {
                             $articleuid = $val_mem['userNickname'];
+                            $articleavator = $val_mem['userAvator'];
                         }
                     } ?>
                         <div class="col-xs-12 col-sm-12 col-md-12 articles">
@@ -207,7 +210,7 @@ if (empty($_GET['postid'])) { ?>
                             <div class="col-xs-12 col-sm-12 col-md-2 noPadding">
                                 <div class="postUser">
                                     <div class="row">
-                                        <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/bbs/exampleAvator.jpg" class="img-responsive avator" /></div>
+                                        <div class="col-md-12 col-xs-6 col-sm-6"><img src="images/userAvator/<?php echo $articleavator; ?>" class="img-responsive avator" /></div>
                                         <div class="col-md-12 col-xs-6 col-sm-6">
                                             <h3><?php echo $articleuid; ?></h3>
                                             <h4 style="font-weight: normal;"><?php echo $val['articleUserID']; ?></h4>

@@ -323,6 +323,100 @@
                     }
                 }
             }
+        }// 修改使用者資料
+        elseif(!empty($_GET['action']) && $_GET['action'] == 'edituserdata'){
+            $refer = "user.php?action=usersetting";
+            // 若要修改密碼但密碼欄位為空
+            if(!empty($_POST['password']) && empty($_POST['passwordConfirm'])){
+                mysqli_close($connect);
+                header("Location: $refer&msg=usrseterremptypwdcnfrm");
+                exit;
+            // 密碼與確認密碼欄位值不一
+            }elseif($_POST['password'] != $_POST['passwordConfirm']){
+                mysqli_close($connect);
+                header("Location: $refer&msg=usersettingerrpwdcnfrm");
+                exit;
+            // 暱稱為空及電子郵件為空已經用三元運算子解決
+            // 都沒問題開始準備更新資料
+            }else{
+                // 先取得帳號對應的識別碼
+                $username = $_SESSION['uid'];
+                $usrsql = mysqli_query($connect, "SELECT * FROM `member` WHERE `userName`='$username';");
+                $usrRs = mysqli_fetch_array($usrsql, MYSQLI_ASSOC);
+                $uid = $usrRs['uid'];
+                // 判斷檔案上傳的狀態
+                // 沒有上傳檔案
+                if($_FILES["avatorimage"]["error"] == 4 || empty($_FILES['avatorimage'])){
+                    $fileUpload = false;
+                //有上傳檔案則判斷檔案相關資料
+                }else{
+                    // 檔案大小過大
+                    if($_FILES["avatorimage"]["error"] == 1 || $_FILES["avatorimage"]["error"] == 2){
+                        mysqli_close($connect);
+                        header("Location: $refer&msg=usersettingerrfilesize");
+                        exit;
+                    }
+                    $fileextension = pathinfo($_FILES['avatorimage']['name'], PATHINFO_EXTENSION);
+                    // 檔案類型不正確
+                    if( !in_array($fileextension, array('jpg', 'png', 'gif') ) ){
+                        mysqli_close($connect);
+                        header("Location: $refer&msg=usersettingerrfiletype");
+                        exit;
+                    }
+                    // 儲存的檔名為「user-<使用者ID>.<副檔名>」
+                    $targetfilename = "user-$uid.$fileextension";
+                    $fileUpload = true;
+                }
+                // 如不修改密碼
+                if(empty($_POST['password'])){
+                    $passwdSql = "";
+                    $changePW = false;
+                }else{
+                    $passwdSql = "`userPW`='" . hash("sha512", $_POST['password']) . "', ";
+                    $changePW = true;
+                }
+                $usernickname = (empty($_POST['usernickname']))? $usrRs['userNickname'] : $_POST['usernickname'];
+                $email = (empty($_POST['useremail']))? $usrRs['userEmail'] : $_POST['useremail'];
+                // 如果要刪除虛擬形象
+                if(!empty($_POST['delavatorimage']) && $_POST['delavatorimage'] == "true"){
+                    // 如果有上傳圖片可是也把刪除圖片打勾了
+                    if($fileUpload == true){
+                        mysqli_close($connect);
+                        header("Location: $refer&msg=usrseterravatorupdel");
+                        exit;
+                    // 沒問題就把圖片先刪除
+                    }else{
+                        if($usrRs['userAvator'] != "exampleAvator.jpg"){
+                            $deletefilename = "images/userAvator/" . $usrRs['userAvator'];
+                            unlink($deletefilename);
+                        }
+                        $deluseravator = true;
+                    }
+                }else{
+                    $deluseravator = false;
+                }
+                // 如果不上傳虛擬形象
+                if($fileUpload == false){
+                    if($deluseravator != True){
+                        $result = mysqli_query($connect, "UPDATE `member` SET $passwdSql`userNickname`='$usernickname', `userEmail`='$email' WHERE `uid`=$uid");
+                    }else{
+                        mysqli_query($connect, "UPDATE `member` SET $passwdSql`userAvator`='exampleAvator.jpg', `userNickname`='$usernickname', `userEmail`='$email' WHERE `uid`=$uid");
+                    }
+                // 如果有上傳虛擬形象
+                }else{
+                    move_uploaded_file($_FILES["avatorimage"]["tmp_name"], "images/userAvator/$targetfilename");
+                    mysqli_query($connect, "UPDATE `member` SET $passwdSql`userAvator`='$targetfilename', `userNickname`='$usernickname', `userEmail`='$email' WHERE `uid`=$uid");
+                }
+                mysqli_close($connect);
+                // 如果沒有修改密碼就直接導回原頁面
+                if($changePW == false){
+                    header("Location: $refer&msg=usersettingsuccess");
+                // 如果有修改密碼則導向登入頁面
+                }else{
+                    header("Location: authentication.php?action=logout&type=updatepwd");
+                }
+                exit;
+            }
         }
     }
 ?>

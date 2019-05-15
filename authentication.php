@@ -16,6 +16,7 @@
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
+        //$data = mysqli_real_escape_string($connect, $data);
         return $data;
     }
 
@@ -196,6 +197,9 @@
             session_destroy();
             $refer = ( empty($_GET['refer']) == false ) ? $_GET['refer'] : "./";
             $refer = str_replace("+", "&", $refer);
+            if(!empty($_GET['type']) && $_GET['type'] == 'updatepwd'){
+                $refer = "member.php?action=login&type=updatepwd&refer=" . urlencode("user.php?action=usersetting");
+            }
             header("Location: $refer");
         }
    }
