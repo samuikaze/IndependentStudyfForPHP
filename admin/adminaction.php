@@ -16,7 +16,9 @@ if(empty($_SERVER['QUERY_STRING'])){
     header("Location: index.php?action=index");
     exit;
 }else{
-    $refer = $_POST['refer'];
+    if(!empty($_POST['refer'])){
+        $refer = $_POST['refer'];
+    }
     // 修改消息
     if($_GET['action'] == 'modifynews'){
         // 若消息標題為空
@@ -254,6 +256,212 @@ if(empty($_SERVER['QUERY_STRING'])){
             header("Location: index.php?action=board_admin&type=boardlist&msg=createboardsuccess");
             exit;
         }
+
+    // 上架商品
+    }elseif($_GET['action'] == 'addgoods'){
+        $refer = "index.php?action=goods_admin&type=addgoods";
+        // 商品名稱為空
+        if(empty($_POST['goodname'])){
+            mysqli_close($connect);
+            header("Location: $refer&msg=addgoodserrname");
+            exit;
+        // 商品價格為空或為零
+        }elseif(empty($_POST['goodprice'])){
+            mysqli_close($connect);
+            header("Location: $refer&msg=addgoodserrprice");
+            exit;
+        // 商品數量為空或為零
+        }elseif(empty($_POST['goodquantity']) || $_POST['goodquantity'] == 0){
+            mysqli_close($connect);
+            header("Location: $refer&msg=addgoodserrquantity");
+            exit;
+        // 商品描述為空
+        }elseif(empty($_POST['gooddescript'])){
+            mysqli_close($connect);
+            header("Location: $refer&msg=addgoodserrdescript");
+            exit;
+        // 判別檔案上傳的狀態
+        }else{
+            // 沒有上傳檔案
+            if($_FILES["goodimage"]["error"] == 4 || empty($_FILES["goodimage"])){
+                $fileUpload = false;
+            // 有上傳檔案
+            }else{
+                // 檔案大小過大
+                if($_FILES["goodimage"]["error"] == 1 || $_FILES["goodimage"]["error"] == 2){
+                    mysqli_close($connect);
+                    header("Location: $refer&msg=addgoodserrfilesize");
+                    exit;
+                }
+                $fileextension = pathinfo($_FILES['goodimage']['name'], PATHINFO_EXTENSION);
+                // 檔案類型不正確
+                if( !in_array($fileextension, array('jpg', 'png', 'gif') ) ){
+                    mysqli_close($connect);
+                    header("Location: $refer&msg=addgoodserrfiletype");
+                    exit;
+                }
+                $fileUpload = true;
+            }
+            // 找 session 儲存的暱稱
+            $username = $_SESSION['uid'];
+            $goodsname = $_POST['goodname'];
+            $goodprice = $_POST['goodprice'];
+            $goodqty = $_POST['goodquantity'];
+            $gooddescript = $_POST['gooddescript'];
+            $postdate = date('Y-m-d H:i:s');
+            $postuser = $_SESSION['uid'];
+            // 不論如何先執行新增
+            mysqli_query($connect, "INSERT INTO `goodslist` (`goodsName`, `goodsDescript`, `goodsPrice`, `goodsQty`, `goodsPostDate`, `goodsUp`) VALUES ('$goodsname', '$gooddescript', '$goodprice', '$goodqty', '$postdate', '$postuser');");
+            if($fileUpload == true){
+                //取得最後一筆資料更新檔案名稱
+                $fnameIndex = mysqli_fetch_array(mysqli_query($connect, "SELECT `goodsOrder` FROM `goodslist` ORDER BY `goodsOrder` DESC LIMIT 0, 1;"), MYSQLI_ASSOC);
+                $filename = "goods-" . $fnameIndex['goodsOrder'] . ".$fileextension";
+                // 把新的檔案移到正確的路徑
+                move_uploaded_file($_FILES["goodimage"]["tmp_name"], "../images/goods/$filename");
+                mysqli_query($connect, "UPDATE `goodslist` SET `goodsImgUrl`='$filename' WHERE `goodsOrder`=" . $fnameIndex['goodsOrder'] . ";");
+            }
+            mysqli_close($connect);
+            header("Location: index.php?action=goods_admin&type=goodslist&msg=addgoodsuccess");
+            exit;
+        }
+    // 編輯商品
+    }elseif($_GET['action'] == 'editgoods'){
+        // 若商品識別碼為空
+        if(empty($_POST['gid'])){
+            mysqli_close($connect);
+            header("Location: action=goods_admin&type=goodslist&msg=editgoodserrgid");
+            exit;
+        }else{
+            $gid = $_POST['gid'];
+            $refer = "index.php?action=modifygoods&goodid=$gid" . ((empty($_POST['refpage']))? "" : "&refpage=" . $_POST['refpage']);
+        }
+        // 商品名稱為空
+        if(empty($_POST['goodname'])){
+            mysqli_close($connect);
+            header("Location: $refer&msg=editgoodserrname");
+            exit;
+        // 商品價格為空
+        }elseif(empty($_POST['goodprice'])){
+            mysqli_close($connect);
+            header("Location: $refer&msg=editgoodserrprice");
+            exit;
+        // 商品數量為空或為零
+        }elseif(empty($_POST['goodquantity']) || $_POST['goodquantity'] == 0){
+            mysqli_close($connect);
+            header("Location: $refer&msg=editgoodserrquantity");
+            exit;
+        // 商品描述為空
+        }elseif(empty($_POST['gooddescript'])){
+            mysqli_close($connect);
+            header("Location: $refer&msg=editgoodserrdescript");
+            exit;
+        // 判別檔案上傳的狀態
+        }else{
+            $fnameIndex = mysqli_query($connect, "SELECT * FROM `goodslist` WHERE `goodsOrder`=$gid;");
+            $fnameRows = mysqli_num_rows($fnameIndex);
+            // 若找不到該商品
+            if($fnameRows == 0){
+                mysqli_close($connect);
+                header("Location: $refer&msg=editgoodserrnodata");
+                exit;
+            }else{
+                $fnameDatas = mysqli_fetch_array($fnameIndex, MYSQLI_ASSOC);
+            }
+            // 沒有上傳檔案
+            if($_FILES["goodimage"]["error"] == 4 || empty($_FILES["goodimage"])){
+                $fileUpload = false;
+            // 有上傳檔案
+            }else{
+                // 檔案大小過大
+                if($_FILES["goodimage"]["error"] == 1 || $_FILES["goodimage"]["error"] == 2){
+                    mysqli_close($connect);
+                    header("Location: $refer&msg=editgoodserrfilesize");
+                    exit;
+                }
+                $fileextension = pathinfo($_FILES['goodimage']['name'], PATHINFO_EXTENSION);
+                // 檔案類型不正確
+                if( !in_array($fileextension, array('jpg', 'png', 'gif') ) ){
+                    mysqli_close($connect);
+                    header("Location: $refer&msg=editgoodserrfiletype");
+                    exit;
+                }
+                $fileUpload = true;
+            }
+            // 刪除商品圖片
+            $deldoardimage = false;
+            if(!empty($_POST['delgoodimage']) && $_POST['delgoodimage'] == "true"){
+                // 如果有上傳圖片可是也把刪除圖片打勾了
+                if($fileUpload == true){
+                    mysqli_close($connect);
+                    header("Location: $refer&msg=editgoodserrupdel");
+                    exit;
+                // 沒問題就把圖片先刪除
+                }else{
+                    $filename = $fnameDatas['goodsImgUrl'];
+                    // 若圖片是系統預設圖片
+                    if($filename == "default.jpg"){
+                        mysqli_close($connect);
+                        header("Location: $refer&msg=editgoodserrnodel");
+                        exit;
+                    }else{
+                        unlink("../images/goods/$filename");
+                        $delgoodsimage = true;
+                    }
+                }
+            }
+            $goodsname = $_POST['goodname'];
+            $goodprice = $_POST['goodprice'];
+            $goodqty = $_POST['goodquantity'];
+            $gooddescript = $_POST['gooddescript'];
+            // 若有上傳檔案
+            if($fileUpload == true){
+                $filename = "goods-$gid.$fileextension";
+                move_uploaded_file($_FILES["goodimage"]["tmp_name"], "../images/goods/$filename");
+                mysqli_query($connect, "UPDATE `goodslist` SET `goodsName`='$goodsname', `goodsImgUrl`='$filename', `goodsDescript`='$gooddescript', `goodsPrice`='$goodprice', `goodsQty`='$goodqty' WHERE `goodsOrder`=$gid;");
+            // 沒有上傳檔案
+            }else{
+                // 若要刪除商品圖
+                if($delgoodsimage == true){
+                    mysqli_query($connect, "UPDATE `goodslist` SET `goodsName`='$goodsname', `goodsImgUrl`='default.jpg', `goodsDescript`='$gooddescript', `goodsPrice`='$goodprice', `goodsQty`='$goodqty' WHERE `goodsOrder`=$gid;");
+                // 不刪除商品圖
+                }else{
+                    mysqli_query($connect, "UPDATE `goodslist` SET `goodsName`='$goodsname', `goodsDescript`='$gooddescript', `goodsPrice`='$goodprice', `goodsQty`='$goodqty' WHERE `goodsOrder`=$gid;");
+                }
+            }
+            mysqli_close($connect);
+            header("Location: index.php?action=goods_admin&type=goodslist&msg=editgoodsuccess" . ((empty($_POST['refpage']))? "" : "&pid=" . $_POST['refpage']));
+            exit;
+        }
+    // 下架商品
+    }elseif($_GET['action'] == 'delgoods'){
+        // 若商品識別碼為空
+        if(empty($_POST['gid'])){
+            mysqli_close($connect);
+            header("Location: action=goods_admin&type=goodslist&msg=delgoodserrgid");
+            exit;
+        }else{
+            $gid = $_POST['gid'];
+            // 沒有refpage值
+            if(empty($_POST['refpage'])){
+                $refer = "?action=delgoods&goodid=13";
+            }else{
+                $refer = "?action=delgoods&goodid=13&refpage=" . $_POST['refpage'];
+            }
+            // 先判斷有沒有上傳商品圖片
+            $goodsdata = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `goodslist` WHERE `goodsOrder`='$gid';"), MYSQLI_ASSOC);
+            // 若有上傳圖片
+            if($goodsdata['goodsImgUrl'] != "default.jpg"){
+                $fname = $goodsdata['goodsImgUrl'];
+                unlink("../images/goods/$fname");
+            }
+            // 執行下架
+            mysqli_query($connect, "DELETE FROM `goodslist` WHERE `goodsOrder`=$gid;");
+            mysqli_close($connect);
+            $successRefer = "index.php?action=goods_admin&type=goodslist" . ((empty($_POST['refpage']))? "" : "&pid=" . $_POST['refpage']) . "&msg=delgoodsuccess";
+            header("Location: $successRefer");
+            exit;
+        }
+
     // 都不符合上述條件
     }else{
         mysqli_close($connect);

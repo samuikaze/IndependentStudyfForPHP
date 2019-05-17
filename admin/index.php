@@ -63,7 +63,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">文章管理 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">關於我們</a></li>
+                                    <li><a href="?action=aboutus">關於我們</a></li>
                                     <li><a href="?action=article_news&type=newslist">最新消息</a></li>
                                     <li><a href="?action=article_product">作品一覽</a></li>
                                     <li><a href="#">招募新血</a></li>
@@ -82,9 +82,10 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                                 <ul class="dropdown-menu">
                                     <li><a href="#">註冊審核</a></li>
                                     <li><a href="#">會員管理</a></li>
+                                    <li><a href="#">封鎖清單</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">商品管理</a></li>
+                            <li><a href="?action=goods_admin&type=goodslist">商品管理</a></li>
                             <li><a href="index.php?action=backendlogout">離開後台</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
@@ -105,7 +106,31 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                 // 商品管理
                 }elseif($_GET['action'] == 'article_product'){
                     include("article_product.php");
-                }
+                }elseif($_GET['action'] == 'aboutus'){
+                    include("about_us.php");
+                }elseif($_GET['action'] == 'goods_admin' || $_GET['action'] == 'modifygoods' || $_GET['action'] == 'addgoods' || $_GET['action'] == 'delgoods'){
+                    include("goods_admin.php");
+                }else{ ?>
+                    <div class="row content-body">
+                        <ol class="breadcrumb">
+                            <li><a href="?action=index"><i class="fas fa-map-marker-alt"></i> 首頁</a></li>
+                            <li class="active">找不到功能</li>
+                            
+                        </ol>
+                    </div>
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">錯誤</h3>
+                        </div>
+                        <div class="panel-body text-center">
+                            <h2 class="news-warn">無此功能，請依上方選單選擇管理項目。<br /><br />
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-lg btn-info" href="?action=index">返回首頁</a>
+                                </div>
+                            </h2>
+                        </div>
+                    </div>
+                <?php }
             ?>
         </div>
     </div>

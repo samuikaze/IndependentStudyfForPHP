@@ -16,7 +16,7 @@
             <div class="caption">
                 <!--<p class="numbers fRight">文章數 <span>99,999</span></p>-->
                 <h3 class="pull-left"><?php echo $row['boardName']; ?></h3>
-                <p class="fLeft"><?php echo $row['boardDescript']; ?></p>
+                <div class="fLeft"><?php echo $row['boardDescript']; ?></div>
                 <div class="clearfix"></div>
                 <p class="text-center">
                     <div class="text-center" style="margin-bottom: 15px;">

@@ -236,7 +236,7 @@
                             $refmsg = "article";
                             // 更新回文表格
                             mysqli_query($connect, "UPDATE `$type` SET `articleTitle`='$title', `articleContent`='$content', `articleStatus`=1, `articleEdittime`='$updateTime' WHERE `$idtype`=$targetid");
-                            // 更新操作資訊
+                            // 更新最後操作資訊
                             mysqli_query($connect, "UPDATE `bbspost` SET `lastUpdateUserID`='$updateuser', `lastUpdateTime`='$updateTime' WHERE `postID`=$refpostid");
                         }
                         mysqli_close($connect);

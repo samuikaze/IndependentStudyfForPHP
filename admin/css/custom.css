@@ -52,6 +52,25 @@
     width: 20%;
 }
 
+.goodsid {
+    vertical-align: middle !important;
+    width: 10%;
+}
+
+.goodname {
+    vertical-align: middle !important;
+    width: 50%;
+}
+
+.goodother {
+    vertical-align: middle !important;
+    width: 10%;
+}
+
+.goodadmin {
+    width: 20%;
+}
+
 .news-admin a {
     margin-right: 0.5em;
 }

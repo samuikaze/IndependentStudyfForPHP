@@ -40,9 +40,9 @@
             <table class="table table-hover">
                 <thead>
                     <tr class="warning">
-                        <td class="news-order">序</td>
-                        <td class="news-title">消息標題</td>
-                        <td class="news-admin">消息管理</td>
+                        <th class="news-order">序</th>
+                        <th class="news-title">消息標題</th>
+                        <th class="news-admin">消息管理</th>
                     </tr>
                 </thead>
                 <tbody>

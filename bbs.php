@@ -61,6 +61,25 @@
                                 }
                                 echo "<li><a href=\"bbs.php?action=viewbbspost&bid=$refbid&pid=$refpage\">檢視討論板</a></li>";
                             }
+                        }elseif(!empty($_GET['action']) && $_GET['action'] == 'addnewpost'){
+                            if(empty($_GET['boardid'])){
+                                echo "<li><a style=\"cursor: not-allowed;\" title=\"無法取得您最後瀏覽的討論板識別碼\">檢視討論板</a></li>";
+                            }else{
+                                $refbid = $_GET['boardid'];
+                            }
+                            $refpage = (empty($_GET['refpage']))? "1" : $_GET['refpage'];
+                            echo "<li><a href=\"bbs.php?action=viewbbspost&bid=$refbid&pid=$refpage\">檢視討論板</a></li><li class=\"thisPosition\">張貼新文章</li>";
+                        }elseif(!empty($_GET['action']) && $_GET['action'] == 'replypost'){
+                            if(empty($_GET['refbid'])){
+                                echo "<li><a style=\"cursor: not-allowed;\" title=\"無法取得您最後瀏覽的討論板識別碼\">檢視討論板</a></li>";
+                                $refbid = "";
+                            }else{
+                                $refbid = $_GET['refbid'];
+                                echo "<li><a href=\"bbs.php?action=viewbbspost&bid=$refbid\">檢視討論板</a></li>";
+                            }
+                            $postid = $_GET['postid'];
+                            echo "<li><a href=\"bbs.php?action=viewpostcontent&postid=$postid&refbid=$refbid\">檢視討論板文章</a></li>";
+                            echo "<li class=\"thisPosition\">張貼新回覆</li>";
                         }
                     ?>
                     <?php echo (!empty($_GET['action']) && $_GET['action'] == 'viewpostcontent')? "<li class=\"thisPosition\">檢視討論板文章</li>" : ""; ?>

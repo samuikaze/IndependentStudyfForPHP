@@ -44,10 +44,10 @@ if (empty($_GET['refpage'])) {
                 <table class="table table-hover">
                     <thead>
                         <tr class="warning">
-                            <td class="board-order">序</td>
-                            <td class="board-title">討論板標題</td>
-                            <td class="board-admin">討論板狀態</td>
-                            <td class="board-admin">討論板管理</td>
+                            <th class="board-order">序</th>
+                            <th class="board-title">討論板標題</th>
+                            <th class="board-admin">討論板狀態</th>
+                            <th class="board-admin">討論板管理</th>
                         </tr>
                     </thead>
                     <tbody>

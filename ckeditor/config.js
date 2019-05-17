@@ -25,4 +25,6 @@ CKEDITOR.editorConfig = function( config ) {
     ];
 
     config.removeButtons = 'Underline,Subscript,Superscript,Flash,Iframe,Find,Replace,Source,Save,NewPage,Preview,Print,Templates,Styles,Format,Font,CreateDiv,Anchor,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,ShowBlocks,About';
+    config.enterMode = CKEDITOR.ENTER_BR;
+    config.shiftEnterMode = CKEDITOR.ENTER_P;
 };

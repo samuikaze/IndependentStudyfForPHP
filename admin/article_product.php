@@ -8,34 +8,25 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#adminNews" aria-controls="adminNews" role="tab" data-toggle="tab">管理作品清單</a></li>
-        <li role="presentation"><a href="#postNews" aria-controls="postNews" role="tab" data-toggle="tab">新增新作品</a></li>
+        <li role="presentation"><a href="#postNews" aria-controls="postNews" role="tab" data-toggle="tab">新增作品</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="adminNews">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="warning">
-                        <td class="news-order">序</td>
-                        <td class="news-title">作品名稱</td>
-                        <td class="news-admin">作品管理</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="news-order">1</td>
-                        <td class="news-title">作品名稱一</td>
-                        <td class="news-admin"><a href="#" class="btn btn-info">編輯</a><a href="#" class="btn btn-danger">刪除</a></td>
-                    </tr>
-                    <tr>
-                        <td class="news-order">2</td>
-                        <td class="news-title">作品名稱二</td>
-                        <td class="news-admin"><a href="#" class="btn btn-info">編輯</a><a href="#" class="btn btn-danger">刪除</a></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div role="tabpanel" class="tab-pane fade active in" id="adminNews">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">錯誤</h3>
+                </div>
+                <div class="panel-body text-center">
+                    <h2 class="news-warn">本功能尚在開發中。<br /><br />
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-lg btn-info" href="?action=index">返回首頁</a>
+                        </div>
+                    </h2>
+                </div>
+            </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="postNews">
+        <div role="tabpanel" class="tab-pane fade" id="postNews">
 
         </div>
     </div>

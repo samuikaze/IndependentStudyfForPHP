@@ -79,7 +79,7 @@ $hotPost = 100;
                             <li><a href="#">同人創作</a></li>
                         </ul>
                     <?php } ?>
-                    <a href="?action=addnewpost&boardid=<?php echo $bid; ?>" class="btn btn-success">張貼文章</a>
+                    <a href="?action=addnewpost&boardid=<?php echo $bid; ?>&refpage=<?php echo $pid; ?>" class="btn btn-success">張貼文章</a>
                 </div>
             </div>
             <?php if ($datarows != 0) { ?>
@@ -110,7 +110,7 @@ $hotPost = 100;
             </div>
             <?php
             //判斷所有資料筆數「$rows['筆數']」
-            $sql = mysqli_query($connect, "SELECT COUNT(*) AS `times` FROM `bbspost`;");
+            $sql = mysqli_query($connect, "SELECT COUNT(*) AS `times` FROM `bbspost` WHERE `postBoard`=$bid;");
             $rows = mysqli_fetch_array($sql, MYSQLI_BOTH);
             // 如果總筆數除以 $npp 筆大於 1，意即大於一頁
             $tpg = ceil($rows['times'] / $postPerPage);
