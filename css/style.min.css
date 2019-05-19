@@ -689,7 +689,7 @@ div .prodText {
 }
 
 .wadj {
-    width: 13%;
+    width: 18%;
     float: right;
 }
 
@@ -759,6 +759,10 @@ div .prodText {
     font-size: 1.5em;
     margin-bottom: 2em;
     /*font-family: 'Lato', sans-serif;*/
+}
+
+.simpleCart_empty {
+    cursor: pointer;
 }
 
 /*.total-item,

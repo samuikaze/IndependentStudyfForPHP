@@ -210,3 +210,46 @@ $(document).ready(function(){
         window.history.pushState(null, null, url);
     });
 });*/
+
+// 購物車 AJAX
+$(document).ready(function(){
+    $('a.joinCart').on('click', function(){
+        $.ajax({
+            url: 'ajax.php?action=joincart',
+            type: "POST",
+            cache: false,
+            data: 'goodid=' + $(this).data("gid"),
+            success: function(data) {
+                // AJAX 成功
+                //console.log(data);
+                if(data == "errornogid" || data == "errorgid"){
+                    $('span.simpleCart_total').html("錯誤！");
+                }else{
+                    $('span.simpleCart_total').html("NT$" + data);
+                }
+            },
+            error: function(errData) {
+                // AJAX 失敗
+            }
+        });
+        return false;
+    });
+
+    $('a.simpleCart_empty').on('click', function(){
+        $.ajax({
+            url: 'ajax.php?action=clearcart',
+            type: "POST",
+            cache: false,
+            data: 'clearcart=true',
+            success: function(data) {
+                // AJAX 成功
+                //console.log(data);
+                $('span.simpleCart_total').html("NT$" + data);
+            },
+            error: function(errData) {
+                // AJAX 失敗
+            }
+        });
+        return false;
+    });
+});

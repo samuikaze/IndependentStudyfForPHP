@@ -29,7 +29,7 @@ $qtydanger = 15;
 <head>
     <title>周邊產品 | 洛嬉遊戲 L.S. Games</title>
     <?php include_once "templates/metas.php"; ?>
-    <script src="js/simpleCart.min.js"></script>
+    <!--script src="js/simpleCart.min.js"></script-->
     <?php if($_GET['action'] == 'viewgoodsdetail'){ ?>
         <script src="js/simple-lightbox.min.js"></script>
         <link href="css/simplelightbox.min.css" rel="stylesheet" type="text/css" />
@@ -68,12 +68,12 @@ $qtydanger = 15;
                                     <a href="cart.html">
                                         <h3>
                                             <div class="total">
-                                                <span class="simpleCart_total"></span>
+                                                <span id="simpleCart_total" class="simpleCart_total">NT$<?php echo (!empty($_SESSION['cart']))? $_SESSION['cartTotal'] : 0; ?></span>
                                                 <img src="images/cart.png" alt="" />
                                             </div>
                                         </h3>
                                     </a>
-                                    <p><a href="javascript:;" class="simpleCart_empty">清空購物車</a></p>
+                                    <p><a class="simpleCart_empty">清空購物車</a></p>
                                 </div>
                             </div>
                             <div class="clearfix"> </div>
@@ -124,7 +124,7 @@ $qtydanger = 15;
                                                     <div class="text-center" style="margin-bottom: 15px;">
                                                         <div class="btn-group" role="group" aria-label="...">
                                                             <a href="?action=viewgoodsdetail&goodid=<?php echo $alldatas['goodsOrder'] . "&refpage=$page"; ?>" class="btn btn-success">週邊詳細</a>
-                                                            <a href="cart.html" class="btn btn-info">加入購物車</a>
+                                                            <a data-gid="<?php echo $alldatas['goodsOrder']; ?>" class="btn btn-info joinCart">加入購物車</a>
                                                         </div>
                                                     </div>
                                                 </p>
