@@ -122,6 +122,22 @@ input:focus{
     width: 100%;
 }
 
+.info-warn{
+    color: #31708f !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.warning-warn{
+    color: #8a6d3b !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
 .news-title{
     margin: 0.1em 0 0 0;
     font-weight: bold;
@@ -765,6 +781,20 @@ div .prodText {
     cursor: pointer;
 }
 
+.simpleCart_total {
+    color: #8a6d3b;
+}
+
+.cartPanel {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.cartItemTitle {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
 /*.total-item,
 .cart-items {
     margin-top: 0em;
@@ -793,7 +823,7 @@ div .prodText {
 .cart-item-info h3 span {
     display: block;
     font-weight: 400;
-    font-size: 0.85em;
+    font-size: 1em;
     margin: 0.7em 0;
 }
 
@@ -826,7 +856,7 @@ div .prodText {
 }
 
 .cart-sec {
-    margin-bottom: 3em;
+    margin-bottom: 1em;
 }
 
 .bottom-cd.simpleCart_shelfItem {
@@ -867,22 +897,21 @@ ul.qty li p {
     color: #555;
 }
 
-.delivery {
+/*.delivery {
     margin-top: 3em;
 }
 
 .delivery p {
-    color: #A6A6A6;
+    color: #f0ad4e;
     font-size: 1em;
     font-weight: 400;
     float: left;
-}
+}*/
 
-.delivery span {
-    color: #A6A6A6;
-    font-size: 1em;
-    font-weight: 400;
-    float: right;
+.qty {
+    float: left;
+    width: 80%;
+    font-size: 1.2em !important;
 }
 
 a.continue {

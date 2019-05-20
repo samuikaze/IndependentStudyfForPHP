@@ -221,7 +221,7 @@ $(document).ready(function(){
             data: 'goodid=' + $(this).data("gid"),
             success: function(data) {
                 // AJAX 成功
-                //console.log(data);
+                console.log(data);
                 if(data == "errornogid" || data == "errorgid"){
                     $('span.simpleCart_total').html("錯誤！");
                 }else{
@@ -243,7 +243,7 @@ $(document).ready(function(){
             data: 'clearcart=true',
             success: function(data) {
                 // AJAX 成功
-                //console.log(data);
+                console.log(data);
                 $('span.simpleCart_total').html("NT$" + data);
             },
             error: function(errData) {

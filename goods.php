@@ -60,26 +60,44 @@ $qtydanger = 15;
                     <?php echo ($_GET['action'] == 'viewgoodsdetail')? "<li class=\"thisPosition\">周邊產品詳細資料</li>": ""; ?>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
+                <?php if(!empty($_SESSION['auth'])){ ?>
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <div class="alert alert-warning wadj" role="alert">
+                        <!--div class="alert alert-danger trashcan" role="alert">
                             <div class="ca-r">
                                 <div class="cart box_1">
-                                    <a href="cart.html">
+                                    <a class="simpleCart_empty">
                                         <h3>
                                             <div class="total">
-                                                <span id="simpleCart_total" class="simpleCart_total">NT$<?php echo (!empty($_SESSION['cart']))? $_SESSION['cartTotal'] : 0; ?></span>
-                                                <img src="images/cart.png" alt="" />
+                                                <i class="fas fa-trash" style="color: #a94442;"></i>
+                                                <--img src="images/cart.png" alt="" />
                                             </div>
                                         </h3>
                                     </a>
-                                    <p><a class="simpleCart_empty">清空購物車</a></p>
+                                    <--p><a class="simpleCart_empty">清空購物車</a></p>
+                                </div>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div-->
+                        <div class="alert alert-warning wadj" role="alert">
+                            <div class="ca-r">
+                                <div class="cart box_1">
+                                    <a href="userorder.php?action=viewcart">
+                                        <h3>
+                                            <div class="total">
+                                                <span id="simpleCart_total" class="simpleCart_total">NT$<?php echo (!empty($_SESSION['cart']))? $_SESSION['cartTotal'] : 0; ?></span>
+                                                <i class="fas fa-shopping-cart simpleCart_total"></i>
+                                            </div>
+                                        </h3>
+                                        <p class="simpleCart_total">檢視購物車項目</p>
+                                    </a>
                                 </div>
                             </div>
                             <div class="clearfix"> </div>
                         </div>
                     </div>
                 </div>
+                <?php } ?>
                 <?php if (!empty($_GET['action']) && $_GET['action'] == 'viewallgoods') {
                     $lpp = ($page - 1) * $gpp;      //一頁顯示項目左極限
                     $rpp = $page * $gpp;            //一頁顯示項目右極限
@@ -98,7 +116,7 @@ $qtydanger = 15;
                                     <h3 class="panel-title">警告</h3>
                                 </div>
                                 <div class="panel-body text-center">
-                                    <h2 class="news-warn">目前尚無上架商品。<br /><br />
+                                    <h2 class="warning-warn">目前尚無上架商品。<br /><br />
                                     </h2>
                                 </div>
                             </div>
@@ -124,7 +142,7 @@ $qtydanger = 15;
                                                     <div class="text-center" style="margin-bottom: 15px;">
                                                         <div class="btn-group" role="group" aria-label="...">
                                                             <a href="?action=viewgoodsdetail&goodid=<?php echo $alldatas['goodsOrder'] . "&refpage=$page"; ?>" class="btn btn-success">週邊詳細</a>
-                                                            <a data-gid="<?php echo $alldatas['goodsOrder']; ?>" class="btn btn-info joinCart">加入購物車</a>
+                                                            <a data-gid="<?php echo $alldatas['goodsOrder']; ?>" class="btn btn-info<?php echo (empty($_SESSION['auth']))? "" : " joinCart"; ?>" <?php echo (empty($_SESSION['auth']))? "disabled=\"disabled\" title=\"此功能登入後才可使用\"" : "";?>>加入購物車</a>
                                                         </div>
                                                     </div>
                                                 </p>
@@ -246,7 +264,7 @@ $qtydanger = 15;
                                     </table>
                                 </div>
                                 <div class="clearfix"></div>
-                                <a href="cart.html" class="btn btn-block btn-lg btn-info">加入購物車</a>
+                                <a data-gid="<?php echo $goodsdetail['goodsOrder']; ?>" class="btn btn-info btn-lg btn-block<?php echo (empty($_SESSION['auth']))? "" : " joinCart"; ?>" <?php echo (empty($_SESSION['auth']))? "disabled=\"disabled\" title=\"此功能登入後才可使用\"" : "";?>>加入購物車</a>
                             </div>
                         </div>
                     <?php }

@@ -23,6 +23,10 @@ if(empty($_SERVER['QUERY_STRING'])){
             echo $result;
             exit;
         }else{
+            if(empty($_SESSION['auth'])){
+                mysqli_close($connect);
+                exit;
+            }
             $gid = $_POST['goodid'];
             // 先判斷有沒有該項商品
             $ifgoods = mysqli_query($connect, "SELECT * FROM `goodslist` WHERE `goodsOrder`=$gid;");
@@ -73,12 +77,15 @@ if(empty($_SERVER['QUERY_STRING'])){
             foreach($_SESSION['cart'][0] as $j => $val){
                 if($j == 0){
                     $sqlStr = "`goodsOrder`=$val";
+                    $order = "ORDER BY CASE `goodsOrder` WHEN $val THEN " . ($j + 1);
                 }else{
                     $sqlStr .= " OR `goodsOrder`=$val";
+                    $order .= " WHEN $val THEN " . ($j + 1);
                 }
             }
+            $order .= " END";
             // 取出目前購物車內項目的價格
-            $prices = mysqli_query($connect, "SELECT `goodsOrder`, `goodsPrice` FROM `goodslist` WHERE $sqlStr ORDER BY `goodsOrder` ASC");
+            $prices = mysqli_query($connect, "SELECT `goodsOrder`, `goodsPrice` FROM `goodslist` WHERE $sqlStr $order");
             //$temp = "SELECT `goodsOrder`, `goodsPrice` FROM `goodslist` WHERE $sqlStr ORDER BY `goodsOrder` ASC";
             $total = 0;
             $k = 0;
@@ -96,7 +103,14 @@ if(empty($_SERVER['QUERY_STRING'])){
         exit;
     }elseif(!empty($_GET['action']) && $_GET['action'] == 'clearcart'){
         unset($_SESSION['cart']);
-        echo 0;
+        mysqli_close($connect);
+        // 如果是從表單送出的話要重導向回原頁面
+        if(!empty($_POST['identify']) && $_POST['identify'] == 'form'){
+            header("Location: userorder.php?action=viewcart");
+        // 如果是 AJAX 異步處理則只需要返回 0 就好
+        }else{
+            echo 0;
+        }
     }
 }
 ?>
