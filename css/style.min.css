@@ -790,6 +790,11 @@ div .prodText {
     font-size: 1.3em;
 }
 
+.cartPanelSmall {
+    font-weight: normal;
+    font-size: 1.1em;
+}
+
 .cartItemTitle {
     font-weight: bold;
     font-size: 1.5em;
@@ -830,6 +835,10 @@ div .prodText {
 .cart-item-info h4 span {
     font-size: 0.65em;
     font-weight: 400;
+}
+
+.rstcart {
+    margin-bottom: 3em;
 }
 
 .close1,
@@ -910,8 +919,71 @@ ul.qty li p {
 
 .qty {
     float: left;
-    width: 80%;
+    width: 50%;
     font-size: 1.2em !important;
+}
+
+.tot {
+    float: right;
+    text-align: right;
+    width: 50%;
+    font-size: 1.2em !important;
+}
+
+.totPanel {
+    float: left;
+    width: 30%;
+    padding-left: 7px;
+}
+
+.totValPanel {
+    float: right;
+    width: calc(68% - 14px) !important;
+    padding-right: 7px;
+    text-align: left;
+}
+
+.cartbtn-margin {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+}
+
+.cartitem-margin {
+    margin: 10px 0 10px 0 !important;
+}
+
+.cart-btn-group {
+    width: 50%;
+    font-size: 1.2em;
+}
+
+h1.orderBreadcrumb {
+    color: rgb(145, 145, 145);
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+h1.orderBreadcrumb > span {
+    color: rgb(196, 134, 0);
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+h1.orderBreadcrumb {
+    margin: 1em 0 1em 0;
+}
+
+hr.divideBC {
+    color: gray;
+    margin: 1.5em 0 1.5em 0;
+}
+
+hr.divideTotal {
+    margin: 0.5em 0 0.5em 0;
+}
+
+.checkout-lasttext {
+    font-weight: bold;
 }
 
 a.continue {

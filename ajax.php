@@ -22,6 +22,11 @@ if(empty($_SERVER['QUERY_STRING'])){
             mysqli_close($connect);
             echo $result;
             exit;
+        }elseif(!empty($_SESSION['cart']['checkoutstatus']) && $_SESSION['cart']['checkoutstatus'] == 'notcomplete'){
+            $result = 'errorincheck';
+            mysqli_close($connect);
+            echo $result;
+            exit;
         }else{
             if(empty($_SESSION['auth'])){
                 mysqli_close($connect);

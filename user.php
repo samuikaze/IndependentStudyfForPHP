@@ -148,6 +148,18 @@ if (empty($_SESSION['auth'])) {
                                     <label for="useremail">電子郵件</label>
                                     <input type="email" name="useremail" class="form-control" id="useremail" placeholder="請輸入欲修改的電子郵件，如不修改請留空" value="<?php echo $datarow['userEmail']; ?>" />
                                 </div>
+                                <div class="form-group">
+                                    <label for="userrealname">真實姓名</label>
+                                    <input type="text" name="userrealname" class="form-control" id="userrealname" placeholder="請輸入您的真實姓名，此項目用於訂購商品用" value="<?php echo $datarow['userRealName']; ?>" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="userphone">電話</label>
+                                    <input type="text" name="userphone" class="form-control" id="userphone" placeholder="請輸入您的連絡電話，此項目用於訂購商品用" value="<?php echo $datarow['userPhone']; ?>" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="useraddress">地址</label>
+                                    <input type="text" name="useraddress" class="form-control" id="useraddress" placeholder="請輸入您的地址，此項目用於訂購商品用" value="<?php echo $datarow['userAddress']; ?>" />
+                                </div>
                                 <div class="form-group text-center">
                                     <input type="submit" name="submit" value="確認修改" class="btn btn-success" />
                                 </div>

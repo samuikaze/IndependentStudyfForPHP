@@ -224,6 +224,8 @@ $(document).ready(function(){
                 console.log(data);
                 if(data == "errornogid" || data == "errorgid"){
                     $('span.simpleCart_total').html("錯誤！");
+                }else if(data == "errorincheck"){
+                    $('span.simpleCart_total').html("結帳中！");
                 }else{
                     $('span.simpleCart_total').html("NT$" + data);
                 }

@@ -9,8 +9,8 @@
             case true:                                        //sid的cookie存在
                 $sid = $_COOKIE['sid'];
                 $sql = mysqli_query($connect, "SELECT * FROM sessions WHERE sessionID = '$sid'");
-                $row = mysqli_fetch_array($sql, MYSQLI_BOTH);
-                if ($row['sessionID'] != $_COOKIE['sid'] || $_COOKIE['auth'] != "true"){  //資訊不正確
+                $sessiondata = mysqli_fetch_array($sql, MYSQLI_BOTH);
+                if ($sessiondata['sessionID'] != $_COOKIE['sid'] || $_COOKIE['auth'] != "true"){  //資訊不正確
                         session_start();
                         session_unset();
                         session_destroy();
@@ -23,26 +23,26 @@
                         header("Location: $refurl");
                         exit;
                 }
-                if ($row['sessionID'] == $_COOKIE['sid'] && $_COOKIE['auth'] == "true"){  //資訊正確
+                if ($sessiondata['sessionID'] == $_COOKIE['sid'] && $_COOKIE['auth'] == "true"){  //資訊正確
                         session_start();
-                        $username = $row['userName'];
+                        $username = $sessiondata['userName'];
                         $newsid = session_id();
                         $sql = mysqli_query($connect, "SELECT * FROM `member` WHERE `userName` = '$username'");
-                        $datarow = mysqli_fetch_array($sql, MYSQLI_BOTH);
+                        $suserdata = mysqli_fetch_array($sql, MYSQLI_BOTH);
                         $_SESSION['auth'] = "true";
-                        $_SESSION['user'] = $datarow['userNickname'];
+                        $_SESSION['user'] = $suserdata['userNickname'];
                         $_SESSION['uid'] = $username;
-                        $_SESSION['priv'] = $datarow['userPriviledge'];
+                        $_SESSION['priv'] = $suserdata['userPriviledge'];
                         $ltime = date("Y-m-d H:i:s");
                         $iprmtaddr = (empty($_SERVER['REMOTE_ADDR'])) ? "" : $_SERVER['REMOTE_ADDR'];
                         $ipXFwFor = (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? "" : $_SERVER['HTTP_X_FORWARDED_FOR'];
                         $iphttpvia = (empty($_SERVER['HTTP_VIA'])) ? "" : $_SERVER['HTTP_VIA'];
                         $iphttpcip = (empty($_SERVER["HTTP_CLIENT_IP"])) ? "" : $_SERVER["HTTP_CLIENT_IP"];
-                        if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia || $row['ipHTTPCIP'] != $iphttpcip){ //IP不同就更新資料
-                            $liprmtaddr = $row['ipRmtAddr'];
-                            $lipxfwfor = $row['ipXFwFor'];
-                            $liphttpvia = $row['ipHttpVia'];
-                            $liphttpcip = $row['ipHTTPCIP'];
+                        if ($sessiondata['ipRmtAddr'] != $iprmtaddr || $sessiondata['ipXFwFor'] != $ipXFwFor || $sessiondata['ipHttpVia'] != $iphttpvia || $sessiondata['ipHTTPCIP'] != $iphttpcip){ //IP不同就更新資料
+                            $liprmtaddr = $sessiondata['ipRmtAddr'];
+                            $lipxfwfor = $sessiondata['ipXFwFor'];
+                            $liphttpvia = $sessiondata['ipHttpVia'];
+                            $liphttpcip = $sessiondata['ipHTTPCIP'];
                             mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid', `useBrowser` = '$usebrowser', `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `ipHTTPCIP` = '$iphttpcip', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia', `lastipHTTPCIP`='$liphttpcip' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
                         }else{
                             mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");
@@ -71,8 +71,8 @@
             case True:                                        //sid的cookie存在
                 $sid = $_COOKIE['sid'];
                 $sql = mysqli_query($connect, "SELECT * FROM `sessions` WHERE `sessionID` = '$sid'");
-                $row = mysqli_fetch_array($sql, MYSQLI_BOTH);
-                if ($row['sessionID'] != $_COOKIE['sid'] || $_COOKIE['auth'] != "true"){  //資訊不正確
+                $sessiondata = mysqli_fetch_array($sql, MYSQLI_BOTH);
+                if ($sessiondata['sessionID'] != $_COOKIE['sid'] || $_COOKIE['auth'] != "true"){  //資訊不正確
                         session_start();
                         session_unset();
                         session_destroy();
@@ -81,26 +81,26 @@
                         setcookie("auth", "", time()-3600);
                         session_start();
                 }
-                if ($row['sessionID'] == $_COOKIE['sid'] && $_COOKIE['auth'] == "true"){  //資訊正確
+                if ($sessiondata['sessionID'] == $_COOKIE['sid'] && $_COOKIE['auth'] == "true"){  //資訊正確
                         session_start();
-                        $username = $row['userName'];
+                        $username = $sessiondata['userName'];
                         $newsid = session_id();
                         $sql = mysqli_query($connect, "SELECT * FROM `member` WHERE `userName` = '$username'");
-                        $datarow = mysqli_fetch_array($sql, MYSQLI_BOTH);
+                        $suserdata = mysqli_fetch_array($sql, MYSQLI_BOTH);
                         $_SESSION['auth'] = "true";
-                        $_SESSION['user'] = $datarow['userNickname'];
+                        $_SESSION['user'] = $suserdata['userNickname'];
                         $_SESSION['uid'] = $username;
-                        $_SESSION['priv'] = $datarow['userPriviledge'];
+                        $_SESSION['priv'] = $suserdata['userPriviledge'];
                         $ltime = date("Y-m-d H:i:s");
                         $iprmtaddr = (empty($_SERVER['REMOTE_ADDR'])) ? "" : $_SERVER['REMOTE_ADDR'];
                         $ipXFwFor = (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? "" : $_SERVER['HTTP_X_FORWARDED_FOR'];
                         $iphttpvia = (empty($_SERVER['HTTP_VIA'])) ? "" : $_SERVER['HTTP_VIA'];
                         $iphttpcip = (empty($_SERVER['HTTP_CLIENT_IP']))? "" : $_SERVER['HTTP_CLIENT_IP'];
-                        if ($row['ipRmtAddr'] != $iprmtaddr || $row['ipXFwFor'] != $ipXFwFor || $row['ipHttpVia'] != $iphttpvia || $row['ipHTTPCIP'] != $iphttpcip){ //IP不同就更新資料
-                            $liprmtaddr = $row['ipRmtAddr'];
-                            $lipxfwfor = $row['ipXFwFor'];
-                            $liphttpvia = $row['ipHttpVia'];
-                            $liphttpcip = $row['ipHTTPCIP'];
+                        if ($sessiondata['ipRmtAddr'] != $iprmtaddr || $sessiondata['ipXFwFor'] != $ipXFwFor || $sessiondata['ipHttpVia'] != $iphttpvia || $sessiondata['ipHTTPCIP'] != $iphttpcip){ //IP不同就更新資料
+                            $liprmtaddr = $sessiondata['ipRmtAddr'];
+                            $lipxfwfor = $sessiondata['ipXFwFor'];
+                            $liphttpvia = $sessiondata['ipHttpVia'];
+                            $liphttpcip = $sessiondata['ipHTTPCIP'];
                             mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid', `useBrowser` = '$usebrowser', `ipRmtAddr` = '$iprmtaddr', `ipXFwFor` = '$ipXFwFor', `ipHttpVia` = '$iphttpvia', `ipHTTPCIP` = '$iphttpcip', `lastipRmtAddr` = '$liprmtaddr', `lastipXFwFor` = '$lipxfwfor', `lastipHttpVia` = '$liphttpvia', `lastipHTTPCIP` = '$liphttpcip' WHERE `sessionID` = '$newsid'");                //修改這次IP和上次IP
                         }else{
                             mysqli_query($connect, "UPDATE `sessions` SET `loginTime` = '$ltime', `sessionID` = '$newsid' WHERE `sessionID` = '$sid'");

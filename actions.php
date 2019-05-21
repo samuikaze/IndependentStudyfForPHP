@@ -377,6 +377,9 @@
                 }
                 $usernickname = (empty($_POST['usernickname']))? $usrRs['userNickname'] : $_POST['usernickname'];
                 $email = (empty($_POST['useremail']))? $usrRs['userEmail'] : $_POST['useremail'];
+                $userrealname = (empty($_POST['userrealname']))? "NULL" : "'" . $_POST['userrealname'] . "'";
+                $userphone = (empty($_POST['userphone']))? "NULL" : "'" . $_POST['userphone'] . "'";
+                $useraddress = (empty($_POST['useraddress']))? "NULL" : "'" . $_POST['useraddress'] . "'";
                 // 如果要刪除虛擬形象
                 if(!empty($_POST['delavatorimage']) && $_POST['delavatorimage'] == "true"){
                     // 如果有上傳圖片可是也把刪除圖片打勾了
@@ -403,14 +406,14 @@
                 // 如果不上傳虛擬形象
                 if($fileUpload == false){
                     if($deluseravator != True){
-                        $result = mysqli_query($connect, "UPDATE `member` SET $passwdSql`userNickname`='$usernickname', `userEmail`='$email' WHERE `uid`=$uid");
+                        $result = mysqli_query($connect, "UPDATE `member` SET $passwdSql`userNickname`='$usernickname', `userEmail`='$email', `userRealName`=$userrealname, `userPhone`=$userphone, `userAddress`=$useraddress WHERE `uid`=$uid");
                     }else{
-                        mysqli_query($connect, "UPDATE `member` SET $passwdSql`userAvator`='exampleAvator.jpg', `userNickname`='$usernickname', `userEmail`='$email' WHERE `uid`=$uid");
+                        mysqli_query($connect, "UPDATE `member` SET $passwdSql`userAvator`='exampleAvator.jpg', `userNickname`='$usernickname', `userEmail`='$email', `userRealName`=$userrealname, `userPhone`=$userphone, `userAddress`=$useraddress WHERE `uid`=$uid");
                     }
                 // 如果有上傳虛擬形象
                 }else{
                     move_uploaded_file($_FILES["avatorimage"]["tmp_name"], "images/userAvator/$targetfilename");
-                    mysqli_query($connect, "UPDATE `member` SET $passwdSql`userAvator`='$targetfilename', `userNickname`='$usernickname', `userEmail`='$email' WHERE `uid`=$uid");
+                    mysqli_query($connect, "UPDATE `member` SET $passwdSql`userAvator`='$targetfilename', `userNickname`='$usernickname', `userEmail`='$email', `userRealName`=$userrealname, `userPhone`=$userphone, `userAddress`=$useraddress WHERE `uid`=$uid");
                 }
                 mysqli_close($connect);
                 // 如果沒有修改密碼就直接導回原頁面
