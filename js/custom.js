@@ -66,6 +66,7 @@ function progressEventListener(event){
     ariaValue = event.progress * 100;
     $('div.progress-bar').attr('aria-valuenow', ariaValue);
     $('div.progress-bar').css('width', percent);
+    $('span.progressPercent').html(Math.round(ariaValue, 1) + '%');
     //adjustVerticalAlignMiddle();
 }
 

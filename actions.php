@@ -425,6 +425,39 @@
                 }
                 exit;
             }
+        }elseif(!empty($_GET['action']) && $_GET['action'] == 'notifypaid'){
+            // 若訂單編號為空
+            if(empty($_GET['oid'])){
+                mysqli_close($connect);
+                header("Location: user.php?action=orderlist&msg=notifyerrnooid");
+            }else{
+                $oid = $_GET['oid'];
+                mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已通知付款' WHERE `orderID`=$oid;");
+                mysqli_close($connect);
+                header("Location: user.php?action=orderlist&msg=notifysuccess");
+                exit;
+            }
+        }elseif(!empty($_GET['action']) && $_GET['action'] == 'removeorder'){
+            // 如果訂單編號為空
+            if(empty($_POST['oid'])){
+                mysqli_close($connect);
+                header("Location: user.php?action=orderlist&msg=notifyerrnooid");
+                exit;
+            // 如果申請原因為空
+            }elseif(empty($_POST['removereason'])){
+                mysqli_close($connect);
+                header("Location: user.php?action=removeorder&oid=" . $_POST['oid'] . "&msg=removeerrnoremovereason");
+                exit;
+            }else{
+                $oid = $_POST['oid'];
+                $reason = $_POST['removereason'];
+                $removedate = date("Y-m-d H:i:s");
+                mysqli_query($connect, "INSERT INTO `removeorder` (`targetOrder`, `removeReason`, `removeDate`) VALUES ('$oid', '$reason', '$removedate');");
+                mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已申請取消訂單';");
+                mysqli_close($connect);
+                header("Location: user.php?action=orderlist&msg=removesuccess");
+                exit;
+            }
         }
     }
 ?>

@@ -38,6 +38,16 @@
         margin: 15px auto;
     }
 
+    .progress-bar {
+        text-align: right !important;
+    }
+
+    .progress-bar > span {
+        font-weight: bold;
+        font-size: 1.2em;
+        text-shadow: 0px 0px 5px #7fbbf1, 0px 0px 5px #7fbbf1, 0px 0px 5px #7fbbf1, 0px 0px 5px #7fbbf1, 0px 0px 5px #7fbbf1;
+    }
+
     .loadscr .loadTitle {
         font-size: 3.5em;
         color: white;

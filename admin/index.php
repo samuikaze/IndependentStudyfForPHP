@@ -85,7 +85,13 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                                     <li><a href="#">封鎖清單</a></li>
                                 </ul>
                             </li>
-                            <li><a href="?action=goods_admin&type=goodslist">商品管理</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商品管理 <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="?action=goods_admin&type=goodslist">商品管理</a></li>
+                                    <li><a href="#">訂單管理</a></li>
+                                </ul>
+                            </li>
                             <li><a href="index.php?action=backendlogout">離開後台</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->

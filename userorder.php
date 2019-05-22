@@ -35,6 +35,10 @@ if ($_GET['action'] == 'order') {
         mysqli_close($connect);
         header("Location: userorder.php?action=order&step=1&msg=nocheckoutdata");
         exit;
+    } elseif ($_GET['step'] == 3 && (empty($_POST['clientcasher']))) {
+        mysqli_close($connect);
+        header("Location: userorder.php?action=order&step=2&msg=nocasherdata");
+        exit;
     }
 }
 ?>
@@ -164,7 +168,7 @@ if ($_GET['action'] == 'order') {
                                     <h4><strong>請確實選擇一種結帳方式！</strong></h4>
                                 </div>
                             <?php } ?>
-                            <div class="col-md-9 cart-total">
+                            <div class="<?php echo (!empty($_GET['step']) && $_GET['step'] == '4') ? "col-md-12" : "col-md-9" ?> cart-total">
                                 <?php /*第一步*/ if ($_GET['step'] == '1') {
                                     $dataSql = mysqli_query($connect, "SELECT * FROM `checkout` WHERE `type`='freight';");
                                     // 先把資料處理起來
@@ -204,40 +208,57 @@ if ($_GET['action'] == 'order') {
                                 if (!empty($_POST['fPattern'])) {
                                     $_SESSION['cart']['fpattern'] = $_POST['fPattern'];
                                 }
-                                $freight = mysqli_fetch_array(mysqli_query($connect, "SELECT `fee` FROM `checkout` WHERE `type`='freight' AND `pattern`='" . $_SESSION['cart']['fpattern'] . "';"), MYSQLI_ASSOC);
+                                // 取取貨方式資料
+                                $freight = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `checkout` WHERE `type`='freight' AND `pattern`='" . $_SESSION['cart']['fpattern'] . "';"), MYSQLI_ASSOC);
                                 $_SESSION['cart']['freight'] = $freight['fee'];
-                                if(!empty($_SESSION['cart']['clientname'])){
+                                // 是否須先付現金
+                                $_SESSION['cart']['cashType'] = $freight['cashType'];
+                                // 是否為送貨地址
+                                $_SESSION['cart']['isRAddr'] = $freight['isRAddr'];
+                                // 如果不是取貨付款就得取付款方式的資料
+                                if ($_SESSION['cart']['cashType'] == 'cash') {
+                                    $casherSql = mysqli_query($connect, "SELECT * FROM `checkout` WHERE `type`='casher';");
+                                }
+                                if (!empty($_SESSION['cart']['clientname'])) {
                                     $clientname = "value=\"" . $_SESSION['cart']['clientname'] . "\" ";
-                                }else{
-                                    if(!empty($suserdata['userRealName'])){
+                                } else {
+                                    if (!empty($suserdata['userRealName'])) {
                                         $clientname = "value=\"" . $suserdata['userRealName'] . "\" ";
-                                    }else{
+                                    } else {
                                         $clientname = "";
                                     }
                                 }
-                                if(!empty($_SESSION['cart']['clientphone'])){
+                                if (!empty($_SESSION['cart']['clientphone'])) {
                                     $clienphone = "value=\"" . $_SESSION['cart']['clientphone'] . "\" ";
-                                }else{
-                                    if(!empty($suserdata['userPhone'])){
+                                } else {
+                                    if (!empty($suserdata['userPhone'])) {
                                         $clienphone = "value=\"" . $suserdata['userPhone'] . "\" ";
-                                    }else{
+                                    } else {
                                         $clienphone = "";
                                     }
                                 }
-                                if(!empty($_SESSION['cart']['clientaddress'])){
+                                // 已經送過資料
+                                if (!empty($_SESSION['cart']['clientaddress'])) {
                                     $clienaddress = "value=\"" . $_SESSION['cart']['clientaddress'] . "\" ";
-                                }else{
-                                    if($_SESSION['cart']['fpattern'] != "貨送到府"){
-                                        if(!empty($suserdata['userPhone'])){
-                                            $clienaddress = "value=\"" . $suserdata['userPhone'] . "\" ";
-                                        }else{
+                                    // 還沒送過資料
+                                } else {
+                                    // 應該要填真實地址
+                                    if ($_SESSION['cart']['isRAddr'] == "true") {
+                                        if (!empty($suserdata['clientaddress'])) {
+                                            $clienaddress = "value=\"" . $suserdata['clientaddress'] . "\" ";
+                                        } else {
                                             $clienaddress = "";
                                         }
-                                    }else{
+                                    } else {
                                         $clienaddress = "";
                                     }
                                 }
-                                ?>
+                                if (!empty($_GET['msg']) && $_GET['msg'] == 'nocasherdata') { ?>
+                                        <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4><strong>請確實選擇一種付款方式！</strong></h4>
+                                        </div>
+                                    <?php } ?>
                                     <div class="panel panel-info">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">Step 2 - 輸入下訂資料</h3>
@@ -253,9 +274,20 @@ if ($_GET['action'] == 'order') {
                                                     <input type="text" name="clientphone" class="form-control" id="clientphone" placeholder="請輸入您的電話" <?php echo $clienphone; ?>required />
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="clientaddress"><?php echo ($_SESSION['cart']['fpattern'] == "貨送到府") ? "收貨地址" : "最近的郵局或超商名稱"; ?></label>
-                                                    <input type="text" name="clientaddress" class="form-control" id="clientaddress" placeholder="請輸入<?php echo ($_SESSION['cart']['fpattern'] == "貨送到府") ? "您的收貨地址" : "最近的郵局或超商名稱"; ?>" <?php echo $clienaddress; ?>required />
+                                                    <label for="clientaddress"><?php echo ($_SESSION['cart']['isRAddr'] == "true") ? "收貨地址" : "最近的郵局或超商名稱"; ?></label>
+                                                    <input type="text" name="clientaddress" class="form-control" id="clientaddress" placeholder="請輸入<?php echo ($_SESSION['cart']['isRAddr'] == "true") ? "您的收貨地址" : "最近的郵局或超商名稱"; ?>" <?php echo $clienaddress; ?>required />
                                                 </div>
+                                                <?php if ($_SESSION['cart']['cashType'] == 'cash') { ?>
+                                                    <div class="form-group">
+                                                        <label for="clientcasher">付款方式</label>
+                                                        <select class="form-control" name="clientcasher" id="clientcasher">
+                                                            <option value="">請選擇付款方式</option>
+                                                            <?php while ($casher = mysqli_fetch_array($casherSql, MYSQLI_ASSOC)) { ?>
+                                                                <option value="<?php echo $casher['pattern']; ?>"><?php echo $casher['pattern']; ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                <?php } ?>
                                                 <div class="form-group">
                                                     <label for="fPattern">結帳方式</label>
                                                     <div class="col-sm-12">
@@ -272,6 +304,7 @@ if ($_GET['action'] == 'order') {
                                 $_SESSION['cart']['clientname'] = $_POST['clientname'];
                                 $_SESSION['cart']['clientphone'] = $_POST['clientphone'];
                                 $_SESSION['cart']['clientaddress'] = $_POST['clientaddress'];
+                                $_SESSION['cart']['clientcasher'] = $_POST['clientcasher'];
                                 // 處理商品資訊
                                 $inCar = $_SESSION['cart'][0];
                                 $qty = $_SESSION['cart'][0];
@@ -306,19 +339,19 @@ if ($_GET['action'] == 'order') {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php  
+                                                        <?php
                                                         $j = 0;
                                                         while ($goodsData = mysqli_fetch_array($perfSql, MYSQLI_ASSOC)) { ?>
-                                                        <!-- 一個商品 -->
-                                                        <tr>
-                                                            <td><?php echo $goodsData['goodsName']; ?></td>
-                                                            <td><?php echo $_SESSION['cart'][1][$j]; ?></td>
-                                                            <td><?php echo $goodsData['goodsPrice']; ?></td>
-                                                            <td><?php echo $_SESSION['cart'][1][$j] * $goodsData['goodsPrice']; ?> 元</td>
-                                                        </tr>
-                                                        <!-- /一個商品 -->
-                                                        <?php
-                                                        $j += 1;
+                                                            <!-- 一個商品 -->
+                                                            <tr>
+                                                                <td><?php echo $goodsData['goodsName']; ?></td>
+                                                                <td><?php echo $_SESSION['cart'][1][$j]; ?></td>
+                                                                <td><?php echo $goodsData['goodsPrice']; ?></td>
+                                                                <td><?php echo $_SESSION['cart'][1][$j] * $goodsData['goodsPrice']; ?> 元</td>
+                                                            </tr>
+                                                            <!-- /一個商品 -->
+                                                            <?php
+                                                            $j += 1;
                                                         } ?>
                                                         <tr>
                                                             <td colspan="2"></td>
@@ -354,13 +387,21 @@ if ($_GET['action'] == 'order') {
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="fPattern"><?php echo ($_SESSION['cart']['fpattern'] == "貨送到府") ? "收貨地址" : "最近的郵局或超商名稱"; ?></label>
+                                                    <label for="fPattern"><?php echo ($_SESSION['cart']['isRAddr'] == "true") ? "收貨地址" : "最近的郵局或超商名稱"; ?></label>
                                                     <div class="col-sm-12">
                                                         <p class="form-control-static"><?php echo $_POST['clientaddress']; ?></p>
                                                     </div>
                                                 </div>
+                                                <?php if (!empty($_SESSION['cart']['clientcasher'])) { ?>
+                                                    <div class="form-group">
+                                                        <label for="clientcasher">付款方式</label>
+                                                        <div class="col-sm-12">
+                                                            <p class="form-control-static"><?php echo $_SESSION['cart']['clientcasher']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
                                                 <div class="form-group">
-                                                    <label for="fPattern">結帳方式</label>
+                                                    <label for="fPattern">取貨方式</label>
                                                     <input type="hidden" name="fPattern" id="fPattern" value="<?php echo $_SESSION['cart']['fpattern']; ?>" />
                                                     <div class="col-sm-12">
                                                         <p class="form-control-static"><?php echo $_SESSION['cart']['fpattern']; ?></p>
@@ -383,47 +424,107 @@ if ($_GET['action'] == 'order') {
                                             </div>
                                         </div>
                                     </form>
-                                <?php /* 第四步 */ } elseif ($_GET['step'] == '4') { 
-                                    unset($_SESSION['cart']);?>
-
+                                <?php /* 第四步 */ } elseif ($_GET['step'] == '4') {
+                                $userrealname = $_SESSION['cart']['clientname'];
+                                $userphone = $_SESSION['cart']['clientphone'];
+                                $useraddress = $_SESSION['cart']['clientaddress'];
+                                $uid = $suserdata['uid'];
+                                $username = $_SESSION['uid'];
+                                $orderprice = $_SESSION['cartTotal'] + $_SESSION['cart']['freight'];
+                                $orderdate = date("Y-m-d H:i:s");
+                                $orderpattern = $_SESSION['cart']['fpattern'];
+                                $status = ($_SESSION['cart']['cashType'] == "cash") ? "等待付款" : "等待出貨";
+                                $freight = $_SESSION['cart']['freight'];
+                                $ordercasher = ($_SESSION['cart']['cashType'] == "cash") ? $_SESSION['cart']['clientcasher'] : "取貨付款";
+                                // 處理 SQL 的 orderContent 字串
+                                // 每個項目用 , 隔開，其中品項與數量以 : 隔開
+                                $ordercontent = "";
+                                foreach ($_SESSION['cart'][0] as $i => $val) {
+                                    // 內容不為空才執行
+                                    if (!empty($val)) {
+                                        // 第一次跑不需要加逗號
+                                        if ($i == 0) {
+                                            $ordercontent .= "$val:" . $_SESSION['cart'][1][$i];
+                                        } else {
+                                            $ordercontent .= ",$val:" . $_SESSION['cart'][1][$i];
+                                        }
+                                        // 否則就跳過
+                                    } else {
+                                        continue;
+                                    }
+                                }
+                                if (!empty($_POST['savedata']) && $_POST['savedata'] == 'true') {
+                                    // 如果表單中「儲存資料到帳號資料中」被勾選
+                                    if ($_SESSION['cart']['isRAddr'] == "true") {
+                                        mysqli_query($connect, "UPDATE `member` SET `userRealName`='$userrealname', `userPhone`='$userphone', `userAddress`='$useraddress' WHERE `uid`=$uid;");
+                                    } else {
+                                        mysqli_query($connect, "UPDATE `member` SET `userRealName`='$userrealname', `userPhone`='$userphone' WHERE `uid`=$uid;");
+                                    }
+                                }
+                                // 寫入訂單資料
+                                mysqli_query($connect, "INSERT INTO `orders` (`orderMember`, `orderContent`, `orderRealName`, `orderPhone`, `orderAddress`, `orderPrice`, `orderDate`, `orderCasher`, `orderPattern`, `orderFreight`, `orderStatus`) VALUES ('$username', '$ordercontent', '$userrealname', '$userphone', '$useraddress', '$orderprice', '$orderdate', '$ordercasher', '$orderpattern', '$freight', '$status');");
+                                // SELECT LAST_INSERT_ID(); 這個 SQL 語法會讀取 session 資料，所以取到的最後一筆資料一定是正確的
+                                $lastid = mysqli_fetch_array(mysqli_query($connect, "SELECT LAST_INSERT_ID() AS `lastid`;"), MYSQLI_ASSOC); ?>
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">感謝您的訂購</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            您已順利完成訂購手續，訂單編號為 <?php echo $lastid['lastid']; ?>，應付金額（含運費）為 <strong><?php echo $_SESSION['cartTotal'] + $_SESSION['cart']['freight']; ?></strong> 元。
+                                            <hr />
+                                            出貨須 3 ~ 5 個工作天，還請耐心等候，訂單的處理狀況也可以在會員選單中的「訂單確認」裡確認<br /><br />
+                                            <div class="alert alert-warning" role="alert"><strong>請注意</strong>&nbsp;&nbsp;取消訂單須經過審核後方可取消，已出貨之訂單則不可取消。</div>
+                                            <div class="form-group text-center" style="margin-top: 1em;">
+                                                <div class="btn-group btn-group-lg text-center" role="group">
+                                                    <a href="goods.php" class="btn btn-info">返回商品頁面</a>
+                                                    <a href="user.php?action=orderlist" class="btn btn-success">確認訂單資料</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                    // 清 SESSION
+                                    unset($_SESSION['cart']);
+                                } ?>
+                            </div>
+                        <?php }
+                    if (empty($_GET['step']) || $_GET['step'] != 4) { ?>
+                            <div class="col-md-3 cart-total">
+                                <?php if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
+                                    <a class="btn btn-info btn-block btn-lg" <?php echo (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete') ? " href=\"goods.php?action=viewallgoods\"" : ""; ?> style="margin-bottom: 1em;" <?php echo (!empty($_SESSION['cart']['checkoutstatus']) && $_SESSION['cart']['checkoutstatus'] == 'notcomplete') ? "disabled=\"disabled\" title=\"進入結帳程序後不可修改您的購物車內容\"" : ""; ?>>繼續選購</a>
+                                <?php } ?>
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">總額<?php echo ($_GET['action'] == 'viewcart' || ($_GET['action'] == 'order' && $_GET['step'] == '1')) ? "（不含運費）" : ""; ?></h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="totPanel"><span class="<?php echo ($_GET['action'] == 'order' && $_GET['step'] > 1) ? "cartPanelSmall" : "cartPanel"; ?>">小計</span></div>
+                                            <div class="totValPanel"><span class="<?php echo ($_GET['action'] == 'order' && $_GET['step'] > 1) ? "cartPanelSmall" : "cartPanel"; ?>">NT$ <?php echo (empty($_SESSION['cart'])) ? 0 : $_SESSION['cartTotal']; ?></span></div>
+                                            <?php if ($_GET['action'] == 'order' && $_GET['step'] != '1') { ?>
+                                                <div class="totPanel"><span class="cartPanelSmall">運費</span></div>
+                                                <div class="totValPanel"><span class="cartPanelSmall">NT$ <?php echo $_SESSION['cart']['freight']; ?></span></div>
+                                                <div class="clearfix"></div>
+                                                <hr class="divideTotal" />
+                                                <div class="totPanel"><span class="cartPanel">總計</span></div>
+                                                <div class="totValPanel"><span class="cartPanel">NT$ <?php echo $_SESSION['cartTotal'] + $_SESSION['cart']['freight']; ?></span></div>
+                                            <?php } ?>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
+                                    <a class="btn btn-success btn-block btn-lg<?php echo ($_GET['action'] != 'order') ? "" : " rstcart"; ?>" href="<?php echo (!empty($_SESSION['cart'])) ? "?action=order&step=1" : "goods.php" ?>"><?php echo (!empty($_SESSION['cart'])) ? "立即下單" : "立即選購"; ?></a>
+                                <?php }
+                            if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
+                                    <hr class="cartbtn-margin" />
+                                    <form action="ajax.php?action=clearcart" method="POST">
+                                        <input type="hidden" name="identify" value="form" />
+                                        <input type="submit" name="submit" class="btn btn-danger btn-lg btn-block rstcart" value="重置購物車" />
+                                    </form>
                                 <?php } ?>
                             </div>
                         <?php } ?>
-                        <div class="col-md-3 cart-total">
-                            <?php if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
-                                <a class="btn btn-info btn-block btn-lg" <?php echo (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete') ? " href=\"goods.php?action=viewallgoods\"" : ""; ?> style="margin-bottom: 1em;" <?php echo (!empty($_SESSION['cart']['checkoutstatus']) && $_SESSION['cart']['checkoutstatus'] == 'notcomplete') ? "disabled=\"disabled\" title=\"進入結帳程序後不可修改您的購物車內容\"" : ""; ?>>繼續選購</a>
-                            <?php } ?>
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">總額<?php echo ($_GET['action'] == 'viewcart' || ($_GET['action'] == 'order' && $_GET['step'] == '1')) ? "（不含運費）" : ""; ?></h3>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="totPanel"><span class="<?php echo ($_GET['action'] == 'order' && $_GET['step'] > 1) ? "cartPanelSmall" : "cartPanel"; ?>">小計</span></div>
-                                        <div class="totValPanel"><span class="<?php echo ($_GET['action'] == 'order' && $_GET['step'] > 1) ? "cartPanelSmall" : "cartPanel"; ?>">NT$ <?php echo (empty($_SESSION['cart'])) ? 0 : $_SESSION['cartTotal']; ?></span></div>
-                                        <?php if ($_GET['action'] == 'order' && $_GET['step'] != '1') { ?>
-                                            <div class="totPanel"><span class="cartPanelSmall">運費</span></div>
-                                            <div class="totValPanel"><span class="cartPanelSmall">NT$ <?php echo $_SESSION['cart']['freight']; ?></span></div>
-                                            <div class="clearfix"></div>
-                                            <hr class="divideTotal" />
-                                            <div class="totPanel"><span class="cartPanel">總計</span></div>
-                                            <div class="totValPanel"><span class="cartPanel">NT$ <?php echo $_SESSION['cartTotal'] + $_SESSION['cart']['freight']; ?></span></div>
-                                        <?php } ?>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
-                                <a class="btn btn-success btn-block btn-lg<?php echo ($_GET['action'] != 'order') ? "" : " rstcart"; ?>" href="<?php echo (!empty($_SESSION['cart'])) ? "?action=order&step=1" : "goods.php" ?>"><?php echo (!empty($_SESSION['cart'])) ? "立即下單" : "立即選購"; ?></a>
-                            <?php }
-                        if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
-                                <hr class="cartbtn-margin" />
-                                <form action="ajax.php?action=clearcart" method="POST">
-                                    <input type="hidden" name="identify" value="form" />
-                                    <input type="submit" name="submit" class="btn btn-danger btn-lg btn-block rstcart" value="重置購物車" />
-                                </form>
-                            <?php } ?>
-                        </div>
                     </div>
                 </div>
             </div>
