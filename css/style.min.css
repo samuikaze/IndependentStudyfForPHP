@@ -858,6 +858,7 @@ div .prodText {
     position: absolute;
     right: 0px;
     top: 0px;
+    font-weight: bold !important;
     -webkit-transition: color 0.2s ease-in-out;
     -moz-transition: color 0.2s ease-in-out;
     -o-transition: color 0.2s ease-in-out;

@@ -15,6 +15,7 @@ if(empty($_SERVER['QUERY_STRING'])){
     header("Location: ./");
     exit;
 }else{
+    // 加入購物車
     if(!empty($_GET['action']) && $_GET['action'] == 'joincart'){
         // 商品識別碼為空
         if(empty($_POST['goodid'])){
@@ -106,6 +107,7 @@ if(empty($_SERVER['QUERY_STRING'])){
         }
         mysqli_close($connect);
         exit;
+    // 清除購物車
     }elseif(!empty($_GET['action']) && $_GET['action'] == 'clearcart'){
         unset($_SESSION['cart']);
         mysqli_close($connect);
@@ -116,6 +118,117 @@ if(empty($_SERVER['QUERY_STRING'])){
         }else{
             echo 0;
         }
+        exit;
+    // 變更購物車裡商品的數量
+    }elseif(!empty($_GET['action']) && $_GET['action'] == 'changeGQty'){
+        // 若商品編號為空
+        if(empty($_POST['gid'])){
+            // 檢查 SESSION 變數的值，這個值只要進購物車頁面就會重置為 false
+            if(empty($_SESSION['cart']['view']['nogid']) || $_SESSION['cart']['view']['nogid'] != true){
+                $_SESSION['cart']['view']['nogid'] = true;
+                $result = json_encode(array('msg'=>'errornogid', 'erred'=>'false'));
+            // 已經錯誤過就不要再 echo 錯誤訊息了
+            }else{
+                $result = json_encode(array('msg'=>'errornogid', 'erred'=>'true'));
+            }
+            mysqli_close($connect);
+            echo $result;
+            exit;
+        }else{
+            $_SESSION['cart']['view']['nogid'] = false;
+            $gid = $_POST['gid'];
+        }
+        // 若數量為空或為負
+        if(empty($_POST['qty']) || $_POST['qty'] < 0){
+            $result = json_encode(array('msg'=>'errorqty'));
+            mysqli_close($connect);
+            echo $result;
+            exit;
+        }else{
+            $qty = $_POST['qty'];
+        }
+        // 都正確就開始修改數量
+        // 先找出目標商品 ID 在陣列的第幾項
+        foreach($_SESSION['cart'][0] as $i => $val){
+            // 若找到目標商品編號就直接修改數量並跳出迴圈
+            if($val == $gid){
+                $_SESSION['cart'][1][$i] = $qty;
+                break;
+            }
+        }
+        // 商品小計
+        $rGoodsTotal = "小計：NT$ " . $_SESSION['cart'][1][$i] * $_POST['gPrice'];
+        // 總額小計（先更新SESSION再指定給返回值）
+        foreach($_SESSION['cart'][0] as $j => $val){
+            if($j == 0){
+                $sqlStr = "`goodsOrder`=$val";
+                $order = "ORDER BY CASE `goodsOrder` WHEN $val THEN " . ($j + 1);
+            }else{
+                $sqlStr .= " OR `goodsOrder`=$val";
+                $order .= " WHEN $val THEN " . ($j + 1);
+            }
+        }
+        $order .= " END";
+        // 取出目前購物車內項目的價格
+        $prices = mysqli_query($connect, "SELECT `goodsOrder`, `goodsPrice` FROM `goodslist` WHERE $sqlStr $order");
+        $total = 0;
+        $k = 0;
+        while($price = mysqli_fetch_array($prices, MYSQLI_ASSOC)){
+            // 計算總價格
+            $total += ($price['goodsPrice'] * $_SESSION['cart'][1][$k]);
+            $k += 1;
+        }
+        // 將值存進 SESSION 變數方便之後 echo
+        $_SESSION['cartTotal'] = $total;
+        $rAjaxTotal = $_SESSION['cartTotal'];
+        echo json_encode(array('msg'=>'success','gid'=>$gid, 'nTotal'=>$rGoodsTotal, 'ajaxTotal'=>$rAjaxTotal));
+    
+    // 移除購物車項目
+    }elseif(!empty($_GET['action']) && $_GET['action'] == 'removeitem'){
+        // 若商品編號為空
+        if(empty($_POST['gid'])){
+            // 檢查 SESSION 變數的值，這個值只要進購物車頁面就會重置為 false
+            if(empty($_SESSION['cart']['view']['rnogid']) || $_SESSION['cart']['view']['rnogid'] != true){
+                $_SESSION['cart']['view']['rnogid'] = true;
+                $result = json_encode(array('msg'=>'errornogid', 'erred'=>'false'));
+            // 已經錯誤過就不要再 echo 錯誤訊息了
+            }else{
+                $result = json_encode(array('msg'=>'errornogid', 'erred'=>'true'));
+            }
+            mysqli_close($connect);
+            echo $result;
+            exit;
+        }
+        $gid = $_POST['gid'];
+        // 找出要移除的商品在陣列的第幾個
+        foreach($_SESSION['cart'][0] as $i => $val){
+            // 如果找到了就從 SESSION 中移除並跳出迴圈
+            if($val == $gid){
+                $itemQty = $_SESSION['cart'][1][$i];
+                unset($_SESSION['cart'][0][$i]);
+                unset($_SESSION['cart'][1][$i]);
+                // 移除值後讓陣列依舊能連續
+                $_SESSION['cart'][0] = array_values($_SESSION['cart'][0]);
+                $_SESSION['cart'][1] = array_values($_SESSION['cart'][1]);
+                break;
+            }
+        }
+        // 先取得該商品的單價
+        $gPrice = mysqli_fetch_array(mysqli_query($connect, "SELECT `goodsPrice` FROM `goodslist` WHERE `goodsOrder`=$gid;"), MYSQLI_ASSOC);
+        // 算出要移除的商品小計是多少
+        $origPrice = $gPrice['goodsPrice'] * $itemQty;
+        // 更新總額
+        $_SESSION['cartTotal'] -= $origPrice;
+        // 檢查購物車還有沒有東西，若刪完為空則執行重置購物車以避免出錯
+        if(sizeof($_SESSION['cart'][0]) == 0){
+            unset($_SESSION['cart']);
+            mysqli_close($connect);
+        }
+        // 把要返回的值指定給變數
+        $cartTotal = $_SESSION['cartTotal'];
+        $cartitemsqty = (empty($_SESSION['cart'][0])) ? 0 : sizeof($_SESSION['cart'][0]);
+        // 返回值
+        echo json_encode(array('msg'=>'removesuccess', 'gid'=>$gid, 'cartTotal'=>$cartTotal, 'itemsqty'=>$cartitemsqty));
     }
 }
 ?>

@@ -214,6 +214,7 @@ $(document).ready(function(){
 
 // 購物車 AJAX
 $(document).ready(function(){
+    // 加入購物車
     $('a.joinCart').on('click', function(){
         $.ajax({
             url: 'ajax.php?action=joincart',
@@ -222,7 +223,7 @@ $(document).ready(function(){
             data: 'goodid=' + $(this).data("gid"),
             success: function(data) {
                 // AJAX 成功
-                console.log(data);
+                //console.log(data);
                 if(data == "errornogid" || data == "errorgid"){
                     $('span.simpleCart_total').html("錯誤！");
                 }else if(data == "errorincheck"){
@@ -238,6 +239,7 @@ $(document).ready(function(){
         return false;
     });
 
+    // 清除購物車
     $('a.simpleCart_empty').on('click', function(){
         $.ajax({
             url: 'ajax.php?action=clearcart',
@@ -246,7 +248,7 @@ $(document).ready(function(){
             data: 'clearcart=true',
             success: function(data) {
                 // AJAX 成功
-                console.log(data);
+                //console.log(data);
                 $('span.simpleCart_total').html("NT$" + data);
             },
             error: function(errData) {
@@ -254,5 +256,81 @@ $(document).ready(function(){
             }
         });
         return false;
+    });
+
+    // 變更購物車商品數量
+    $('input#goodsQty').change(function(){
+        var gid = $(this).data('gid');
+        var selector = "span#gPrice" + gid;
+        $.ajax({
+            url: 'ajax.php?action=changeGQty',
+            type: 'POST',
+            cache: false,
+            data: 'qty=' + $(this).val() + '&gid=' + gid + '&gPrice=' + $(selector).html(),
+            success: function(data) {
+                // AJAX 成功
+                /* 將 JSON 資料處理為物件
+                 * 取資料方式為「processedData.<varName>」
+                **/
+                //console.log(data);
+                //console.log($(selector).html());
+                var processedData = JSON.parse(data);
+                // 當商品編號為空
+                if(processedData.msg == 'errornogid'){
+                    if(processedData.erred == 'false'){
+                        var alertContent = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\" style=\"margin-top: 1em;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4><strong>無法識別商品編號，請依正常程序修改訂購數量！</strong></h4></div>";
+                        $('div#ajaxmsg').prepend(alertContent);
+                    }
+                }
+                // 若商品數量為空
+                if(processedData.msg == 'errorqty'){
+                    var alertContent = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\" style=\"margin-top: 1em;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4><strong>商品數量不可為空或是負數！</strong></h4></div>";
+                    $('div#ajaxmsg').html(alertContent);
+                }else{
+                    $('div#ajaxmsg').html("");
+                }
+                // 若取得的訊息是 success
+                if(processedData.msg == 'success'){
+                    var gid = processedData.gid;
+                    var totalUpdateSelector = "span#gTot" + gid;
+                    $(totalUpdateSelector).html(processedData.nTotal);
+                    $('span#ajaxTotal').html(processedData.ajaxTotal);
+                }
+
+                //console.log(processedData.msg);
+            },
+            error: function(data) {
+                // AJAX 失敗
+                console.log(data);
+            }
+        })
+    });
+
+    // 移除購物車商品
+    $('a#removeitem').on('click', function(){
+        var gid = $(this).data('gid');
+        $.ajax({
+            url: 'ajax.php?action=removeitem',
+            type: 'POST',
+            cache: false,
+            data: 'gid=' + gid,
+            success: function(data){
+                // AJAX 成功
+                console.log(data);
+                var processedData = JSON.parse(data);
+                var gid = processedData.gid;
+                var removeSelector = 'div#anCartItem' + gid;
+                // 移除該項目
+                $(removeSelector).remove();
+                // 更新右邊總額或小計
+                $('span#ajaxTotal').html(processedData.cartTotal);
+                // 更新購物車商品數量
+                $('span#itemqty').html(processedData.itemsqty);
+            },
+            error: function(data){
+                // AJAX 失敗
+                console.log(data);
+            }
+        });
     });
 });

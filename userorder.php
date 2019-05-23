@@ -82,6 +82,7 @@ if ($_GET['action'] == 'order') {
                 </ol>
                 <div class="container">
                     <div class="check">
+                        <div id="ajaxmsg"></div>
                         <?php if (!empty($_GET['action']) && $_GET['action'] == 'viewcart') { ?>
                             <h1>購物車項目 (<?php echo (empty($_SESSION['cart'])) ? "0" : sizeof($_SESSION['cart'][0]); ?>)</h1>
                         <?php } elseif (!empty($_GET['action']) && $_GET['action'] == 'order') { ?>
@@ -106,6 +107,10 @@ if ($_GET['action'] == 'order') {
                                 if (!empty($_SESSION['cart'])) {
                                     $inCar = $_SESSION['cart'][0];
                                     $qty = $_SESSION['cart'][0];
+                                    // AJAX 檢查用(變更檢查用)
+                                    $_SESSION['cart']['view']['nogid'] = false;
+                                    // AJAX 檢察用(移除商品用)
+                                    $_SESSION['cart']['view']['rnogid'] = false;
                                     // 處理取資料 SQL
                                     foreach ($inCar as $i => $inCarVal) {
                                         if ($i == 0) {
@@ -125,25 +130,27 @@ if ($_GET['action'] == 'order') {
                                     while ($goodsData = mysqli_fetch_array($perfSql, MYSQLI_ASSOC)) {
                                         ?>
                                         <!-- 一個購物車項目 -->
-                                        <div class="cart-header">
-                                            <div class="close1"></div>
-                                            <div class="cart-sec simpleCart_shelfItem">
-                                                <div class="cart-item cyc">
-                                                    <img src="images/goods/<?php echo $goodsData['goodsImgUrl']; ?>" class="img-responsive" alt="" />
-                                                </div>
-                                                <div class="cart-item-info">
-                                                    <h3><a href="goods.php?action=viewgoodsdetail&goodid=<?php echo $goodsData['goodsOrder']; ?>" class="cartItemTitle"><?php echo $goodsData['goodsName']; ?></a><span><?php echo $goodsData['goodsDescript']; ?></span></h3>
-                                                    <div class="alert alert-warning" role="alert">
-                                                        <span class="qty">數量：<?php echo $_SESSION['cart'][1][$j]; ?>&nbsp;・&nbsp;單價：NT$ <?php echo $goodsData['goodsPrice']; ?></span>
-                                                        <span class="tot" style="font-size: 1.2em;">小計：NT$ <?php echo $_SESSION['cart'][1][$j] * $goodsData['goodsPrice']; ?></span>
+                                        <div id="anCartItem<?php echo $goodsData['goodsOrder']; ?>">
+                                            <div class="cart-header">
+                                                <div class="close1"><a id="removeitem" data-gid="<?php echo $goodsData['goodsOrder']; ?>" class="btn btn-warning">×</a></div>
+                                                <div class="cart-sec simpleCart_shelfItem">
+                                                    <div class="cart-item cyc">
+                                                        <img src="images/goods/<?php echo $goodsData['goodsImgUrl']; ?>" class="img-responsive" alt="" />
+                                                    </div>
+                                                    <div class="cart-item-info">
+                                                        <h3><a href="goods.php?action=viewgoodsdetail&goodid=<?php echo $goodsData['goodsOrder']; ?>" class="cartItemTitle"><?php echo $goodsData['goodsName']; ?></a><span><?php echo $goodsData['goodsDescript']; ?></span></h3>
+                                                        <div class="alert alert-warning" role="alert">
+                                                            <span class="qty">數量：<input name="goodsQty" id="goodsQty" data-gid="<?php echo $goodsData['goodsOrder']; ?>" type="number" value="<?php echo $_SESSION['cart'][1][$j]; ?>" style="width: 6em;" />&nbsp;・&nbsp;單價：NT$ <span id="gPrice<?php echo $goodsData['goodsOrder']; ?>"><?php echo $goodsData['goodsPrice']; ?></span></span>
+                                                            <span id="gTot<?php echo $goodsData['goodsOrder']; ?>" class="tot" style="font-size: 1.2em;">小計：NT$ <?php echo $_SESSION['cart'][1][$j] * $goodsData['goodsPrice']; ?></span>
+                                                            <div class="clearfix"></div>
+                                                        </div>
                                                         <div class="clearfix"></div>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                 </div>
-                                                <div class="clearfix"></div>
                                             </div>
+                                            <hr class="cartitem-margin" />
                                         </div>
-                                        <hr class="cartitem-margin" />
                                         <!-- /一個購物車項目 -->
                                         <?php $j += 1;
                                     }
@@ -500,7 +507,7 @@ if ($_GET['action'] == 'order') {
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="totPanel"><span class="<?php echo ($_GET['action'] == 'order' && $_GET['step'] > 1) ? "cartPanelSmall" : "cartPanel"; ?>">小計</span></div>
-                                            <div class="totValPanel"><span class="<?php echo ($_GET['action'] == 'order' && $_GET['step'] > 1) ? "cartPanelSmall" : "cartPanel"; ?>">NT$ <?php echo (empty($_SESSION['cart'])) ? 0 : $_SESSION['cartTotal']; ?></span></div>
+                                            <div class="totValPanel"><span class="<?php echo ($_GET['action'] == 'order' && $_GET['step'] > 1) ? "cartPanelSmall" : "cartPanel"; ?>">NT$ <span id="ajaxTotal"><?php echo (empty($_SESSION['cart'])) ? 0 : $_SESSION['cartTotal']; ?></span></span></div>
                                             <?php if ($_GET['action'] == 'order' && $_GET['step'] != '1') { ?>
                                                 <div class="totPanel"><span class="cartPanelSmall">運費</span></div>
                                                 <div class="totValPanel"><span class="cartPanelSmall">NT$ <?php echo $_SESSION['cart']['freight']; ?></span></div>
