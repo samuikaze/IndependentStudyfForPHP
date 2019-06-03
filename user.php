@@ -459,6 +459,19 @@ if (empty($_SESSION['auth'])) {
                                         </h2>
                                     </div>
                                 </div>
+                            <?php }elseif($orderdetailData['orderMember'] != $_SESSION['uid']){ ?>
+                                <div class="panel panel-danger" style="margin-top: 1em;">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">錯誤</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h2 class="danger-warn">您不是這筆訂單的下訂者，沒有權限可以檢視此訂單！<br /><br />
+                                            <div class="btn-group" role="group">
+                                                <a class="btn btn-lg btn-info" href="?action=orderlist">返回訂單管理</a>
+                                            </div>
+                                        </h2>
+                                    </div>
+                                </div>
                             <?php }else{
                             // 先把個別商品分出來(第$i個商品為$orderGoods[$i])
                             $orderGoods = explode(",", $orderdetailData['orderContent']);

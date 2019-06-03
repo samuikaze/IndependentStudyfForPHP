@@ -9,7 +9,7 @@
     <?php if (!empty($_GET['msg']) && $_GET['msg'] == 'nooid') { ?>
         <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4><strong>無法識別訂單編號，請依正常程序新增商品！</strong></h4>
+            <h4><strong>無法識別訂單編號，請依正常程序操作！</strong></h4>
         </div>
     <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'sendupdatesuccess') { ?>
         <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
@@ -39,7 +39,7 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                             <h3 class="panel-title">資訊</h3>
                         </div>
                         <div class="panel-body text-center">
-                            <h2 class="news-warn">目前沒有任何訂單申請取消！<br /><br /></h2>
+                            <h2 class="news-warn">目前沒有任何訂單！<br /><br /></h2>
                         </div>
                     </div>
                 <?php } else { ?>
@@ -80,7 +80,7 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                             <h3 class="panel-title">資訊</h3>
                         </div>
                         <div class="panel-body text-center">
-                            <h2 class="news-warn">目前沒有任何訂單！<br /><br /></h2>
+                            <h2 class="news-warn">目前沒有任何申請取消的訂單！<br /><br /></h2>
                         </div>
                     </div>
                 <?php } else { ?>
@@ -144,6 +144,12 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                     </div>
                 </div>
             <?php } else {
+                if (!empty($_GET['msg']) && $_GET['msg'] == 'nogoodsqty') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>沒有商品數量資料，請依正常程序操作！</strong></h4>
+                    </div>
+                <?php }
             // 開始顯示資料
             $orderDetailData = mysqli_fetch_array($orderDataSql, MYSQLI_ASSOC);
             // 先處理訂單裡商品的資料
@@ -286,9 +292,14 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                     <?php if ($orderDetailData['orderStatus'] == '等待付款') { ?>
                         <a class="btn btn-success" disabled="disabled" title="待買家付款後才可行出貨">等待付款</a>
                     <?php } elseif ($orderDetailData['orderStatus'] != '已出貨' && $orderDetailData['orderStatus'] != '已申請取消訂單') { ?>
-                        <a href="adminaction.php?action=notifysend&oid=<?php echo $orderDetailData['orderID']; ?>" class="btn btn-success">通知已出貨</a>
+                        <form method="POST" action="adminaction.php?action=notifysend&oid=<?php echo $orderDetailData['orderID']; ?>">
+                            <input type="hidden" name="goodsqty" value="<?php echo $orderDetailData['orderContent']; ?>:" />
+                            <input type="submit" class="btn btn-success" value="通知已出貨" />
                     <?php } ?>
                     <a href="?action=order_admin&type=vieworderlist" class="btn btn-info">返回訂單一覽</a>
+                    <?php if ($orderDetailData['orderStatus'] != '已出貨' && $orderDetailData['orderStatus'] != '已申請取消訂單') { ?>
+                        </form>
+                    <?php } ?>
                 </div>
             <?php }
     }

@@ -469,8 +469,34 @@ if(empty($_SERVER['QUERY_STRING'])){
             mysqli_close($connect);
             header("Location: index.php?action=order_admin&type=vieworderlist&msg=nooid");
             exit;
+        // 如果各商品數量資料為空
+        }elseif(empty($_POST['goodsqty'])){
+            $oid = $_GET['oid'];
+            mysqli_close($connect);
+            header("Location: index.php?action=vieworderdetail&oid=$oid&msg=nogoodsqty");
+            exit;
         }else{
             $oid = $_GET['oid'];
+            $goodsqty = $_POST['goodsqty'];
+            // 先處理訂單裡商品的資料
+            // 先拆品項
+            $goods = explode(",", $goodsqty);
+            // 再把商品ID($goodsinfo[$i][0])和價格拆開($goodsinfo[$i][1])
+            $goodsinfo = array();
+            foreach ($goods as $i => $val) {
+                $goodsinfo[$i] = explode(":", $goods[$i]);
+                // 處理 SQL 條件語法
+                if ($i == 0) {
+                    $condition = $goodsinfo[$i][0];
+                    $gOrder = "WHEN " . $goodsinfo[$i][0] . " THEN `goodsQty`-" . $goodsinfo[$i][1];
+                } else {
+                    $condition .= "," . $goodsinfo[$i][0];
+                    $gOrder .= " WHEN " . $goodsinfo[$i][0] . " THEN `goodsQty`-" . $goodsinfo[$i][1];
+                }
+            }
+            $gOrder .= " END";
+            // 更新商品出貨後數量
+            $goodsdata = mysqli_query($connect, "UPDATE `goodslist` SET `goodsQty`=CASE `goodsOrder` $gOrder WHERE `goodsOrder` IN ($condition);");
             mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已出貨' WHERE `orderID`=$oid;");
             mysqli_close($connect);
             header("Location: index.php?action=order_admin&type=vieworderlist&msg=sendupdatesuccess");
