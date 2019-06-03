@@ -462,7 +462,55 @@ if(empty($_SERVER['QUERY_STRING'])){
             exit;
         }
 
-    // 都不符合上述條件
+    // 通知已出貨
+    }elseif($_GET['action'] == 'notifysend'){
+        // 若訂單編號為空
+        if(empty($_GET['oid'])){
+            mysqli_close($connect);
+            header("Location: index.php?action=order_admin&type=vieworderlist&msg=nooid");
+            exit;
+        }else{
+            $oid = $_GET['oid'];
+            mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已出貨' WHERE `orderID`=$oid;");
+            mysqli_close($connect);
+            header("Location: index.php?action=order_admin&type=vieworderlist&msg=sendupdatesuccess");
+            exit;
+        }
+    // 審核取消訂單
+    }elseif($_GET['action'] == 'applyremoveorder'){
+        // 若訂單編號為空
+        if(empty($_POST['oid'])){
+            mysqli_close($connect);
+            header("Location: index.php?action=order_admin&type=vieworderlist&msg=nooid");
+            exit;
+        }else{
+            // 若審核選項沒有選，通常是透過開發工具改的
+            if(empty($_POST['reviewResult'])){
+                mysqli_close($connect);
+                header("Location: index.php?action=order_admin&type=vieworderlist&msg=noreviewresult");
+                exit;
+            }else{
+                $oid = $_POST['oid'];
+                // 選是選擇通過審核
+                if($_POST['reviewResult'] == 'true'){
+                    // 更新主訂單資料
+                    mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='訂單已取消' WHERE `orderID`=$oid;");
+                    // 更新取消訂單記錄
+                    mysqli_query($connect, "UPDATE `removeorder` SET `removeStatus`='passed' WHERE `targetOrder`=$oid;");
+                }else{
+                    // 先取得原訂單狀態
+                    $orderStatusSQL = mysqli_fetch_array(mysqli_query($connect, "SELECT `orderApplyStatus` FROM `orders` WHERE `orderID`=$oid;"), MYSQLI_ASSOC);
+                    $orderStatus = $orderStatusSQL['orderApplyStatus'];
+                    // 更新主訂單資料
+                    mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='$orderStatus', `removeApplied`=0, `orderApplyStatus`=NULL WHERE `orderID`=$oid;");
+                    // 移除取消訂單的紀錄
+                    mysqli_query($connect, "DELETE FROM `removeorder` WHERE `targetOrder`=$oid;");
+                }
+                mysqli_close($connect);
+                header("Location: index.php?action=order_admin&type=vieworderlist");
+                exit;
+            }
+        }
     }else{
         mysqli_close($connect);
         header("Location: index.php?action=index");

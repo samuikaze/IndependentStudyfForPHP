@@ -89,7 +89,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商品管理 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="?action=goods_admin&type=goodslist">商品管理</a></li>
-                                    <li><a href="#">訂單管理</a></li>
+                                    <li><a href="?action=order_admin&type=vieworderlist">訂單管理</a></li>
                                 </ul>
                             </li>
                             <li><a href="index.php?action=backendlogout">離開後台</a></li>
@@ -116,6 +116,8 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                     include("about_us.php");
                 }elseif($_GET['action'] == 'goods_admin' || $_GET['action'] == 'modifygoods' || $_GET['action'] == 'addgoods' || $_GET['action'] == 'delgoods'){
                     include("goods_admin.php");
+                }elseif($_GET['action'] == 'order_admin' || $_GET['action'] == 'vieworderdetail'){
+                    include("order_admin.php");
                 }else{ ?>
                     <div class="row content-body">
                         <ol class="breadcrumb">

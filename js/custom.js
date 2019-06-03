@@ -216,26 +216,31 @@ $(document).ready(function(){
 $(document).ready(function(){
     // 加入購物車
     $('a.joinCart').on('click', function(){
-        $.ajax({
-            url: 'ajax.php?action=joincart',
-            type: "POST",
-            cache: false,
-            data: 'goodid=' + $(this).data("gid"),
-            success: function(data) {
-                // AJAX 成功
-                //console.log(data);
-                if(data == "errornogid" || data == "errorgid"){
-                    $('span.simpleCart_total').html("錯誤！");
-                }else if(data == "errorincheck"){
-                    $('span.simpleCart_total').html("結帳中！");
-                }else{
-                    $('span.simpleCart_total').html("NT$" + data);
+        var sendgid = $(this).data("gid");
+        if($(this).data("clicked") != "true"){
+            $.ajax({
+                url: 'ajax.php?action=joincart',
+                type: "POST",
+                cache: false,
+                data: 'goodid=' + sendgid,
+                success: function(data) {
+                    // AJAX 成功
+                    //console.log(data);
+                    var ajaxSuccessSelector = "a#goodsjCart" + sendgid;
+                    if(data == "errornogid" || data == "errorgid"){
+                        $('span.simpleCart_total').html("錯誤！");
+                    }else if(data == "errorincheck"){
+                        $('span.simpleCart_total').html("結帳中！");
+                    }else{
+                        $('span.simpleCart_total').html("NT$" + data);
+                    }
+                    $(ajaxSuccessSelector).html("加入購物車成功！").removeClass('btn-info').addClass('btn-success').attr("disabled", "disabled").data("clicked", "true");
+                },
+                error: function(errData) {
+                    // AJAX 失敗
                 }
-            },
-            error: function(errData) {
-                // AJAX 失敗
-            }
-        });
+            });
+        }
         return false;
     });
 

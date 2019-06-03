@@ -76,6 +76,11 @@ if (empty($_SESSION['auth'])) {
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4><strong>請確實輸入您的申請原因！</strong></h4>
                     </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'removeerrnoorderstatus') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>無法取得訂單狀態，請依正常程序操作！</strong></h4>
+                    </div>
                 <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'removesuccess') { ?>
                     <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -193,7 +198,7 @@ if (empty($_SESSION['auth'])) {
                             <div role="tabpanel" class="tab-pane fade<?php echo (!empty($_GET['action']) && $_GET['action'] == 'orderlist') ? " in active" : ""; ?>" id="orderlist">
                                 <?php // 取資料
                                 $uid = $_SESSION['uid'];
-                                $orderlistSql = mysqli_query($connect, "SELECT * FROM `orders` WHERE `orderMember`='$uid' ORDER BY `orderID`;");
+                                $orderlistSql = mysqli_query($connect, "SELECT * FROM `orders` WHERE `orderMember`='$uid' AND `orderStatus`!='訂單已取消' ORDER BY `orderID`;");
                                 $orderNums = mysqli_num_rows($orderlistSql);
                                 // 若沒有下任何訂單
                                 if ($orderNums == 0) { ?>
@@ -229,11 +234,30 @@ if (empty($_SESSION['auth'])) {
                                                     <td><?php echo $orderlistData['orderPrice']; ?></td>
                                                     <td><?php echo $orderlistData['orderDate']; ?></td>
                                                     <td><?php echo $orderlistData['orderPattern']; ?></td>
-                                                    <td><?php echo $orderlistData['orderStatus']; ?></td>
+                                                    <td <?php echo ($orderlistData['orderStatus'] == '已申請取消訂單')? "style=\"color: red;\"" : ""; ?>><?php echo ($orderlistData['orderStatus'] == '已申請取消訂單')? "<strong>" : ""; ?><?php echo $orderlistData['orderStatus']; ?><?php echo ($orderlistData['orderStatus'] == '已申請取消訂單')? "</strong>" : ""; ?></td>
                                                     <td>
                                                         <a href="?action=vieworderdetail&oid=<?php echo $orderlistData['orderID']; ?>" class="btn btn-info">詳細資料</a>
-                                                        <a <?php echo ($orderlistData['orderStatus'] == '等待付款') ? "href=\"actions.php?action=notifypaid&oid=" . $orderlistData['orderID'] . "\"" : ""; ?> class="btn btn-info" <?php echo ($orderlistData['orderStatus'] == '等待付款') ? "" : " disabled=\"disabled\""; ?>><?php echo ($orderlistData['orderStatus'] == '等待付款') ? "通知已付款" : "已付款"; ?></a>
-                                                        <a <?php echo ($orderlistData['removeApplied'] == '0')? "href=\"?action=removeorder&oid=" . $orderlistData['orderID'] . "\"" : ""; ?> class="btn btn-danger" <?php echo ($orderlistData['removeApplied'] == '0')? "" : "disabled=\"disabled\""; ?>><?php echo ($orderlistData['removeApplied'] == '0')? "取消訂單" : "申請審核中"; ?></a>
+                                                        <?php
+                                                        if($orderlistData['orderStatus'] == '已出貨'){
+                                                            $btnName = "貨品已寄出";
+                                                            $casherName = "已付款";
+                                                            $displayUrl = False;
+                                                        }elseif($orderlistData['orderStatus'] == '已申請取消訂單'){
+                                                            $btnName = "申請審核中";
+                                                            $casherName = "審核中";
+                                                            $displayUrl = False;
+                                                        }else{
+                                                            if($orderlistData['orderStatus'] == '等待付款'){
+                                                                $casherName = "通知已付款";
+                                                            }else{
+                                                                $casherName = "已付款";
+                                                            }
+                                                            $btnName = "取消訂單";
+                                                            $displayUrl = True;
+                                                        }
+                                                        ?>
+                                                        <a <?php echo ($orderlistData['orderStatus'] == '等待付款') ? "href=\"actions.php?action=notifypaid&oid=" . $orderlistData['orderID'] . "\"" : ""; ?> class="btn btn-info" <?php echo ($orderlistData['orderStatus'] == '等待付款') ? "" : " disabled=\"disabled\""; ?>><?php echo $casherName; ?></a>
+                                                        <a <?php echo ($displayUrl == True)? "href=\"?action=removeorder&oid=" . $orderlistData['orderID'] . "\"" : ""; ?> class="btn btn-danger" <?php echo ($displayUrl == True)? "" : "disabled=\"disabled\""; ?>><?php echo $btnName; ?></a>
                                                     </td>
                                                 </tr>
                                                 <!-- /一個訂單項目 -->
@@ -422,6 +446,20 @@ if (empty($_SESSION['auth'])) {
                                 </div>
                             <?php } else {
                             $orderdetailData = mysqli_fetch_array($orderdetailSql, MYSQLI_ASSOC);
+                            if($orderdetailData['orderStatus'] == '訂單已取消'){ ?>
+                                <div class="panel panel-danger" style="margin-top: 1em;">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">錯誤</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h2 class="danger-warn">這筆訂單已被取消，請依正常程序執行操作！<br /><br />
+                                            <div class="btn-group" role="group">
+                                                <a class="btn btn-lg btn-info" href="?action=orderlist">返回訂單管理</a>
+                                            </div>
+                                        </h2>
+                                    </div>
+                                </div>
+                            <?php }else{
                             // 先把個別商品分出來(第$i個商品為$orderGoods[$i])
                             $orderGoods = explode(",", $orderdetailData['orderContent']);
                             // 再處理商品ID($goodsinfo[$i][0])和數量($goodsinfo[$i][1])
@@ -547,7 +585,7 @@ if (empty($_SESSION['auth'])) {
                                             <div class="form-group">
                                                 <label class="col-sm-5 control-label sessionCtrlTable">訂單狀態</label>
                                                 <div class="col-sm-7">
-                                                    <p class="form-control-static"><?php echo $orderdetailData['orderStatus']; ?></p>
+                                                    <p class="form-control-static"<?php echo ($orderdetailData['orderStatus'] == '已申請取消訂單')? " style=\"color: red;\"" : ""; ?>><?php echo ($orderdetailData['orderStatus'] == '已申請取消訂單')? "<strong>" : ""; ?><?php echo $orderdetailData['orderStatus']; ?><?php echo ($orderdetailData['orderStatus'] == '已申請取消訂單')? "</strong>" : ""; ?></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -556,6 +594,7 @@ if (empty($_SESSION['auth'])) {
                                 <div class="col-sm-12 text-center" style="margin-bottom: 1em;">
                                     <a href="?action=orderlist" class="btn btn-lg btn-success">返回訂單管理</a>
                                 </div>
+                                        <?php } ?>
                             <?php } ?>
                         <?php } ?>
                     <?php /* 申請取消訂單 */ } elseif (!empty($_GET['action']) && $_GET['action'] == 'removeorder') {
@@ -606,6 +645,19 @@ if (empty($_SESSION['auth'])) {
                                         </h2>
                                     </div>
                                 </div>
+                            <?php }elseif($orderdetailData['orderStatus'] == '訂單已取消'){ ?>
+                                <div class="panel panel-danger" style="margin-top: 1em;">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">錯誤</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <h2 class="danger-warn">這筆訂單已被取消，請依正常程序執行操作！<br /><br />
+                                            <div class="btn-group" role="group">
+                                                <a class="btn btn-lg btn-info" href="?action=orderlist">返回訂單管理</a>
+                                            </div>
+                                        </h2>
+                                    </div>
+                                </div>
                             <?php }else{
                             // 先把個別商品分出來(第$i個商品為$orderGoods[$i])
                             $orderGoods = explode(",", $orderdetailData['orderContent']);
@@ -637,6 +689,7 @@ if (empty($_SESSION['auth'])) {
                                                 <textarea name="removereason" id="removereason" row="3" class="form-control" placeholder="請輸入您想取消此訂單的原因以供我們審核，請您一併付上退款方式"></textarea>
                                             </div>
                                             <input type="hidden" name="oid" value="<?php echo $orderdetailData['orderID']; ?>" />
+                                            <input type="hidden" name="orderstatus" value="<?php echo $orderdetailData['orderStatus']; ?>" />
                                             <hr />
                                             <div class="col-sm-8">
                                                 <div class="panel panel-info" style="margin-top: 1em;">

@@ -142,7 +142,7 @@ $qtydanger = 15;
                                                     <div class="text-center" style="margin-bottom: 15px;">
                                                         <div class="btn-group" role="group" aria-label="...">
                                                             <a href="?action=viewgoodsdetail&goodid=<?php echo $alldatas['goodsOrder'] . "&refpage=$page"; ?>" class="btn btn-success">週邊詳細</a>
-                                                            <a data-gid="<?php echo $alldatas['goodsOrder']; ?>" class="btn btn-info<?php echo (empty($_SESSION['auth']))? "" : " joinCart"; ?>" <?php echo (empty($_SESSION['auth']))? "disabled=\"disabled\" title=\"此功能登入後才可使用\"" : "";?>>加入購物車</a>
+                                                            <a id="goodsjCart<?php echo $alldatas['goodsOrder']; ?>" data-gid="<?php echo $alldatas['goodsOrder']; ?>" data-clicked="false" class="btn btn-info<?php echo (empty($_SESSION['auth']))? "" : " joinCart"; ?>" <?php echo (empty($_SESSION['auth']))? "disabled=\"disabled\" title=\"此功能登入後才可使用\"" : "";?>>加入購物車</a>
                                                         </div>
                                                     </div>
                                                 </p>
@@ -264,7 +264,7 @@ $qtydanger = 15;
                                     </table>
                                 </div>
                                 <div class="clearfix"></div>
-                                <a data-gid="<?php echo $goodsdetail['goodsOrder']; ?>" class="btn btn-info btn-lg btn-block<?php echo (empty($_SESSION['auth']))? "" : " joinCart"; ?>" <?php echo (empty($_SESSION['auth']))? "disabled=\"disabled\" title=\"此功能登入後才可使用\"" : "";?>>加入購物車</a>
+                                <a id="goodsjCart<?php echo $goodsdetail['goodsOrder']; ?>" data-gid="<?php echo $goodsdetail['goodsOrder']; ?>" data-clicked="false" class="btn btn-info btn-lg btn-block<?php echo (empty($_SESSION['auth']))? "" : " joinCart"; ?>" <?php echo (empty($_SESSION['auth']))? "disabled=\"disabled\" title=\"此功能登入後才可使用\"" : "";?>>加入購物車</a>
                             </div>
                         </div>
                     <?php }

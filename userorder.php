@@ -35,7 +35,7 @@ if ($_GET['action'] == 'order') {
         mysqli_close($connect);
         header("Location: userorder.php?action=order&step=1&msg=nocheckoutdata");
         exit;
-    } elseif ($_GET['step'] == 3 && (empty($_POST['clientcasher']))) {
+    } elseif ($_GET['step'] == 3 && $_SESSION['cart']['cashType'] == 'cash' && empty($_POST['clientcasher'])) {
         mysqli_close($connect);
         header("Location: userorder.php?action=order&step=2&msg=nocasherdata");
         exit;
@@ -311,7 +311,12 @@ if ($_GET['action'] == 'order') {
                                 $_SESSION['cart']['clientname'] = $_POST['clientname'];
                                 $_SESSION['cart']['clientphone'] = $_POST['clientphone'];
                                 $_SESSION['cart']['clientaddress'] = $_POST['clientaddress'];
-                                $_SESSION['cart']['clientcasher'] = $_POST['clientcasher'];
+                                if($_SESSION['cart']['cashType'] == 'cash'){
+                                    $_SESSION['cart']['clientcasher'] = $_POST['clientcasher'];
+                                }else{
+                                    $_SESSION['cart']['clientcasher'] = "取貨付款";
+                                }
+                                
                                 // 處理商品資訊
                                 $inCar = $_SESSION['cart'][0];
                                 $qty = $_SESSION['cart'][0];

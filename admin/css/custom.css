@@ -111,3 +111,8 @@
 form {
     margin-top: 1em;
 }
+
+.sessionCtrlTable {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}

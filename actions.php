@@ -448,12 +448,17 @@
                 mysqli_close($connect);
                 header("Location: user.php?action=removeorder&oid=" . $_POST['oid'] . "&msg=removeerrnoremovereason");
                 exit;
+            }elseif(empty($_POST['orderstatus'])){
+                mysqli_close($connect);
+                header("Location: user.php?action=removeorder&oid=" . $_POST['oid'] . "&msg=removeerrnoorderstatus");
+                exit;
             }else{
                 $oid = $_POST['oid'];
+                $orderstatus = $_POST['orderstatus'];
                 $reason = $_POST['removereason'];
                 $removedate = date("Y-m-d H:i:s");
                 mysqli_query($connect, "INSERT INTO `removeorder` (`targetOrder`, `removeReason`, `removeDate`) VALUES ('$oid', '$reason', '$removedate');");
-                mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已申請取消訂單';");
+                mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已申請取消訂單', `removeApplied`=1, `orderApplyStatus`='$orderstatus' WHERE `orderID`=$oid;");
                 mysqli_close($connect);
                 header("Location: user.php?action=orderlist&msg=removesuccess");
                 exit;
