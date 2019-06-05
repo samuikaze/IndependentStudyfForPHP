@@ -16,6 +16,11 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4><strong>訂單狀態更新成功！</strong></h4>
         </div>
+    <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'completeordersuccess') { ?>
+        <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4><strong>結單成功！</strong></h4>
+        </div>
     <?php }
 if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
         <!-- 標籤 -->
@@ -30,7 +35,7 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
             <div role="tabpanel" class="tab-pane fade<?php echo (!empty($_GET['type']) && $_GET['type'] == 'vieworderlist') ? " active in" : ""; ?>" id="orderlist">
                 <?php
                 // 取資料
-                $orderSql = mysqli_query($connect, "SELECT * FROM `orders` WHERE `orderStatus`!='訂單已取消' ORDER BY `orderID` ASC;");
+                $orderSql = mysqli_query($connect, "SELECT * FROM `orders` WHERE `orderStatus`!='訂單已取消' AND `orderStatus`!='已結單' ORDER BY `orderID` ASC;");
                 $orderNumRows = mysqli_num_rows($orderSql);
                 // 若沒有訂單
                 if ($orderNumRows == 0) { ?>
@@ -144,12 +149,22 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                     </div>
                 </div>
             <?php } else {
-                if (!empty($_GET['msg']) && $_GET['msg'] == 'nogoodsqty') { ?>
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4><strong>沒有商品數量資料，請依正常程序操作！</strong></h4>
-                    </div>
-                <?php }
+            if (!empty($_GET['msg']) && $_GET['msg'] == 'nogoodsqty') { ?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4><strong>沒有商品數量資料，請依正常程序操作！</strong></h4>
+                </div>
+            <?php }elseif(!empty($_GET['msg']) && $_GET['msg'] == 'noreviewnotify'){ ?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4><strong>審核理由欄位為空，請確實填寫審核理由！</strong></h4>
+                </div>
+            <?php }elseif(!empty($_GET['msg']) && $_GET['msg'] == 'noreviewresult'){ ?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4><strong>沒有審核選項被選擇，請依正常程序操作！</strong></h4>
+                </div>
+            <?php }
             // 開始顯示資料
             $orderDetailData = mysqli_fetch_array($orderDataSql, MYSQLI_ASSOC);
             // 先處理訂單裡商品的資料
@@ -210,6 +225,12 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                                         <label class="radio-inline">
                                             <input type="radio" name="reviewResult" id="false" value="false" checked> 駁回申請
                                         </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="reviewNotify">審核通知</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control noResize" name="reviewNotify" id="reviewNotify" rows="3" placeholder="請輸入審核理由，內容會顯示於用戶側的通知內，此欄位不可留空"></textarea>
                                     </div>
                                 </div>
                                 <input type="hidden" name="oid" value="<?php echo $removeOrderApply['targetOrder']; ?>" />
@@ -291,13 +312,20 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                 <div class="form-group text-center">
                     <?php if ($orderDetailData['orderStatus'] == '等待付款') { ?>
                         <a class="btn btn-success" disabled="disabled" title="待買家付款後才可行出貨">等待付款</a>
-                    <?php } elseif ($orderDetailData['orderStatus'] != '已出貨' && $orderDetailData['orderStatus'] != '已申請取消訂單') { ?>
-                        <form method="POST" action="adminaction.php?action=notifysend&oid=<?php echo $orderDetailData['orderID']; ?>">
+                    <?php } elseif ($orderDetailData['orderStatus'] != '已出貨' && $orderDetailData['orderStatus'] != '已申請取消訂單') {
+                    if ($orderDetailData['orderStatus'] == '已取貨') {
+                        $submitTarget = "adminaction.php?action=completeorder&oid=" . $orderDetailData['orderID'];
+                        $btnName = "結單";
+                    } else {
+                        $submitTarget = "adminaction.php?action=notifysend&oid=" . $orderDetailData['orderID'];
+                        $btnName = "通知已出貨";
+                    } ?>
+                        <form method="POST" action="<?php echo $submitTarget; ?>">
                             <input type="hidden" name="goodsqty" value="<?php echo $orderDetailData['orderContent']; ?>:" />
-                            <input type="submit" class="btn btn-success" value="通知已出貨" />
-                    <?php } ?>
-                    <a href="?action=order_admin&type=vieworderlist" class="btn btn-info">返回訂單一覽</a>
-                    <?php if ($orderDetailData['orderStatus'] != '已出貨' && $orderDetailData['orderStatus'] != '已申請取消訂單') { ?>
+                            <input type="submit" class="btn btn-success" value="<?php echo $btnName; ?>" />
+                        <?php } ?>
+                        <a href="?action=order_admin&type=vieworderlist" class="btn btn-info">返回訂單一覽</a>
+                        <?php if ($orderDetailData['orderStatus'] != '已出貨' && $orderDetailData['orderStatus'] != '已申請取消訂單') { ?>
                         </form>
                     <?php } ?>
                 </div>

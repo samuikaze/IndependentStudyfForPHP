@@ -502,6 +502,21 @@ if(empty($_SERVER['QUERY_STRING'])){
             header("Location: index.php?action=order_admin&type=vieworderlist&msg=sendupdatesuccess");
             exit;
         }
+
+    // 結單
+    }elseif($_GET['action'] == 'completeorder'){
+        // 若訂單編號為空
+        if(empty($_GET['oid'])){
+            mysqli_close($connect);
+            header("Location: index.php?action=order_admin&type=vieworderlist&msg=nooid");
+            exit;
+        }else{
+            $oid = $_GET['oid'];
+            mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已結單' WHERE `orderID`=$oid;");
+            mysqli_close($connect);
+            header("Location: index.php?action=order_admin&type=vieworderlist&msg=completeordersuccess");
+            exit;
+        }
     // 審核取消訂單
     }elseif($_GET['action'] == 'applyremoveorder'){
         // 若訂單編號為空
@@ -510,28 +525,43 @@ if(empty($_SERVER['QUERY_STRING'])){
             header("Location: index.php?action=order_admin&type=vieworderlist&msg=nooid");
             exit;
         }else{
+            $oid = $_POST['oid'];
             // 若審核選項沒有選，通常是透過開發工具改的
             if(empty($_POST['reviewResult'])){
                 mysqli_close($connect);
-                header("Location: index.php?action=order_admin&type=vieworderlist&msg=noreviewresult");
+                header("Location: index.php?action=vieworderdetail&oid=$oid&msg=noreviewresult");
+                exit;
+            // 若審核理由為空
+            }elseif(empty($_POST['reviewNotify'])){
+                mysqli_close($connect);
+                header("Location: index.php?action=vieworderdetail&oid=$oid&msg=noreviewnotify");
                 exit;
             }else{
-                $oid = $_POST['oid'];
+                // 先取得原訂單狀態
+                $orderStatusSQL = mysqli_fetch_array(mysqli_query($connect, "SELECT `orderApplyStatus`, `orderMember` FROM `orders` WHERE `orderID`=$oid;"), MYSQLI_ASSOC);
                 // 選是選擇通過審核
                 if($_POST['reviewResult'] == 'true'){
+                    // 新增通知記錄
+                    $notifyTitle = "取消訂單審核通過";
                     // 更新主訂單資料
                     mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='訂單已取消' WHERE `orderID`=$oid;");
                     // 更新取消訂單記錄
                     mysqli_query($connect, "UPDATE `removeorder` SET `removeStatus`='passed' WHERE `targetOrder`=$oid;");
                 }else{
-                    // 先取得原訂單狀態
-                    $orderStatusSQL = mysqli_fetch_array(mysqli_query($connect, "SELECT `orderApplyStatus` FROM `orders` WHERE `orderID`=$oid;"), MYSQLI_ASSOC);
                     $orderStatus = $orderStatusSQL['orderApplyStatus'];
                     // 更新主訂單資料
                     mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='$orderStatus', `removeApplied`=0, `orderApplyStatus`=NULL WHERE `orderID`=$oid;");
                     // 移除取消訂單的紀錄
                     mysqli_query($connect, "DELETE FROM `removeorder` WHERE `targetOrder`=$oid;");
+                    // 新增通知記錄
+                    $notifyTitle = "取消訂單申請被駁回";
                 }
+                // 新增通知記錄
+                $notifyTarget = $orderStatusSQL['orderMember'];
+                $reviewnotify = $_POST['reviewNotify'];
+                $updateTime = date("Y-m-d H:i:s");
+                $nLink = "user.php?action=orderlist";
+                mysqli_query($connect, "INSERT INTO `notifications`(`notifyContent`, `notifyTitle`, `notifySource`, `notifyTarget`, `notifyURL`, `notifyTime`) VALUES ('$reviewnotify', '$notifyTitle', '訂單管理組', '$notifyTarget', '$nLink', '$updateTime');");
                 mysqli_close($connect);
                 header("Location: index.php?action=order_admin&type=vieworderlist");
                 exit;

@@ -338,4 +338,203 @@ $(document).ready(function(){
             }
         });
     });
+
+    // 通知已讀
+    $('a.notify-unread, span.notify-unread').on('click', function(){
+        var notifyid = $(this).data('notifyid');
+        /* var isgoto = $(this).data("isgoto"); */
+        $.ajax({
+            url: 'ajax.php?action=readnotify',
+            type: 'POST',
+            cache: false,
+            dataType: "HTML",
+            data: 'notifyid=' + $(this).data('notifyid') + '&isgoto=' + $(this).data("isgoto"),
+            success: function(data){
+                // AJAX 成功
+                var processedData = JSON.parse(data);
+                if(processedData.msg == 'updatesuccess'){
+                    return true;
+                }else{
+                    var updateHide = 'td#readOperate' + notifyid;
+                    var updateTClass = 'a#nlink' + notifyid;
+                    var updatecoltarget = 'td#content' + notifyid;
+                    // 移除已讀的表格欄位
+                    $(updateHide).fadeOut(300, function(){
+                        $(updatecoltarget).attr("colspan", "2");
+                    });
+                    // 讓表格正常顯示
+                    $(updateTClass).removeClass("notify-unread").addClass("notify-read");
+                    // 更新通知數量
+                    $('span#notifyFQty, span#notifyQty').html(processedData.nqty);
+                    return false;
+                }
+            },
+            error: function(jqXHR, exception){
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = '無法連線，請檢查網路是否通暢。';
+                } else if (jqXHR.status == 404) {
+                    msg = '找不到要求的頁面。 [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = '內部伺服器錯誤。 [500].';
+                } else if (exception === 'parsererror') {
+                    msg = '要求之 JSON 傳值 失敗.';
+                } else if (exception === 'timeout') {
+                    msg = '連線逾時。';
+                } else if (exception === 'abort') {
+                    msg = 'AJAX 要求被中止。';
+                } else {
+                    msg = '未知的錯誤：' + jqXHR.responseText;
+                }
+                console.log(msg);
+                return false;
+            }
+        });
+    });
+
+    //刪除通知
+    $('td.clearnotify').on('click', function(){
+        var targetid = $(this).data('notifyid');
+        $.ajax({
+            url: 'ajax.php?action=removenotify',
+            type: 'POST',
+            cache: false,
+            data: 'nid=' + targetid,
+            success: function(data){
+                resultData = JSON.parse(data);
+                if(resultData.msg == 'errornonotifyid'){
+                    console.log('AJAX 失敗，無法取得通知 ID。');
+                }else{
+                    // 若刪完這則通知還有剩
+                    if(resultData.notifyqty != 0){
+                        // 移除整列已經刪除的通知
+                        var removeTarget = "tr#notify" + targetid;
+                        $(removeTarget).fadeOut(300);
+                    // 刪完就沒通知了
+                    }else{
+                        // 移除整列已經刪除的通知
+                        var removeTarget = "div#notification";
+                        var toggleContent = "<div class=\"panel panel-info\" style=\"margin-top: 1em;\"><div class=\"panel-heading\"><h3 class=\"panel-title\">資訊</h3></div><div class=\"panel-body\"><h2 class=\"info-warn\">目前沒有通知！<br /><br /></h2></div></div>";
+                        $(removeTarget).fadeOut(300, function(){
+                            $('div#forMsg').html(toggleContent).fadeIn(300);
+                        });
+                    }
+                    // 更新通知數量
+                    $('span#notifyFQty, span#notifyQty').html(resultData.notifynrqty);
+                }
+            },
+            error: function(jqXHR, exception){
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = '無法連線，請檢查網路是否通暢。';
+                } else if (jqXHR.status == 404) {
+                    msg = '找不到要求的頁面。 [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = '內部伺服器錯誤。 [500].';
+                } else if (exception === 'parsererror') {
+                    msg = '要求之 JSON 傳值 失敗.';
+                } else if (exception === 'timeout') {
+                    msg = '連線逾時。';
+                } else if (exception === 'abort') {
+                    msg = 'AJAX 要求被中止。';
+                } else {
+                    msg = '未知的錯誤：' + jqXHR.responseText;
+                }
+                console.log(msg);
+            }
+        });
+    });
+
+    // 已讀所有通知
+    $('a#readallnotifications').on('click', function(){
+        $.ajax({
+            url: 'ajax.php?action=readallnotify',
+            type: 'POST',
+            cache: false,
+            data: 'readallnotify=true',
+            success: function(data){
+                var readresultData = JSON.parse(data);
+                // 若回傳 forbidden
+                if(readresultData.msg == 'forbidden'){
+                    var alertContent = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\" style=\"margin-top: 1em;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4><strong>請依正常程序已讀通知！</strong></h4></div>";
+                    $('div#forMsg').html(alertContent).fadeIn(300);
+                }else{
+                    // 清除錯誤訊息
+                    $('div#forMsg').html("").fadeOut(300);
+                    // 移除已讀按鈕
+                    $('td.forreadall').fadeOut(300, function(){
+                        $('td.forrall').attr("colspan", "2");
+                    });
+                    // 更新通知數量
+                    $('span#notifyFQty, span#notifyQty').html(readresultData.nqty);
+                    // 讓已讀所有通知按鈕不能按
+                    $('a#readallnotifications').removeAttr("href").removeAttr("id").attr("title", "目前沒有未讀通知").attr("disabled", "disabled");
+                }
+            },
+            error: function(jqXHR, exception){
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = '無法連線，請檢查網路是否通暢。';
+                } else if (jqXHR.status == 404) {
+                    msg = '找不到要求的頁面。 [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = '內部伺服器錯誤。 [500].';
+                } else if (exception === 'parsererror') {
+                    msg = '要求之 JSON 傳值 失敗.';
+                } else if (exception === 'timeout') {
+                    msg = '連線逾時。';
+                } else if (exception === 'abort') {
+                    msg = 'AJAX 要求被中止。';
+                } else {
+                    msg = '未知的錯誤：' + jqXHR.responseText;
+                }
+                console.log(msg);
+            }
+        });
+    });
+
+    // 刪除所有通知
+    $('a#removeallnotifications').on('click', function(){
+        $.ajax({
+            url: 'ajax.php?action=removeallnotify',
+            type: 'POST',
+            cache: false,
+            data: 'removeallnotify=true',
+            success: function(data){
+                var removeresultData = JSON.parse(data);
+                if(removeresultData.msg == 'forbidden'){
+                    var alertContent = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\" style=\"margin-top: 1em;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4><strong>請依正常程序已讀通知！</strong></h4></div>";
+                    $('div#forMsg').html(alertContent).fadeIn(300);
+                }else{
+                    // 更新通知數量
+                    $('span#notifyFQty, span#notifyQty').html(removeresultData.nqty);
+                    // 移除整列已經刪除的通知
+                    var removeTarget = "div#notification";
+                    var toggleContent = "<div class=\"panel panel-info\" style=\"margin-top: 1em;\"><div class=\"panel-heading\"><h3 class=\"panel-title\">資訊</h3></div><div class=\"panel-body\"><h2 class=\"info-warn\">目前沒有通知！<br /><br /></h2></div></div>";
+                    $(removeTarget).fadeOut(300, function(){
+                        $('div#forMsg').html(toggleContent).fadeIn(300);
+                    });
+                }
+            },
+            error: function(jqXHR, exception){
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = '無法連線，請檢查網路是否通暢。';
+                } else if (jqXHR.status == 404) {
+                    msg = '找不到要求的頁面。 [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = '內部伺服器錯誤。 [500].';
+                } else if (exception === 'parsererror') {
+                    msg = '要求之 JSON 傳值 失敗.';
+                } else if (exception === 'timeout') {
+                    msg = '連線逾時。';
+                } else if (exception === 'abort') {
+                    msg = 'AJAX 要求被中止。';
+                } else {
+                    msg = '未知的錯誤：' + jqXHR.responseText;
+                }
+                console.log(msg);
+            }
+        });
+    });
 });

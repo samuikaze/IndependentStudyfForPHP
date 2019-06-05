@@ -172,6 +172,10 @@ input:focus{
     margin: 10px 0;
 }
 
+.notify-read {
+    font-weight: normal;
+}
+
 /* 
  * 此樣式為有含載入動畫的 BANNER 背景圖設定，未來如不需使用請將這個樣式刪除
  * 目前套用此樣式的頁面為：news.html、product.html

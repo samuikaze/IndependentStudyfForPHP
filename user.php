@@ -207,7 +207,7 @@ if (empty($_SESSION['auth'])) {
                                             <h3 class="panel-title">資訊</h3>
                                         </div>
                                         <div class="panel-body">
-                                            <h2 class="info-warn">目前沒有訂購任何商品！<br /><br />
+                                            <h2 class="info-warn">目前沒有進行中的訂單！<br /><br />
                                                 <div class="btn-group" role="group">
                                                     <a class="btn btn-lg btn-success" href="goods.php">前往選購</a>
                                                 </div>
@@ -239,14 +239,43 @@ if (empty($_SESSION['auth'])) {
                                                         <a href="?action=vieworderdetail&oid=<?php echo $orderlistData['orderID']; ?>" class="btn btn-info">詳細資料</a>
                                                         <?php
                                                         if($orderlistData['orderStatus'] == '已出貨'){
+                                                            $echolink = True;
+                                                            $casherName = "通知已取貨";
+                                                            $url = "href=\"actions.php?action=notifytaked&oid=" . $orderlistData['orderID'] . "\"";
+                                                            $displayPaidUrl = True;
+                                                        }elseif($orderlistData['orderStatus'] == '已申請取消訂單'){
+                                                            $echolink = True;
+                                                            $casherName = "審核中";
+                                                            $displayPaidUrl = False;
+                                                            $url = "";
+                                                        }elseif($orderlistData['orderStatus'] == '等待付款'){
+                                                            $echolink = True;
+                                                            $casherName = "通知已付款";
+                                                            $displayPaidUrl = True;
+                                                            $url = "href=\"actions.php?action=notifypaid&oid=" . $orderlistData['orderID'] . "\"";
+                                                        }else{
+                                                            $echolink = False;
+                                                        }
+                                                        if($echolink == True){ ?>
+                                                        <a <?php echo ($displayPaidUrl == True) ? $url : ""; ?> class="btn btn-info" <?php echo ($displayPaidUrl == True) ? "" : " disabled=\"disabled\""; ?>><?php echo $casherName; ?></a>
+                                                        <?php
+                                                        }
+                                                        if($orderlistData['orderStatus'] == '已出貨'){
+                                                            $echoremovelink = True;
                                                             $btnName = "貨品已寄出";
-                                                            $casherName = "已付款";
                                                             $displayUrl = False;
                                                         }elseif($orderlistData['orderStatus'] == '已申請取消訂單'){
+                                                            $echoremovelink = True;
                                                             $btnName = "申請審核中";
-                                                            $casherName = "審核中";
                                                             $displayUrl = False;
+                                                        }elseif($orderlistData['orderStatus'] == '已取貨'){
+                                                            $echoremovelink = True;
+                                                            $btnName = "申請退貨";
+                                                            $displayUrl = True;
+                                                        }elseif($orderlistData['orderStatus'] == '已結單'){
+                                                            $echoremovelink = False;
                                                         }else{
+                                                            $echoremovelink = True;
                                                             if($orderlistData['orderStatus'] == '等待付款'){
                                                                 $casherName = "通知已付款";
                                                             }else{
@@ -255,9 +284,9 @@ if (empty($_SESSION['auth'])) {
                                                             $btnName = "取消訂單";
                                                             $displayUrl = True;
                                                         }
-                                                        ?>
-                                                        <a <?php echo ($orderlistData['orderStatus'] == '等待付款') ? "href=\"actions.php?action=notifypaid&oid=" . $orderlistData['orderID'] . "\"" : ""; ?> class="btn btn-info" <?php echo ($orderlistData['orderStatus'] == '等待付款') ? "" : " disabled=\"disabled\""; ?>><?php echo $casherName; ?></a>
+                                                        if($echoremovelink == True){ ?>
                                                         <a <?php echo ($displayUrl == True)? "href=\"?action=removeorder&oid=" . $orderlistData['orderID'] . "\"" : ""; ?> class="btn btn-danger" <?php echo ($displayUrl == True)? "" : "disabled=\"disabled\""; ?>><?php echo $btnName; ?></a>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
                                                 <!-- /一個訂單項目 -->

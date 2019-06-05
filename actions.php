@@ -425,6 +425,7 @@
                 }
                 exit;
             }
+        // 通知已付款
         }elseif(!empty($_GET['action']) && $_GET['action'] == 'notifypaid'){
             // 若訂單編號為空
             if(empty($_GET['oid'])){
@@ -437,6 +438,20 @@
                 header("Location: user.php?action=orderlist&msg=notifysuccess");
                 exit;
             }
+        // 通知已取貨
+        }elseif(!empty($_GET['action']) && $_GET['action'] == 'notifytaked'){
+            // 若訂單編號為空
+            if(empty($_GET['oid'])){
+                mysqli_close($connect);
+                header("Location: user.php?action=orderlist&msg=notifyerrnooid");
+            }else{
+                $oid = $_GET['oid'];
+                mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已取貨' WHERE `orderID`=$oid;");
+                mysqli_close($connect);
+                header("Location: user.php?action=orderlist&msg=notifysuccess");
+                exit;
+            }
+        // 申請取消訂單
         }elseif(!empty($_GET['action']) && $_GET['action'] == 'removeorder'){
             // 如果訂單編號為空
             if(empty($_POST['oid'])){

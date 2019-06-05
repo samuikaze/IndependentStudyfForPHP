@@ -51,37 +51,45 @@ if (empty($_SESSION['auth'])) {
                                     </div>
                                 </div>
                             <?php } else { ?>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr class="info">
-                                            <th colspan="2">通知一覽</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php while($notifyData = mysqli_fetch_array($notifySql, MYSQLI_ASSOC)){ ?>
-                                        <!-- 一則通知 -->
-                                        <tr>
-                                            <td <?php echo ($notifyData['notifyStatus'] == 'u')? "" : "colspan=\"2\""; ?>><a href="#" class="notify-link <?php echo ($notifyData['notifyStatus'] == 'u')? "notify-unread" : "notify-read"; ?>">
-                                                <div class="container">
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <span class="pull-left"><?php echo $notifyData['notifySource']; ?>・<?php echo $notifyData['notifyTime']; ?></span>
-                                                            
-                                                            <div class="clearfix"></div>
-                                                            <div class="notify-content">
-                                                                <?php echo (empty($notifyData['notifyTitle']))? "" : "<h3>" . $notifyData['notifyTitle'] . "</h3>"; ?>
-                                                                <span><?php echo $notifyData['notifyContent']; ?></span>
+                                <div id="forMsg" style="display: none;"></div>
+                                <div id="notification">
+                                    <div class="pull-right" style="margin-bottom: 5px;">
+                                        <a <?php echo ($notifyunreadnums == 0)? "" : "id=\"readallnotifications\""; ?> class="btn btn-success"<?php echo ($notifyunreadnums == 0)? "disabled=\"disabled\"" : ""; ?> style="cursor: pointer;" title="<?php echo ($notifyunreadnums == 0)? "目前沒有未讀通知" : "已讀所有未讀的通知"; ?>">已讀所有通知</a>
+                                        <a id="removeallnotifications" class="btn btn-danger" style="cursor: pointer;">刪除所有通知</a>
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr class="info">
+                                                <th colspan="3">通知一覽</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php while($notifyData = mysqli_fetch_array($notifySql, MYSQLI_ASSOC)){ ?>
+                                            <!-- 一則通知 -->
+                                            <tr id="notify<?php echo $notifyData['notifyID']; ?>">
+                                                <td id="content<?php echo $notifyData['notifyID']; ?>" <?php echo ($notifyData['notifyStatus'] == 'u')? "" : "colspan=\"2\""; ?>><a id="nlink<?php echo $notifyData['notifyID']; ?>" <?php echo (empty($notifyData['notifyURL']))? "" : "href=\"" . $notifyData['notifyURL'] . "\""; ?> data-notifyid="<?php echo $notifyData['notifyID']; ?>" data-isgoto="true" class="notify-link <?php echo ($notifyData['notifyStatus'] == 'u')? "notify-unread forrall" : "notify-read"; ?>">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <span class="pull-left"><?php echo $notifyData['notifySource']; ?>・<?php echo $notifyData['notifyTime']; ?></span>
+                                                                
+                                                                <div class="clearfix"></div>
+                                                                <div class="notify-content">
+                                                                    <?php echo (empty($notifyData['notifyTitle']))? "" : "<h4>" . $notifyData['notifyTitle'] . "</h4>"; ?>
+                                                                    <span><?php echo $notifyData['notifyContent']; ?></span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </a></td>
-                                            <?php echo ($notifyData['notifyStatus'] == 'u')? "<td valign=\"middle\"><span class=\"pull-right\">標示為已讀</span></td>" : ""; ?>
-                                        </tr>
-                                        <!-- /一則通知 -->
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
+                                                </a></td>
+                                                <?php echo ($notifyData['notifyStatus'] == 'u')? "<td id=\"readOperate" . $notifyData['notifyID'] . "\" class=\"forreadall\" valign=\"middle\" style=\"width: 8%;\"><span class=\"pull-right btn btn-success notify-unread\" style=\"cursor: pointer;\" data-notifyid=\"" . $notifyData['notifyID'] . "\" data-isgoto=\"false\">標示為已讀</span></td>" : ""; ?>
+                                                <td class="clearnotify" data-notifyid="<?php echo $notifyData['notifyID']; ?>" style="width: 3%;"><span title="刪除此通知" class="lead text-danger" style="cursor: pointer;"><i class="fas fa-minus-square"></i></span></td>
+                                            </tr>
+                                            <!-- /一則通知 -->
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             <?php } ?>
                         <?php } else { ?>
                             <div class="panel panel-danger" style="margin-top: 1em;">

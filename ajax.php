@@ -107,6 +107,7 @@ if(empty($_SERVER['QUERY_STRING'])){
         }
         mysqli_close($connect);
         exit;
+
     // 清除購物車
     }elseif(!empty($_GET['action']) && $_GET['action'] == 'clearcart'){
         unset($_SESSION['cart']);
@@ -119,6 +120,7 @@ if(empty($_SERVER['QUERY_STRING'])){
             echo 0;
         }
         exit;
+
     // 變更購物車裡商品的數量
     }elseif(!empty($_GET['action']) && $_GET['action'] == 'changeGQty'){
         // 若商品編號為空
@@ -182,7 +184,9 @@ if(empty($_SERVER['QUERY_STRING'])){
         $_SESSION['cartTotal'] = $total;
         $rAjaxTotal = $_SESSION['cartTotal'];
         echo json_encode(array('msg'=>'success','gid'=>$gid, 'nTotal'=>$rGoodsTotal, 'ajaxTotal'=>$rAjaxTotal));
-    
+        mysqli_close($connect);
+        exit;
+
     // 移除購物車項目
     }elseif(!empty($_GET['action']) && $_GET['action'] == 'removeitem'){
         // 若商品編號為空
@@ -222,13 +226,93 @@ if(empty($_SERVER['QUERY_STRING'])){
         // 檢查購物車還有沒有東西，若刪完為空則執行重置購物車以避免出錯
         if(sizeof($_SESSION['cart'][0]) == 0){
             unset($_SESSION['cart']);
-            mysqli_close($connect);
         }
         // 把要返回的值指定給變數
         $cartTotal = $_SESSION['cartTotal'];
         $cartitemsqty = (empty($_SESSION['cart'][0])) ? 0 : sizeof($_SESSION['cart'][0]);
         // 返回值
         echo json_encode(array('msg'=>'removesuccess', 'gid'=>$gid, 'cartTotal'=>$cartTotal, 'itemsqty'=>$cartitemsqty));
+        mysqli_close($connect);
+        exit;
+
+    // 已讀通知
+    }elseif(!empty($_GET['action']) && $_GET['action'] == 'readnotify'){
+        if(empty($_POST['notifyid'])){
+            mysqli_close($connect);
+            $result = json_encode(array('msg'=>'errornonotifyid'));
+            echo $result;
+            exit;
+        }else{
+            $notifyID = $_POST['notifyid'];
+            mysqli_query($connect, "UPDATE `notifications` SET `notifyStatus`='r' WHERE `notifyID`=$notifyID;");
+            // 取得通知數量
+            $username = $_SESSION['uid'];
+            $notifyQty = mysqli_num_rows(mysqli_query($connect, "SELECT * FROM `notifications` WHERE `notifyTarget`='$username' AND `notifyStatus`='u';"));
+            mysqli_close($connect);
+            if(!empty($_POST['isgoto']) && $_POST['isgoto'] == 'true'){
+                $result = json_encode(array('msg'=>'updatesuccess'));
+                echo $result;
+            }else{
+                $result = json_encode(array('msg'=>'noisgoto', 'nqty'=>$notifyQty));
+                echo $result;
+            }
+            exit;
+        }
+
+    // 刪除通知
+    }elseif(!empty($_GET['action']) && $_GET['action'] == 'removenotify'){
+        // 通知 ID 為空
+        if(empty($_POST['nid'])){
+            $result = json_encode(array('msg'=>'errornonotifyid'));
+            echo $result;
+        }else{
+            $nid = $_POST['nid'];
+            // 刪除資料
+            mysqli_query($connect, "DELETE FROM `notifications` WHERE `notifyID`=$nid;");
+            // 取得剩餘通知筆數
+            $username = $_SESSION['uid'];
+            $notifyRows = mysqli_num_rows(mysqli_query($connect, "SELECT * FROM `notifications` WHERE `notifyTarget`='$username';"));
+            // 取得未讀通知筆數
+            $notifyNotReadRows = mysqli_num_rows(mysqli_query($connect, "SELECT * FROM `notifications` WHERE `notifyTarget`='$username' AND `notifyStatus`='u';"));
+            mysqli_close($connect);
+            $result = array('msg'=>'deletesuccess', 'notifynrqty'=>$notifyNotReadRows, 'notifyqty'=>$notifyRows);
+            echo json_encode($result);
+            exit;
+        }
+
+    // 已讀所有通知
+    }elseif(!empty($_GET['action']) && $_GET['action'] == 'readallnotify'){
+        // 若 POST 傳值為空
+        if(empty($_POST['readallnotify']) || $_POST['readallnotify'] != 'true'){
+            mysqli_close($connect);
+            $result = array('msg'=>'forbidden');
+            echo json_encode($result);
+            exit;
+        }else{
+            $username = $_SESSION['uid'];
+            mysqli_query($connect, "UPDATE `notifications` SET `notifyStatus`='r' WHERE `notifyTarget`='$username';");
+            mysqli_close($connect);
+            $result = array('msg'=>'readallsuccess', 'nqty'=>0);
+            echo json_encode($result);
+            exit;
+        }
+
+    // 移除所有通知
+    }elseif(!empty($_GET['action']) && $_GET['action'] == 'removeallnotify'){
+        // 若 POST 傳值為空
+        if(empty($_POST['removeallnotify']) || $_POST['removeallnotify'] != 'true'){
+            mysqli_close($connect);
+            $result = array('msg'=>'forbidden');
+            echo json_encode($result);
+            exit;
+        }else{
+            $username = $_SESSION['uid'];
+            mysqli_query($connect, "DELETE FROM `notifications`WHERE `notifyTarget`='$username';");
+            mysqli_close($connect);
+            $result = array('msg'=>'readallsuccess', 'nqty'=>0);
+            echo json_encode($result);
+            exit;
+        }
     }
 }
 ?>
