@@ -100,6 +100,16 @@ if ($_GET['action'] == 'order') {
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4><strong>您的購物車為空，請依正常程序訂購商品！</strong></h4>
                                 </div>
+                            <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'notinorder') { ?>
+                                <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4><strong>您目前不在結帳中的狀態，請依正常程序操作！</strong></h4>
+                                </div>
+                            <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'cancelsuccess') { ?>
+                                <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4><strong>取消結帳成功，請重新將商品加入購物車！</strong></h4>
+                                </div>
                             <?php } ?>
                             <div class="col-md-9 cart-items">
                                 <?php
@@ -527,6 +537,10 @@ if ($_GET['action'] == 'order') {
                                 </div>
                                 <?php if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
                                     <a class="btn btn-success btn-block btn-lg<?php echo ($_GET['action'] != 'order') ? "" : " rstcart"; ?>" href="<?php echo (!empty($_SESSION['cart'])) ? "?action=order&step=1" : "goods.php" ?>"><?php echo (!empty($_SESSION['cart'])) ? "立即下單" : "立即選購"; ?></a>
+                                <?php }elseif($_GET['action'] != 'order' && (!empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] == 'notcomplete')){ ?>
+                                    <a class="btn btn-success btn-block btn-lg" href="?action=order&step=2">繼續結帳</a>
+                                    <hr class="cartbtn-margin" />
+                                    <a href="actions.php?action=cancelorder" id="cancelorder" class="btn btn-danger btn-block btn-lg">取消結帳</a>
                                 <?php }
                             if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
                                     <hr class="cartbtn-margin" />

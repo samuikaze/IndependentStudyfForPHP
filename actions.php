@@ -483,6 +483,19 @@
                 header("Location: user.php?action=orderlist&msg=removesuccess");
                 exit;
             }
+        // 取消結帳
+        }elseif(!empty($_GET['action']) && $_GET['action'] == 'cancelorder'){
+            // 如果不在結帳狀態
+            if(empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete'){
+                mysqli_close($connect);
+                header("Location: userorder.php?action=viewcart&msg=notinorder");
+                exit;
+            }else{
+                unset($_SESSION['cart']);
+                mysqli_close($connect);
+                header("Location: userorder.php?action=viewcart&msg=cancelsuccess");
+                exit;
+            }
         }
     }
 ?>
