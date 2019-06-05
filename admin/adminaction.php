@@ -498,6 +498,11 @@ if(empty($_SERVER['QUERY_STRING'])){
             // 更新商品出貨後數量
             $goodsdata = mysqli_query($connect, "UPDATE `goodslist` SET `goodsQty`=CASE `goodsOrder` $gOrder WHERE `goodsOrder` IN ($condition);");
             mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已出貨' WHERE `orderID`=$oid;");
+            $targetSql = mysqli_fetch_array(mysqli_query($connect, "SELECT `orderMember` FROM `orders` WHERE `orderID`=$oid;"), MYSQLI_ASSOC);
+            $targetMem = $targetSql['orderMember'];
+            $nowtime = date("Y-m-d H:i:s");
+            // 向使用者推送通知
+            mysqli_query($connect, "INSERT INTO `notifications`(`notifyContent`, `notifyTitle`, `notifySource`, `notifyTarget`, `notifyURL`, `notifyTime`) VALUES ('您的商品已經出貨。', '訂單狀態更新', '訂單管理組', '$targetMem', 'user.php?action=orderlist', '$nowtime');");
             mysqli_close($connect);
             header("Location: index.php?action=order_admin&type=vieworderlist&msg=sendupdatesuccess");
             exit;
@@ -513,6 +518,7 @@ if(empty($_SERVER['QUERY_STRING'])){
         }else{
             $oid = $_GET['oid'];
             mysqli_query($connect, "UPDATE `orders` SET `orderStatus`='已結單' WHERE `orderID`=$oid;");
+            $targetSql = mysqli_fetch_array(mysqli_query($connect, "SELECT `orderMember` FROM `orders` WHERE `orderID`=$oid;"), MYSQLI_ASSOC);
             mysqli_close($connect);
             header("Location: index.php?action=order_admin&type=vieworderlist&msg=completeordersuccess");
             exit;

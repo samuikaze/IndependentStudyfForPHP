@@ -63,22 +63,6 @@ $qtydanger = 15;
                 <?php if(!empty($_SESSION['auth'])){ ?>
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <!--div class="alert alert-danger trashcan" role="alert">
-                            <div class="ca-r">
-                                <div class="cart box_1">
-                                    <a class="simpleCart_empty">
-                                        <h3>
-                                            <div class="total">
-                                                <i class="fas fa-trash" style="color: #a94442;"></i>
-                                                <--img src="images/cart.png" alt="" />
-                                            </div>
-                                        </h3>
-                                    </a>
-                                    <--p><a class="simpleCart_empty">清空購物車</a></p>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div-->
                         <div class="alert alert-warning wadj" role="alert">
                             <div class="ca-r">
                                 <div class="cart box_1">

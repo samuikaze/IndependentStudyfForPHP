@@ -67,7 +67,7 @@ if (empty($_SESSION['auth'])) {
                                             <?php while($notifyData = mysqli_fetch_array($notifySql, MYSQLI_ASSOC)){ ?>
                                             <!-- 一則通知 -->
                                             <tr id="notify<?php echo $notifyData['notifyID']; ?>">
-                                                <td id="content<?php echo $notifyData['notifyID']; ?>" <?php echo ($notifyData['notifyStatus'] == 'u')? "" : "colspan=\"2\""; ?>><a id="nlink<?php echo $notifyData['notifyID']; ?>" <?php echo (empty($notifyData['notifyURL']))? "" : "href=\"" . $notifyData['notifyURL'] . "\""; ?> data-notifyid="<?php echo $notifyData['notifyID']; ?>" data-isgoto="true" class="notify-link <?php echo ($notifyData['notifyStatus'] == 'u')? "notify-unread forrall" : "notify-read"; ?>">
+                                                <td id="content<?php echo $notifyData['notifyID']; ?>" <?php echo ($notifyData['notifyStatus'] == 'u')? "class=\"forrall\"" : "colspan=\"2\""; ?>><a id="nlink<?php echo $notifyData['notifyID']; ?>" <?php echo (empty($notifyData['notifyURL']))? "" : "href=\"" . $notifyData['notifyURL'] . "\""; ?> data-notifyid="<?php echo $notifyData['notifyID']; ?>" data-isgoto="true" class="notify-link <?php echo ($notifyData['notifyStatus'] == 'u')? "notify-unread" : "notify-read"; ?>">
                                                     <div class="container">
                                                         <div class="row">
                                                             <div class="col-sm-12">

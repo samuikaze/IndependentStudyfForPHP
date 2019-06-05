@@ -21,10 +21,9 @@ if (empty($_GET['pid'])) {
     $pid = $_GET['pid'];
 }
 // 設定一頁顯示多少筆文章
-$postPerPage = 9;
+$postPerPage = 9;                       // SQL 語法用，LIMIT 第二項
 $tlimit = ($pid - 1) * $postPerPage;    // SQL 語法用，LIMIT 第一項
-$blimit = $pid * $postPerPage;          // SQL 語法用，LIMIT 第二項
-$sql = mysqli_query($connect, "SELECT * FROM `bbspost` WHERE `postBoard`=$bid ORDER BY `lastUpdateTime` DESC LIMIT $tlimit, $blimit;");
+$sql = mysqli_query($connect, "SELECT * FROM `bbspost` WHERE `postBoard`=$bid ORDER BY `lastUpdateTime` DESC LIMIT $tlimit, $postPerPage;");
 $datarows = mysqli_num_rows($sql);
 // 設定當文章數大於多少時強調該數字
 $hotPost = 100;
@@ -115,6 +114,7 @@ $hotPost = 100;
             // 如果總筆數除以 $npp 筆大於 1，意即大於一頁
             $tpg = ceil($rows['times'] / $postPerPage);
             if ($tpg > 1) { ?>
+                <div class="clearfix"></div>
                 <!-- 頁數按鈕開始 -->
                 <div class="text-center">
                     <ul class="pagination">

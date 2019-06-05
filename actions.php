@@ -285,6 +285,11 @@
                 mysqli_query($connect, $sql);
                 // 寫入最後操作時間
                 mysqli_query($connect, "UPDATE `bbspost` SET `lastUpdateUserID`='$username', `lastUpdateTime`='$posttime' WHERE `postID`=$postid");
+                // 推送通知
+                $postData = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `bbspost` WHERE `postID`=$postid;"), MYSQLI_ASSOC);
+                $postuser = $postData['postUserID'];
+                $notifytime = date("Y-m-d H:i:s");
+                mysqli_query($connect, "INSERT INTO `notifications`(`notifyContent`, `notifyTitle`, `notifySource`, `notifyTarget`, `notifyURL`, `notifyTime`) VALUES ('有人回覆您的文章！', '文章有新回覆', '系統', '$postuser', 'bbs.php?action=viewpostcontent&postid=$postid', '$notifytime');");
                 mysqli_close($connect);
                 $refbid = (empty($_POST['refbid']))? "" : "&refbid=" . $_POST['refbid'];
                 header("Location: bbs.php?msg=addreplysuccess&action=viewpostcontent&postid=$postid" . $refbid);

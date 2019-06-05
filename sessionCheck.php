@@ -92,7 +92,7 @@
                         $_SESSION['uid'] = $username;
                         $_SESSION['priv'] = $suserdata['userPriviledge'];
                         // 取得通知
-                        $notifySql = mysqli_query($connect, "SELECT * FROM `notifications` WHERE `notifyTarget` = '$username'");
+                        $notifySql = mysqli_query($connect, "SELECT * FROM `notifications` WHERE `notifyTarget` = '$username' ORDER BY `notifyTime` DESC");
                         $notifynums = mysqli_num_rows($notifySql);
                         $notifyunreadnums = mysqli_num_rows(mysqli_query($connect, "SELECT * FROM `notifications` WHERE `notifyTarget` = '$username' AND `notifyStatus` = 'u'"));
                         $ltime = date("Y-m-d H:i:s");

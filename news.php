@@ -52,10 +52,9 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                                 } else {
                                     $page = $_GET['p'];
                                 }
-                                $npp = 9;   //每頁消息數
-                                $tlimit = ($page - 1) * $npp;   //SQL 語法用，LIMIT 第一項
-                                $blimit = $page * $npp;         //SQL 語法用，LIMIT 第二項
-                                $sql = "SELECT * FROM `news` ORDER BY `newsOrder` DESC LIMIT $tlimit, $blimit;";
+                                $npp = 9;   //每頁消息數，SQL 語法用，LIMIT 第二項
+                                $tlimit = ($page - 1) * $npp;   //SQL 語法用，LIMIT 第一項      
+                                $sql = "SELECT * FROM `news` ORDER BY `newsOrder` DESC LIMIT $tlimit, $npp;";
                                 $query = mysqli_query($connect, $sql);
                                 if (mysqli_num_rows($query) == 0) { ?>
                                     <div class="panel panel-danger">

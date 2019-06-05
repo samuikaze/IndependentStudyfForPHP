@@ -58,11 +58,10 @@ if (empty($_GET['refpage'])) {
                         } else {
                             $page = $_GET['p'];
                         }
-                        //一頁顯示幾項
+                        //一頁顯示幾項，SQL 語法用，LIMIT 第二項
                         $npp = 10;
                         $tlimit = ($page - 1) * $npp;   //SQL 語法用，LIMIT 第一項
-                        $blimit = $page * $npp;     //SQL 語法用，LIMIT 第二項
-                        $sql = mysqli_query($connect, "SELECT * FROM `bbsboard` ORDER BY `boardID` DESC LIMIT $tlimit, $blimit;");
+                        $sql = mysqli_query($connect, "SELECT * FROM `bbsboard` ORDER BY `boardID` DESC LIMIT $tlimit, $npp;");
                         $bid = 1;
                         while ($row = mysqli_fetch_array($sql, MYSQLI_BOTH)) { ?>
                             <tr>
