@@ -1,13 +1,15 @@
-<div id="home" class="banner banner-load inner-banner">
-    <header style="padding: 15px;">
+<div id="home" <?php echo ($self == 'index.php')? "class=\"banner\" style=\"background: black;\"" : "class=\"banner banner-load inner-banner\""; ?>>
+    <header <?php echo ($self == 'index.php')? "id=\"headerForCalc\"" : "style=\"padding: 15px;\""; ?>>
+        <?php if ($self == 'index.php'){ ?>
+            <div class="header-wrap">
+        <?php } ?>
         <div class="header-bottom-w3layouts">
             <div class="main-w3ls-logo">
-                <a href="index.html">
+                <a href="./">
                     <h1><img src="images/logo.png">洛嬉遊戲</h1>
                 </a>
             </div>
             <nav class="navbar navbar-default">
-                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
@@ -42,5 +44,55 @@
             </nav>
         </div>
         <div class="clearfix"></div>
+        <?php if($self == 'index.php') { ?>
+        </div>
+        <?php } ?>
     </header>
+    <?php if($self == 'index.php'){ ?>
+        <!-- 圖片輪播 v3 -->
+        <div id="lsgames-index" class="carousel slide" data-ride="carousel">
+            <!-- 底部指示器（小圓點） -->
+            <ol class="carousel-indicators">
+                <li data-target="#lsgames-index" data-slide-to="0" class="active"></li>
+                <li data-target="#lsgames-index" data-slide-to="1"></li>
+                <li data-target="#lsgames-index" data-slide-to="2"></li>
+            </ol>
+
+            <!-- 輪播項目 -->
+            <div class="carousel-inner" role="listbox">
+                <!-- 一個輪播項目 -->
+                <div class="item active">
+                    <img src="images/services2.jpg" class="carousel-img">
+                    <div class="carousel-caption">
+                        輪播一
+                    </div>
+                </div>
+                <!-- /一個輪播項目 -->
+                <div class="item">
+                    <img src="images/services1.jpg" class="carousel-img">
+                    <div class="carousel-caption">
+                        輪播二
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="images/g4.jpg" class="carousel-img">
+                    <div class="carousel-caption">
+                        輪播三
+                    </div>
+                </div>
+            </div>
+
+            <!-- 左右控制項 -->
+            <a class="left carousel-control" href="#lsgames-index" role="button" data-slide="prev">
+                <!-- <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> -->
+                <div class="carousel-control-arrow"><i class="fas fa-chevron-left"></i></div>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#lsgames-index" role="button" data-slide="next">
+                <!-- <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> -->
+                <div class="carousel-control-arrow"><i class="fas fa-chevron-right"></i></div>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    <?php } ?>
 </div>
