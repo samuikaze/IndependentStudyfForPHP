@@ -63,6 +63,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">文章管理 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
+                                    <li><a href="?action=frontcarousel&type=carousellist">輪播管理</a></li>
                                     <li><a href="?action=aboutus">關於我們</a></li>
                                     <li><a href="?action=article_news&type=newslist">最新消息</a></li>
                                     <li><a href="?action=article_product">作品一覽</a></li>
@@ -103,6 +104,8 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                 // 後台首頁
                 if(empty($_SERVER['QUERY_STRING']) || $_GET['action'] == 'index'){
                     include("frontpage.php");
+                }elseif($_GET['action'] == 'frontcarousel' || $_GET['action'] == 'carouseladmin' || $_GET['action'] == 'carouseldel'){
+                    include("admin_carousel.php");
                 // 消息管理
                 }elseif($_GET['action'] == 'article_news' || $_GET['action'] == 'modifynews' || $_GET['action'] == 'delnews' || $_GET['action'] == 'postnewnews'){
                     include("article_news.php");

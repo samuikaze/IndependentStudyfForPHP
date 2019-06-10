@@ -573,6 +573,18 @@ if(empty($_SERVER['QUERY_STRING'])){
                 exit;
             }
         }
+    // 新增輪播圖
+    }elseif($_GET['action'] == 'addcarousel'){
+        if(empty($_POST['carouselImg'])){
+            mysqli_close($connect);
+            header("Location: index.php?action=frontcarousel&type=carouseladd&msg=emptyfile");
+            exit;
+        }else{
+            $csDescript = (empty($_POST['carouselDescript']))? NULL : $_POST['carouselDescript'];
+            $csTarget = (empty($_POST['carouselTarget']))? NULL : $_POST['carouselTarget'];
+
+            // 圖片處理
+        }
     }else{
         mysqli_close($connect);
         header("Location: index.php?action=index");
