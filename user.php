@@ -90,9 +90,9 @@ if (empty($_SESSION['auth'])) {
                 if (!empty($_GET['action']) && ($_GET['action'] == 'usersetting' || $_GET['action'] == 'sessioncontrol' || $_GET['action'] == 'orderlist')) { ?>
                         <!-- 標籤 -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" <?php echo (!empty($_GET['action']) && $_GET['action'] == 'usersetting') ? " class=\"active\"" : ""; ?>><a href="#usersetting" aria-controls="usersetting" role="tab" data-toggle="tab">使用者資料</a></li>
+                            <li role="presentation" <?php echo (!empty($_GET['action']) && $_GET['action'] == 'usersetting') ? " class=\"active\"" : ""; ?>><a href="#usersetting" aria-controls="usersetting" role="tab" data-toggle="tab">資料管理</a></li>
                             <li role="presentation" <?php echo (!empty($_GET['action']) && $_GET['action'] == 'orderlist') ? " class=\"active\"" : ""; ?>><a href="#orderlist" aria-controls="orderlist" role="tab" data-toggle="tab">訂單管理</a></li>
-                            <li role="presentation" <?php echo (!empty($_GET['action']) && $_GET['action'] == 'sessioncontrol') ? " class=\"active\"" : ""; ?>><a href="#sessioncontrol" aria-controls="sessioncontrol" role="tab" data-toggle="tab">登入階段管理</a></li>
+                            <li role="presentation" <?php echo (!empty($_GET['action']) && $_GET['action'] == 'sessioncontrol') ? " class=\"active\"" : ""; ?>><a href="#sessioncontrol" aria-controls="sessioncontrol" role="tab" data-toggle="tab">登入管理</a></li>
                         </ul>
                         <!-- 內容 -->
                         <div class="tab-content">
@@ -221,7 +221,7 @@ if (empty($_SESSION['auth'])) {
                                                 <th>訂單編號</th>
                                                 <th>應付金額</th>
                                                 <th>下訂日期</th>
-                                                <th>取貨方式</th>
+                                                <th class="fpattern-resp">取貨方式</th>
                                                 <th>訂單狀態</th>
                                                 <th>操作</th>
                                             </tr>
@@ -233,7 +233,7 @@ if (empty($_SESSION['auth'])) {
                                                     <td><?php echo $orderlistData['orderID']; ?></td>
                                                     <td><?php echo $orderlistData['orderPrice']; ?></td>
                                                     <td><?php echo $orderlistData['orderDate']; ?></td>
-                                                    <td><?php echo $orderlistData['orderPattern']; ?></td>
+                                                    <td class="fpattern-resp"><?php echo $orderlistData['orderPattern']; ?></td>
                                                     <td <?php echo ($orderlistData['orderStatus'] == '已申請取消訂單')? "style=\"color: red;\"" : ""; ?>><?php echo ($orderlistData['orderStatus'] == '已申請取消訂單')? "<strong>" : ""; ?><?php echo $orderlistData['orderStatus']; ?><?php echo ($orderlistData['orderStatus'] == '已申請取消訂單')? "</strong>" : ""; ?></td>
                                                     <td>
                                                         <a href="?action=vieworderdetail&oid=<?php echo $orderlistData['orderID']; ?>" class="btn btn-info">詳細資料</a>
@@ -404,7 +404,7 @@ if (empty($_SESSION['auth'])) {
                                             <tr class="warning">
                                                 <td class="ss-id ss-thead"><strong>系統 ID</strong></td>
                                                 <td class="ss-other ss-thead"><strong>登入 IP</strong></td>
-                                                <td class="ss-other ss-thead"><strong>使用瀏覽器</strong></td>
+                                                <td class="ss-other ss-thead use-browser"><strong>使用瀏覽器</strong></td>
                                                 <td class="ss-other ss-thead"><strong>登入時間</strong></td>
                                                 <td class="ss-operate ss-thead"><strong>操作</strong></td>
                                             </tr>
@@ -430,7 +430,7 @@ if (empty($_SESSION['auth'])) {
                                                     <tr>
                                                         <td class="ss-id"><?php echo $sysID; ?></td>
                                                         <td class="ss-other"><?php echo $loginIP; ?></td>
-                                                        <td class="ss-other"><?php echo $usebrowser; ?></td>
+                                                        <td class="ss-other use-browser"><?php echo $usebrowser; ?></td>
                                                         <td class="ss-other"><?php echo $llogintime; ?></td>
                                                         <td class="ss-operate"><a href="actions.php?action=delsession&sid=<?php echo $sysID; ?>" class="btn btn-warning btn-block">登出此階段</a></td>
                                                     </tr>

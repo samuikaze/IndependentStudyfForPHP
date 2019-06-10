@@ -440,24 +440,32 @@ h3.fLeft {
 }*/
 
 /* 圖片輪播 */
+.carousel-text {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+div.carousel > div.carousel-inner > div.item {
+    overflow: hidden;
+}
+
 .carousel-indicators {
     margin-bottom: 1em;
     bottom: 0px;
 }
 
 .carousel-img {
-    height: 100vh !important;
     width: 100% !important;
 }
 
 .carousel {
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 .carousel-control-arrow {
-    height: 100%;
-    margin-top: 50vh;
+    height: 50%;
+    margin-top: 160%;
 }
 
 .top-main-banner-wrapper .navi-allow {
@@ -1156,7 +1164,7 @@ a.cpns {
 
 .post {
     height: 100%;
-    min-height: 270px;
+    min-height: 370px;
     background-color: white;
 }
 
@@ -1179,7 +1187,330 @@ a.cpns {
 }
 
 /* 以下為 Responsive 的樣式設定 */
+@media(max-width:1366px) {
+    .banner-text {
+		padding: 15em 0em 0 0;
+    }
+
+    header {
+        background: rgba(0, 0, 0, 0.35);
+        border-bottom: transparent;
+        position: fixed;
+        transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -webkit-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+        z-index: 100;
+    }
+}
+
+@media(max-width:991px) {
+    .carousel-text {
+        font-size: 1.0em;
+        font-weight: bold;
+    }
+    
+    .carousel-indicators li{
+        width: 9px;
+        height: 9px;
+    }
+
+    .carousel-indicators .active{
+        width: 10px;
+        height: 10px;
+    }
+
+    .banner-text {
+		padding: 15em 0em 0 0;
+    }
+    
+    header {
+        background: rgba(0, 0, 0, 0.35);
+        border-bottom: transparent;
+        position: fixed;
+        transition-duration: 0.5s;
+        -moz-transition-duration: 0.5s;
+        -webkit-transition-duration: 0.5s;
+        -o-transition-duration: 0.5s;
+        z-index: 100;
+    }
+
+    .navbar-nav {
+        float: right !important;
+    }
+
+    .navbar-nav > li {
+        float: left;
+        margin: 0 5px 0 0;
+    }
+
+    .main-w3ls-logo {
+        float: left;
+    }
+
+    .wadj {
+        width: 100%;
+        float: right;
+    }
+
+    .loadscr .progress {
+        width: 60%;
+        margin: 15px auto;
+    }
+
+    .login {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+    
+    .register {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 70px auto;
+        text-align: center;
+    }
+
+    .articles {
+        height: unset;
+    }
+
+    .postUser {
+        width: 100%;
+        background-color: rgb(236, 236, 236);
+        color: black;
+        padding: 0 0 0 10px;
+        height: 100%;
+    }
+
+    .postUser h3 {
+        float: right;
+        font-size: 2em;
+        padding: 10px;
+        width: 100%;
+        text-align: right;
+    }
+
+    .postUser p {
+        float: right;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
+        font-size: 1.1em;
+    }
+
+    .avator {
+        float: left;
+        width: 100%;
+    }
+
+    /* 購物車相關 */
+    div.check {
+        width: 100%;
+    }
+    
+    .info-warn {
+        margin: 30% 0;
+    }
+
+    .postuid {
+        width: 100%;
+    }
+
+    .poststatus {
+        float: right !important;
+        font-size: 1em;
+        width: 100%;
+    }
+
+    .posteditor {
+        font-size: 1em;
+    }
+
+    .postername {
+        float: right;
+        margin-right: 10px !important;
+    }
+}
+
+@media(max-width:568px) {
+    .carousel-text {
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    
+    .carousel-indicators li{
+        width: 7px;
+        height: 7px;
+    }
+
+    .carousel-indicators .active{
+        width: 9px;
+        height: 9px;
+    }
+
+    .banner-text {
+		padding: 15em 0em 0 0;
+    }
+    
+    .releaseTime {
+        width: 100px;
+        font-size: 14px;
+    }
+
+    .newsType {
+        width: 40px;
+        font-size: 12px;
+    }
+
+    .newsTitle {
+        font-size: 16px;
+    }
+
+    .wadj {
+        width: 100%;
+        float: right;
+    }
+
+    .loadscr .loadTitle {
+        font-size: 3em;
+        color: white;
+        text-align: center;
+        width: 100vw;
+        padding-top: 30vh;
+    }
+    
+    .loadscr .logo {
+        width: 1.4em;
+    }
+    
+    .loadscr .loadHint {
+        width: 100%;
+        text-align: center;
+        font-size: 1em;
+        color: white;
+    }
+
+    .loadscr .progress {
+        width: 90%;
+        margin: 15px auto;
+    }
+
+    .login {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+    
+    .register {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        margin: 110px auto;
+        text-align: center;
+    }
+
+    .articles {
+        height: unset;
+    }
+
+    .postUser {
+        width: 100%;
+        background-color: rgb(236, 236, 236);
+        color: black;
+        padding: 0 0 0 10px;
+        height: 100%;
+    }
+
+    .postUser h3 {
+        float: right;
+        font-size: 1.5em;
+        padding: 10px;
+        width: 100%;
+        text-align: right;
+    }
+
+    .postUser p {
+        float: right;
+        width: 100%;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .avator {
+        float: left;
+        width: 100%;
+    }
+
+    /* 購物車相關 */
+    div.check {
+        width: 100%;
+    }
+    
+    .info-warn {
+        margin: 30% 0;
+    }
+    
+    span.tot {
+        clear: both;
+        float: left;
+        width: 100%;
+        text-align: left;
+    }
+    span.qty {
+        width: 100%;
+    }
+    
+    .fpattern-resp {
+        display: none;
+    }
+
+    .postuid {
+        width: 100%;
+        padding: 0px !important;
+    }
+
+    .poststatus {
+        float: right !important;
+        font-size: 1em;
+        width: 100%;
+    }
+
+    .posteditor {
+        font-size: 1em;
+    }
+
+    .postername {
+        float: right;
+    }
+}
+
 @media(max-width:480px) {
+    .carousel-text {
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    
+    .carousel-indicators li{
+        width: 7px;
+        height: 7px;
+    }
+
+    .carousel-indicators .active{
+        width: 9px;
+        height: 9px;
+    }
+
+    .carousel-control-arrow {
+        height: 100%;
+        margin-top: 190%;
+    }
+
     .banner-text {
 		padding: 15em 0em 0 0;
     }
@@ -1290,208 +1621,53 @@ a.cpns {
         float: left;
         width: 100%;
     }
-}
 
-@media(max-width:568px) {
-    .banner-text {
-		padding: 15em 0em 0 0;
+    /* 購物車相關 */
+    div.check {
+        width: 100%;
     }
     
-    .releaseTime {
-        width: 100px;
-        font-size: 14px;
+    .info-warn {
+        margin: 30% 0;
     }
 
-    .newsType {
-        width: 40px;
-        font-size: 12px;
+    .cartitemimage {
+        width: 0 !important;
     }
 
-    .newsTitle {
-        font-size: 16px;
-    }
-
-    .wadj {
-        width: 100%;
-        float: right;
-    }
-
-    .loadscr .loadTitle {
-        font-size: 3em;
-        color: white;
-        text-align: center;
-        width: 100vw;
-        padding-top: 30vh;
-    }
-    
-    .loadscr .logo {
-        width: 1.4em;
-    }
-    
-    .loadscr .loadHint {
-        width: 100%;
-        text-align: center;
-        font-size: 1em;
-        color: white;
-    }
-
-    .loadscr .progress {
-        width: 90%;
-        margin: 15px auto;
-    }
-
-    .login {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        margin: 110px auto;
-        text-align: center;
-    }
-    
-    .register {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        margin: 110px auto;
-        text-align: center;
-    }
-
-    .articles {
-        height: unset;
-    }
-
-    .postUser {
-        width: 100%;
-        background-color: rgb(236, 236, 236);
-        color: black;
-        padding: 0 0 0 10px;
-        height: 100%;
-    }
-
-    .postUser h3 {
-        float: right;
-        font-size: 1.5em;
-        padding: 10px;
-        width: 100%;
-        text-align: right;
-    }
-
-    .postUser p {
-        float: right;
-        width: 100%;
-        text-align: right;
-        padding-right: 10px;
-    }
-
-    .avator {
+    span.tot {
+        clear: both;
         float: left;
         width: 100%;
+        text-align: left;
     }
-}
-
-@media(max-width:991px) {
-    .banner-text {
-		padding: 15em 0em 0 0;
-    }
-    
-    header {
-        background: rgba(0, 0, 0, 0.35);
-        border-bottom: transparent;
-        position: fixed;
-        transition-duration: 0.5s;
-        -moz-transition-duration: 0.5s;
-        -webkit-transition-duration: 0.5s;
-        -o-transition-duration: 0.5s;
-        z-index: 100;
+    span.qty {
+        width: 100%;
     }
 
-    .navbar-nav {
+    .fpattern-resp,
+    .use-browser,
+    .last-operatime {
+        display: none;
+    }
+
+    .postuid {
+        width: 100%;
+        padding: 0px !important;
+    }
+
+    .poststatus {
         float: right !important;
-    }
-
-    .navbar-nav > li {
-        float: left;
-        margin: 0 5px 0 0;
-    }
-
-    .main-w3ls-logo {
-        float: left;
-    }
-
-    .wadj {
+        font-size: 0.8em;
         width: 100%;
+    }
+
+    .posteditor {
+        font-size: 1em;
+    }
+
+    .postername {
         float: right;
-    }
-
-    .loadscr .progress {
-        width: 60%;
-        margin: 15px auto;
-    }
-
-    .login {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        margin: 110px auto;
-        text-align: center;
-    }
-    
-    .register {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        margin: 70px auto;
-        text-align: center;
-    }
-
-    .articles {
-        height: unset;
-    }
-
-    .postUser {
-        width: 100%;
-        background-color: rgb(236, 236, 236);
-        color: black;
-        padding: 0 0 0 10px;
-        height: 100%;
-    }
-
-    .postUser h3 {
-        float: right;
-        font-size: 2em;
-        padding: 10px;
-        width: 100%;
-        text-align: right;
-    }
-
-    .postUser p {
-        float: right;
-        width: 100%;
-        text-align: right;
-        padding-right: 10px;
-        font-size: 1.1em;
-    }
-
-    .avator {
-        float: left;
-        width: 100%;
-    }
-}
-
-@media(max-width:1366px) {
-    .banner-text {
-		padding: 15em 0em 0 0;
-    }
-
-    header {
-        background: rgba(0, 0, 0, 0.35);
-        border-bottom: transparent;
-        position: fixed;
-        transition-duration: 0.5s;
-        -moz-transition-duration: 0.5s;
-        -webkit-transition-duration: 0.5s;
-        -o-transition-duration: 0.5s;
-        z-index: 100;
     }
 }
  /* custom.css 結束 */

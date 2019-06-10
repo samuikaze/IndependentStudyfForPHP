@@ -63,20 +63,20 @@
                 <!-- 一個輪播項目 -->
                 <div class="item active">
                     <img src="images/services2.jpg" class="carousel-img">
-                    <div class="carousel-caption">
+                    <div class="carousel-caption carousel-text">
                         輪播一
                     </div>
                 </div>
                 <!-- /一個輪播項目 -->
                 <div class="item">
                     <img src="images/services1.jpg" class="carousel-img">
-                    <div class="carousel-caption">
+                    <div class="carousel-caption carousel-text">
                         輪播二
                     </div>
                 </div>
                 <div class="item">
                     <img src="images/g4.jpg" class="carousel-img">
-                    <div class="carousel-caption">
+                    <div class="carousel-caption carousel-text">
                         輪播三
                     </div>
                 </div>

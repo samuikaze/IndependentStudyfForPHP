@@ -25,7 +25,7 @@ $self = basename(__FILE__);
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
-                    <li class="thisPosition"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</li>
+                    <li class="thisPosition" style="color: #23527c;"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</li>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
                 <h5 class="main-w3l-title">洛嬉遊戲</h5>
@@ -86,7 +86,7 @@ $self = basename(__FILE__);
                                 <tr>
                                     <td><span class="badge <?php echo ($newsData['newsType'] == '一般')? "badge-success" : "badge-primary";?> newsbadge"><?php echo $newsData['newsType']; ?></span></td>
                                     <td><a href="<?php echo "news.php?action=viewcontent&nid=" . $newsData['newsOrder']; ?>"><?php echo $newsData['newsTitle']; ?></a></td>
-                                    <td><?php echo $newsData['postTime']; ?></td>
+                                    <td><?php echo date("Y-m-d", strtotime($newsData['postTime'])); ?></td>
                                 </tr>
                                     <?php } ?>
                                 <tr>

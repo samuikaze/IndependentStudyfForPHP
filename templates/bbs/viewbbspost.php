@@ -88,7 +88,7 @@ $hotPost = 100;
                             <th class="post-nums">文章數</th>
                             <th class="post-title">文章標題</th>
                             <th class="post-time">貼文時間</th>
-                            <th class="post-time">最後操作時間</th>
+                            <th class="post-time last-operatime">最後操作時間</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -101,11 +101,23 @@ $hotPost = 100;
                                 <td class="post-nums text-left"><span class="<?php echo ($articlerows >= $hotPost) ? "text-danger" : "text-info"; ?>"><?php echo ($articlerows >= $hotPost) ? "<strong>" : ""; ?><?php echo $articlerows; ?><?php echo ($articlerows >= $hotPost) ? "</strong>" : ""; ?></span></td>
                                 <td class="post-title"><a href="?action=viewpostcontent&postid=<?php echo $row['postID']; ?>&refbid=<?php echo $bid; ?>&refpage=<?php echo $pid; ?>"><span class="badge badge-warning"><?php echo $row['postType']; ?></span> <?php echo $row['postTitle']; ?></a></td>
                                 <td class="post-time"><?php echo $row['postUserID']; ?><br /><?php echo $row['postTime']; ?></td>
-                                <td class="post-time"><?php echo (!empty($row['lastUpdateUserID'])) ? $row['lastUpdateUserID'] . "<br />" . $row['lastUpdateTime'] : "<span style=\"color: gray;\">目前尚無回覆</span>"; ?></td>
+                                <td class="post-time last-operatime"><?php echo (!empty($row['lastUpdateUserID'])) ? $row['lastUpdateUserID'] . "<br />" . $row['lastUpdateTime'] : "<span style=\"color: gray;\">目前尚無回覆</span>"; ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
+                <div class="dropdown pull-right">
+                    <?php if ($datarows != 0) { ?>
+                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">全部主題 <span class="caret"></span></button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">綜合討論</a></li>
+                            <li><a href="#">板務公告</a></li>
+                            <li><a href="#">攻略心得</a></li>
+                            <li><a href="#">同人創作</a></li>
+                        </ul>
+                    <?php } ?>
+                    <a href="?action=addnewpost&boardid=<?php echo $bid; ?>&refpage=<?php echo $pid; ?>" class="btn btn-success">張貼文章</a>
+                </div>
             </div>
             <?php
             //判斷所有資料筆數「$rows['筆數']」
@@ -114,6 +126,7 @@ $hotPost = 100;
             // 如果總筆數除以 $npp 筆大於 1，意即大於一頁
             $tpg = ceil($rows['times'] / $postPerPage);
             if ($tpg > 1) { ?>
+            
                 <div class="clearfix"></div>
                 <!-- 頁數按鈕開始 -->
                 <div class="text-center">

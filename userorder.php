@@ -145,7 +145,7 @@ if ($_GET['action'] == 'order') {
                                                 <div class="close1"><a id="removeitem" data-gid="<?php echo $goodsData['goodsOrder']; ?>" class="btn btn-warning">×</a></div>
                                                 <div class="cart-sec simpleCart_shelfItem">
                                                     <div class="cart-item cyc">
-                                                        <img src="images/goods/<?php echo $goodsData['goodsImgUrl']; ?>" class="img-responsive" alt="" />
+                                                        <img src="images/goods/<?php echo $goodsData['goodsImgUrl']; ?>" class="img-responsive cartitemimage" alt="" />
                                                     </div>
                                                     <div class="cart-item-info">
                                                         <h3><a href="goods.php?action=viewgoodsdetail&goodid=<?php echo $goodsData['goodsOrder']; ?>" class="cartItemTitle"><?php echo $goodsData['goodsName']; ?></a><span><?php echo $goodsData['goodsDescript']; ?></span></h3>
