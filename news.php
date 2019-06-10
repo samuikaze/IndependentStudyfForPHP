@@ -32,7 +32,7 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                    <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                     <?php echo ($_GET['action'] == 'viewnews') ? "<li class=\"thisPosition\">" : "<li><a href=\"news.php?action=viewnews&p=" . ((empty($_GET['refpage'])) ? 1 : $_GET['refpage']) . "\">"; ?>最新消息<?php echo ($_GET['action'] == 'viewnews') ? "" : "</a>"; ?></li>
                     <?php echo ($_GET['action'] == 'viewcontent') ? "<li class=\"thisPosition\">檢視消息</li>" : ""; ?>
                     <?php include "templates/loginbutton.php"; ?>

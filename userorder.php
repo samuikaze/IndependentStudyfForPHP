@@ -74,7 +74,7 @@ if ($_GET['action'] == 'order') {
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                    <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                     <li><a href="goods.php?action=viewallgoods">周邊產品</a></li>
                     <?php echo ($_GET['action'] == 'viewcart') ? "<li class=\"thisPosition\">檢視購物車內容</li>" : "<li><a href=\"?action=viewcart\">檢視購物車內容</a></li>"; ?>
                     <?php echo ($_GET['action'] == 'order') ? "<li class=\"thisPosition\">結帳</li>" : ""; ?>

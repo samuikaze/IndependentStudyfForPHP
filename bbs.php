@@ -44,7 +44,7 @@
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                    <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                     <li <?php echo (!empty($_GET['action']) && $_GET['action'] == 'viewboard')? "class=\"thisPosition\"" : ""; ?>><?php echo (!empty($_GET['action']) && $_GET['action'] != 'viewboard')? "<a href=\"?action=viewboard\">" : ""; ?>討論區首頁<?php echo (!empty($_GET['action']) && $_GET['action'] != 'viewboard')? "</a>" : ""; ?></li>
                     <?php
                         if(!empty($_GET['action']) && $_GET['action'] == 'viewbbspost'){

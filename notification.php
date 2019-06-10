@@ -33,7 +33,7 @@ if (empty($_SESSION['auth'])) {
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                    <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                     <li class="thisPosition">通知管理</li>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>

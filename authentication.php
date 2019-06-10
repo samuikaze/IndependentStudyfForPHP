@@ -28,7 +28,7 @@
         if ( !empty($_POST["refer"]) ){
             $refer = $_POST["refer"];
         }else{
-            $refer = "/";
+            $refer = "./";
         }
         // 資料判別
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -91,7 +91,9 @@
                 setcookie("sid", $sessionID, time() + 2592000);
                 setcookie("auth", "true", time() + 2592000);
                 mysqli_close($connect);
-                $refer = str_replace("+", "&", $refer);
+                if ( !empty($_POST["refer"]) ){
+                    $refer = str_replace("+", "&", $refer);
+                }
                 header("Location: $refer");
                 exit;
             }
@@ -106,7 +108,7 @@
         if ( !empty($_POST["refer"]) ){
             $refer = $_POST["refer"];
         }else{
-            $refer = "/";
+            $refer = "./";
         }
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             if( empty( $_POST["username"] ) ){

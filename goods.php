@@ -55,7 +55,7 @@ $qtydanger = 15;
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                    <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                     <?php echo ($_GET['action'] == 'viewallgoods')? "<li class=\"thisPosition\">": "<li><a href=\"?action=viewallgoods$refpage\">"; ?>周邊產品<?php echo ($_GET['action'] == 'viewallgoods')? "": "</a>"; ?></li>
                     <?php echo ($_GET['action'] == 'viewgoodsdetail')? "<li class=\"thisPosition\">周邊產品詳細資料</li>": ""; ?>
                     <?php include "templates/loginbutton.php"; ?>

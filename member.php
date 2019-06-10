@@ -1,7 +1,7 @@
 <?php
 require_once 'sessionCheck.php';
 if (empty($_GET['refer'])) {
-    $refer = "/";
+    $refer = "./";
 } elseif ($_GET['action'] == 'relogin') {
     $refer = "admin/" . $_GET['refer'];
 } else {
@@ -43,7 +43,7 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
             <div class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
+                    <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
                     <?php echo (!empty($_GET['action']) && ($_GET['action'] == 'login' || $_GET['action'] == 'register')) ? "<li class=\"thisPosition\">登入 / 註冊</li>" : ""; ?>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
