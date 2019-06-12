@@ -669,6 +669,114 @@ if (empty($_SERVER['QUERY_STRING'])) {
             header("Location: index.php?action=frontcarousel&type=carousellist&msg=delsuccess");
             exit;
         }
+    // 新增作品
+    } elseif ($_GET['action'] == 'addproduct') {
+        $errRefer = "index.php?action=article_product&type=addproduct";
+        if(empty($_POST['prodname'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodname");
+            exit;
+        }elseif(empty($_POST['produrl'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodurl");
+            exit;
+        }elseif(empty($_POST['proddescript'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyproddescript");
+            exit;
+        }else{
+            // 沒有上傳檔案
+            if ($_FILES["prodimage"]["error"] == 4 || empty($_FILES["prodimage"])) {
+                $fileUpload = false;
+            // 有上傳檔案
+            } else {
+                // 檔案大小過大
+                if ($_FILES["prodimage"]["error"] == 1 || $_FILES["prodimage"]["error"] == 2) {
+                    mysqli_close($connect);
+                    header("Location: $errRefer&msg=errfilesize");
+                    exit;
+                }
+                $fileextension = pathinfo($_FILES['prodimage']['name'], PATHINFO_EXTENSION);
+                // 檔案類型不正確
+                if (!in_array($fileextension, array('jpg', 'png', 'gif'))) {
+                    mysqli_close($connect);
+                    header("Location: $errRefer&msg=errfiletype");
+                    exit;
+                }
+                $fileUpload = true;
+            }
+            $prodname = $_POST['prodname'];
+            $produrl = $_POST['produrl'];
+            $proddescript = $_POST['proddescript'];
+            $proddate = date("Y-m-d H:i:s");
+            // 先新增資料進資料庫
+            if($fileUpload == false){
+                mysqli_query($connect, "INSERT INTO `productname` (`prodTitle`, `prodDescript`, `prodPageUrl`, `ProdRelDate`) VALUES ('$prodname', '$proddescript', '$produrl', '$proddate');");
+            }else{
+                mysqli_query($connect, "INSERT INTO `productname` (`prodTitle`, `prodDescript`, `prodPageUrl`, `ProdRelDate`) VALUES ('$prodname', '$proddescript', '$produrl', '$proddate');");
+                $lastid = mysqli_fetch_array(mysqli_query($connect, "SELECT LAST_INSERT_ID() AS `lastid`;"), MYSQLI_ASSOC);
+                $filename = "product-" . $lastid['lastid'] . ".$fileextension";
+                mysqli_query($connect, "UPDATE `productname` SET `prodImgUrl`='$filename' WHERE `prodOrder`=" . $lastid['lastid']);
+                // 把新的檔案移到正確的路徑
+                move_uploaded_file($_FILES["prodimage"]["tmp_name"], "../images/products/$filename");
+            }
+            mysqli_close($connect);
+            header("Location: index.php?action=article_product&type=productlist&msg=addprodsuccess");
+            exit;
+        }
+    // 編輯作品
+    } elseif ($_GET['action'] == 'adminproduct') {
+        if(empty($_POST['pdid'])){
+            mysqli_close($connect);
+            header("Location: index.php?action=article_product&type=productlist&msg=emptypdid");
+            exit;
+        }
+        $pdid = $_POST['pdid'];
+        $errRefer = "index.php?action=adminproduct&pdid=$pdid";
+        if(empty($_POST['prodname'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodname");
+            exit;
+        }elseif(empty($_POST['produrl'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodurl");
+            exit;
+        }elseif(empty($_POST['proddescript'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyproddescript");
+            exit;
+        }else{
+
+        }
+    // 修改系統設定
+    } elseif ($_GET['action'] == 'updatesysconfig') {
+        // 所有欄位都必須有值，先檢查是否有漏填的欄位
+        foreach($_POST as $i => $check){
+            if(empty($check)){
+                mysqli_close($connect);
+                header("Location: index.php?action=sysconfig&msg=emptypostvalue");
+                break;
+                exit;
+            }
+        }
+        // 沒問題就直接更新欄位值
+        $sql = sprintf("UPDATE `systemsetting` SET `settingValue` = CASE `settingName` WHEN 'articlesNum' THEN '%s' WHEN 'goodsNum' THEN '%s' WHEN 'newsNum' THEN '%s' WHEN 'postsNum' THEN '%s' END;", $_POST['numArticles'], $_POST['numGoods'], $_POST['numNews'], $_POST['numPosts']);
+        mysqli_query($connect, $sql);
+        mysqli_close($connect);
+        header("Location: index.php?action=sysconfig&msg=updatesuccess");
+        exit;
+    // 最佳化資料表
+    } elseif($_GET['action'] == 'optimizedb') {
+        mysqli_query($connect, "OPTIMIZE TABLE `bbsarticle`, `bbsboard`, `bbspost`, `checkout`, `faqlist`, `frontcarousel`, `goodslist`, `member`, `news`, `notifications`, `orders`, `productname`, `removeorder`, `sessions`, `systemsetting`;");
+        mysqli_close($connect);
+        header("Location: index.php?action=dbadmin&msg=optimizesuccess");
+        exit;
+    // 修復資料表
+    } elseif($_GET['action'] == 'repairdb') {
+        mysqli_query($connect, "REPAIR TABLE `bbsarticle`, `bbsboard`, `bbspost`, `checkout`, `faqlist`, `frontcarousel`, `goodslist`, `member`, `news`, `notifications`, `orders`, `productname`, `removeorder`, `sessions`, `systemsetting`;");
+        mysqli_close($connect);
+        header("Location: index.php?action=dbadmin&msg=repairsuccess");
+        exit;
     } else {
         mysqli_close($connect);
         header("Location: index.php?action=index");

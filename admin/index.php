@@ -66,18 +66,12 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                                     <li><a href="?action=frontcarousel&type=carousellist">輪播管理</a></li>
                                     <li><a href="?action=aboutus">關於我們</a></li>
                                     <li><a href="?action=article_news&type=newslist">最新消息</a></li>
-                                    <li><a href="?action=article_product">作品一覽</a></li>
+                                    <li><a href="?action=article_product&type=productlist">作品管理</a></li>
                                     <li><a href="#">招募新血</a></li>
                                     <li><a href="#">常見問題</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">討論區管理 <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="?action=board_admin&type=boardlist">討論板管理</a></li>
-                                    <li><a href="#">文章管理</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="?action=board_admin&type=boardlist">討論板管理</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">會員管理 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -93,7 +87,14 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                                     <li><a href="?action=order_admin&type=vieworderlist">訂單管理</a></li>
                                 </ul>
                             </li>
-                            <li><a href="index.php?action=backendlogout">離開後台</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系統設定 <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="?action=sysconfig">主要系統設定</a></li>
+                                    <li><a href="?action=dbadmin">資料庫管理</a></li>
+                                    <li><a href="index.php?action=backendlogout">離開後台</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -113,7 +114,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                 }elseif($_GET['action'] == 'board_admin' || $_GET['action'] == 'editboard' || $_GET['action'] == 'delboard'){
                     include("boardadmin.php");
                 // 商品管理
-                }elseif($_GET['action'] == 'article_product'){
+                }elseif($_GET['action'] == 'article_product' || $_GET['action'] == 'adminproduct'){
                     include("article_product.php");
                 }elseif($_GET['action'] == 'aboutus'){
                     include("about_us.php");
@@ -121,6 +122,10 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                     include("goods_admin.php");
                 }elseif($_GET['action'] == 'order_admin' || $_GET['action'] == 'vieworderdetail'){
                     include("order_admin.php");
+                }elseif($_GET['action'] == 'sysconfig'){
+                    include("sysconfig.php");
+                }elseif($_GET['action'] == 'dbadmin'){
+                    include("dbadmin.php");
                 }else{ ?>
                     <div class="row content-body">
                         <ol class="breadcrumb">

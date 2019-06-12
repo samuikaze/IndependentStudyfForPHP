@@ -23,7 +23,7 @@
             include_once "templates/header.php";
         ?>
         <div class="gallery">
-            <div class="container">
+            <div id="content-wrap" class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
@@ -33,7 +33,7 @@
                 <div class="row" style="margin-top: 0px; padding-top: 0px;">
                     <div class="col-md-6 courses-info">
                         <div class="prodLists thumbnail">
-                            <a href="images/products/nowprint.jpg"><img src="images/products/nowprint.jpg"></a>
+                            <a data-fancybox href="images/products/nowprint.jpg"><img src="images/products/nowprint.jpg"></a>
                             <div class="prodText">
                                 <h3 class="fLeft prodTitle">作品一</h3>
                                 <div class="fLeft">
@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-md-6 courses-info prodList-noMargin">
                         <div class="prodLists thumbnail">
-                            <a href="images/products/nowprint.jpg"><img src="images/products/nowprint.jpg"></a>
+                            <a data-fancybox href="images/products/nowprint.jpg"><img src="images/products/nowprint.jpg"></a>
                             <div class="prodText">
                                 <h3 class="fLeft prodTitle">作品二</h3>
                                 <div class="fLeft">
@@ -87,7 +87,7 @@
                     </div>
                     <div class="col-md-6 courses-info prodList-noMargin">
                         <div class="prodLists thumbnail">
-                            <a href="images/products/nowprint.jpg"><img src="images/products/nowprint.jpg"></a>
+                            <a data-fancybox href="images/products/nowprint.jpg"><img src="images/products/nowprint.jpg"></a>
                             <div class="prodText text-left">
                                 <h3 class="fLeft prodTitle">作品三</h3>
                                 <div class="fLeft">
@@ -114,7 +114,7 @@
                     </div>
                     <div class="col-md-6 courses-info prodList-noMargin">
                         <div class="prodLists thumbnail">
-                            <a href="images/products/nowprint.jpg"><img src="images/products/nowprint.jpg"></a>
+                            <a data-fancybox href="images/products/nowprint.jpg"><img src="images/products/nowprint.jpg"></a>
                             <div class="prodText">
                                 <h3 class="fLeft prodTitle">作品四</h3>
                                 <div class="fLeft">
@@ -144,10 +144,6 @@
         </div>
         <?php include_once "templates/footer.php"; ?>
     </div>
-	<script src="js/simpleLightbox.js"></script>
-	<script>
-		$('.thumbnail a').simpleLightbox();
-	</script>
 </body>
 </html>
 <?php mysqli_close($connect); ?>

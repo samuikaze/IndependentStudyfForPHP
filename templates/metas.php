@@ -12,14 +12,15 @@
 </script>
 <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="js/PreloadJS.js"></script>   <!-- 載入動畫（修改中） -->
-<script type="text/javascript" src="js/slick.min.js"></script>    <!-- 圖片輪播 -->
+<script type="text/javascript" src="js/PreloadJS.js"></script>
 <script src="js/custom.js"></script>
 <script src="js/main.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="ckeditor/ckeditor.js"></script>
 <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 <link href="css/style.min.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="css/jquery.fancybox.min.css" />
 <style type="text/css">
     /* Loading Screen */
     .loadscr {

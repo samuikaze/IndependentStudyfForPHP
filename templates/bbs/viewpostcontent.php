@@ -23,7 +23,8 @@ if (empty($_GET['postid'])) { ?>
         $page = $_GET['p'];
     }
     // 一頁顯示 10 則貼文
-    $ppp = 10;
+    $pgnums = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='articlesNum';"), MYSQLI_ASSOC);
+    $ppp = $pgnums['settingValue'];
     $llimit = ($page - 1) * $ppp;   //SQL 用，左極限
     $rlimit = $page * $ppp;         //SQL 用，右極限
     $sql = mysqli_query($connect, "SELECT `bbspost`.*, `bbsarticle`.* FROM `bbspost` LEFT OUTER JOIN `bbsarticle` ON `bbsarticle`.`articlePost`=`bbspost`.`postID` WHERE `bbspost`.`postID`=$postid");

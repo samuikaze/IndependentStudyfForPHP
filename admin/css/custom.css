@@ -75,10 +75,34 @@
     margin-right: 0.5em;
 }
 
-.news-warn{
+.news-warn {
     color: red !important;
     padding: 0 auto;
-    margin: 25vh auto 3em;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.info-warn {
+    color: #31708f !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.warning-warn {
+    color: #8a6d3b !important;
+    padding: 0 auto;
+    margin: 25vh auto;
+    text-align: center;
+    width: 100%;
+}
+
+.danger-warn {
+    color: #a94442 !important;
+    padding: 0 auto;
+    margin: 25vh auto;
     text-align: center;
     width: 100%;
 }

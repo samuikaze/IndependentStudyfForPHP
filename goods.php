@@ -19,7 +19,8 @@ if(empty($_GET['refpage'])){
     $refpage = "&pid=" . $_GET['refpage'];
 }
 // 限制一頁顯示幾項
-$gpp = 6;
+$pgnums = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='goodsNum';"), MYSQLI_ASSOC);
+$gpp = $pgnums['settingValue'];
 // 商品數量反紅值
 $qtydanger = 15;
 ?>
@@ -52,7 +53,7 @@ $qtydanger = 15;
         include_once "templates/header.php";
         ?>
         <div class="courses">
-            <div class="container">
+            <div id="content-wrap" class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>

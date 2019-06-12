@@ -21,7 +21,8 @@ if (empty($_GET['pid'])) {
     $pid = $_GET['pid'];
 }
 // 設定一頁顯示多少筆文章
-$postPerPage = 9;                       // SQL 語法用，LIMIT 第二項
+$pgnums = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='postsNum';"), MYSQLI_ASSOC);
+$postPerPage = $pgnums['settingValue'];                       // SQL 語法用，LIMIT 第二項
 $tlimit = ($pid - 1) * $postPerPage;    // SQL 語法用，LIMIT 第一項
 $sql = mysqli_query($connect, "SELECT * FROM `bbspost` WHERE `postBoard`=$bid ORDER BY `lastUpdateTime` DESC LIMIT $tlimit, $postPerPage;");
 $datarows = mysqli_num_rows($sql);

@@ -29,7 +29,7 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
         include_once "templates/header.php";
         ?>
         <div class="courses">
-            <div class="container">
+            <div id="content-wrap" class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
@@ -52,7 +52,8 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
                                 } else {
                                     $page = $_GET['p'];
                                 }
-                                $npp = 9;   //每頁消息數，SQL 語法用，LIMIT 第二項
+                                $pgnums = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='newsNum';"), MYSQLI_ASSOC);
+                                $npp = $pgnums['settingValue'];   //每頁消息數，SQL 語法用，LIMIT 第二項
                                 $tlimit = ($page - 1) * $npp;   //SQL 語法用，LIMIT 第一項      
                                 $sql = "SELECT * FROM `news` ORDER BY `newsOrder` DESC LIMIT $tlimit, $npp;";
                                 $query = mysqli_query($connect, $sql);

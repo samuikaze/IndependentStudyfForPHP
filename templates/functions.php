@@ -38,4 +38,18 @@
         //echo get_browser_name($_SERVER['HTTP_USER_AGENT']);
     }
 
+    // 找出陣列項目，僅支援二維陣列
+    /* 返回值
+     * 當找到 $target 值時返回其 $index 值
+     * 否則返回 false
+     */
+    function getItemFromArray($target, $arr){
+        foreach($arr as $index => $insideArr){
+            if(in_array($target, $insideArr)){
+                return $index;
+            }
+        }
+        return false;
+    }
+
 ?>

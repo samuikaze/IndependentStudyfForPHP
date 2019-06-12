@@ -71,7 +71,7 @@ if ($_GET['action'] == 'order') {
         include_once "templates/header.php";
         ?>
         <div class="courses">
-            <div class="container">
+            <div id="content-wrap" class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>

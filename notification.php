@@ -30,7 +30,7 @@ if (empty($_SESSION['auth'])) {
             }
             include_once "templates/header.php";
             ?>
-            <div class="container">
+            <div id="content-wrap" class="container">
                 <!-- 麵包屑 -->
                 <ol class="breadcrumb">
                     <li><a href="./"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</a></li>
@@ -54,7 +54,7 @@ if (empty($_SESSION['auth'])) {
                                 <div id="forMsg" style="display: none;"></div>
                                 <div id="notification">
                                     <div class="pull-right" style="margin-bottom: 5px;">
-                                        <a <?php echo ($notifyunreadnums == 0)? "" : "id=\"readallnotifications\""; ?> class="btn btn-success"<?php echo ($notifyunreadnums == 0)? "disabled=\"disabled\"" : ""; ?> style="cursor: pointer;" title="<?php echo ($notifyunreadnums == 0)? "目前沒有未讀通知" : "已讀所有未讀的通知"; ?>">已讀所有通知</a>
+                                        <a <?php echo ($notifyunreadnums == 0)? "" : "id=\"readallnotifications\""; ?> class="btn btn-success"<?php echo ($notifyunreadnums == 0)? "disabled=\"disabled\"" : "style=\"cursor: pointer;\""; ?> title="<?php echo ($notifyunreadnums == 0)? "目前沒有未讀通知" : "已讀所有未讀的通知"; ?>">已讀所有通知</a>
                                         <a id="removeallnotifications" class="btn btn-danger" style="cursor: pointer;">刪除所有通知</a>
                                     </div>
                                     <table class="table table-hover">

@@ -169,7 +169,7 @@ jQuery(document).ready(function ($) {
 });
 
 // 圖片輪播 slick.js
-$(document).ready(function(){
+/* $(document).ready(function(){
     $('.top-main-banner').slick({
         draggable: true,
         infinite: true,
@@ -185,7 +185,7 @@ $(document).ready(function(){
         nextArrow: $(".navi-allow.next"),
     });
 });
-
+ */
 //捲到最上層
 $(document).ready(function(){
     $('.toTop').on('click', function(){
