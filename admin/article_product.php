@@ -13,6 +13,21 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4><strong>新增作品成功！</strong></h4>
             </div>
+        <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'updateprodsuccess') { ?>
+            <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><strong>更新作品內容成功！</strong></h4>
+            </div>
+        <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delprodsuccess') { ?>
+            <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><strong>刪除作品成功！</strong></h4>
+            </div>
+        <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptypdid') { ?>
+            <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><strong>無法辨識作品編號！</strong></h4>
+            </div>
         <?php } ?>
         <!-- 分頁 -->
         <ul class="nav nav-tabs" role="tablist">
@@ -50,7 +65,7 @@
                                     <td class="news-title"><?php echo $prodData['prodTitle']; ?></td>
                                     <td class="news-admin">
                                         <a href="?action=adminproduct&pdid=1" class="btn btn-info">編輯</a>
-                                        <a href="?action=delproduct&pdid=1" class="btn btn-danger">刪除</a>
+                                        <a href="?action=delproduct&pdid=<?php echo $prodData['prodOrder']; ?>" class="btn btn-danger">刪除</a>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -136,6 +151,57 @@
                 </div>
             <?php } else {
             $prodDetailData = mysqli_fetch_array($prodDetailSql, MYSQLI_ASSOC); ?>
+                <?php if (!empty($_GET['msg']) && $_GET['msg'] == 'emptyprodname') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品名稱不能為空！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptyprodurl') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品位址不能為空！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptyproddescript') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品描述不能為空！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'errfilesize') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品視覺圖檔案大小過大！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'errfiletype') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品視覺圖檔案類型不正確！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'errnodata') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>找不到該作品編號，請依正常程序操作！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'errfilesize') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>上傳的檔案大小過大！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'errfiletype') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>上傳的檔案格式不正確！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'errupdel') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>上傳新視覺圖與刪除視覺圖不可同時操作！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'errnodel') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>無視覺圖可刪除，請依正常程序操作！</strong></h4>
+                    </div>
+                <?php } ?>
                 <form action="adminaction.php?action=adminproduct" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="prodname">作品名稱</label>
@@ -176,6 +242,97 @@
                     <div class="form-group text-center">
                         <input type="submit" name="submit" value="送出" class="btn btn-success" />
                         <a href="?action=article_product&type=productlist" class="btn btn-info">取消</a>
+                    </div>
+                </form>
+            <?php }
+    } ?>
+
+    <?php } elseif (!empty($_GET['action']) && $_GET['action'] == 'delproduct') {
+    if (empty($_GET['pdid'])) { ?>
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">錯誤</h3>
+                </div>
+                <div class="panel-body text-center">
+                    <h2 class="news-warn">無法取得作品編號，請依正常程序刪除作品。<br /><br />
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-lg btn-info" href="?action=article_product&type=productlist">返回作品管理</a>
+                        </div>
+                    </h2>
+                </div>
+            </div>
+        <?php } else {
+        $pdid = $_GET['pdid'];
+        $prodDataSql = mysqli_query($connect, "SELECT * FROM `productname` WHERE `prodOrder`=$pdid;");
+        if (mysqli_num_rows($prodDataSql) == 0) { ?>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">錯誤</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <h2 class="news-warn">該編號無法找到作品，請依正常程序刪除作品。<br /><br />
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-lg btn-info" href="?action=article_product&type=productlist">返回作品管理</a>
+                            </div>
+                        </h2>
+                    </div>
+                </div>
+            <?php } else {
+            $prodDatas = mysqli_fetch_array($prodDataSql, MYSQLI_ASSOC); ?>
+                <?php if (!empty($_GET['msg']) && $_GET['msg'] == 'delproderrgid') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>無法識別作品，請依正常程序刪除作品！</strong></h4>
+                    </div>
+                <?php } ?>
+                <form method="POST" class="form-horizontal" action="adminaction.php?action=delproduct" style="margin-top: 1em;">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>您確定要刪除這比作品資料嗎？這個動作無法復原！</strong></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">作品編號</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><?php echo $prodDatas['prodOrder']; ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">作品名稱</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><?php echo $prodDatas['prodTitle']; ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">作品描述</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><?php echo $prodDatas['prodDescript']; ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">作品位址</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><?php echo $prodDatas['prodPageUrl']; ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">作品釋出日期</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><?php echo $prodDatas['prodRelDate']; ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">作品視覺圖</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><img src="../images/products/<?php echo $prodDatas['prodImgUrl']; ?>" width="100%" /></p>
+                                </div>
+                            </div>
+                            <input type="hidden" name="pdid" value="<?php echo $_GET['pdid']; ?>" />
+                            <div class="col-md-12 text-center">
+                                <input type="submit" name="submit" class="btn btn-danger" value="確認刪除" />
+                                <a href="?action=article_product&type=productlist" class="btn btn-success">返回作品管理</a>
+                            </div>
+                        </div>
                     </div>
                 </form>
             <?php }

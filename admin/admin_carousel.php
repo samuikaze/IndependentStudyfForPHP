@@ -54,18 +54,18 @@
                     <table class="table table-hover">
                         <thead>
                             <tr class="warning">
-                                <th>序</th>
-                                <th>輪播圖片</th>
-                                <th>輪播管理</th>
+                                <th class="news-order">序</th>
+                                <th class="news-title">輪播圖片</th>
+                                <th class="news-admin">輪播管理</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- 一個輪播項目 -->
                             <?php while ($datas = mysqli_fetch_array($getData, MYSQLI_ASSOC)) { ?>
                                 <tr>
-                                    <td><?php echo $datas['imgID']; ?></td>
-                                    <td><?php echo $datas['imgUrl']; ?></td>
-                                    <td>
+                                    <td class="news-order"><?php echo $datas['imgID']; ?></td>
+                                    <td class="news-title"><?php echo $datas['imgUrl']; ?></td>
+                                    <td class="news-admin">
                                         <a href="?action=carouseladmin&csid=<?php echo $datas['imgID']; ?>" class="btn btn-info">管理</a>
                                         <a href="?action=carouseldel&csid=<?php echo $datas['imgID']; ?>" class="btn btn-danger">刪除</a>
                                     </td>

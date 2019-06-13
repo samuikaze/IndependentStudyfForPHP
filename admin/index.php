@@ -92,7 +92,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                                 <ul class="dropdown-menu">
                                     <li><a href="?action=sysconfig">主要系統設定</a></li>
                                     <li><a href="?action=dbadmin">資料庫管理</a></li>
-                                    <li><a href="index.php?action=backendlogout">離開後台</a></li>
+                                    <li><a href="index.php?action=backendlogout">登出後台</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -114,7 +114,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                 }elseif($_GET['action'] == 'board_admin' || $_GET['action'] == 'editboard' || $_GET['action'] == 'delboard'){
                     include("boardadmin.php");
                 // 商品管理
-                }elseif($_GET['action'] == 'article_product' || $_GET['action'] == 'adminproduct'){
+                }elseif($_GET['action'] == 'article_product' || $_GET['action'] == 'adminproduct' || $_GET['action'] == 'delproduct'){
                     include("article_product.php");
                 }elseif($_GET['action'] == 'aboutus'){
                     include("about_us.php");

@@ -746,7 +746,103 @@ if (empty($_SERVER['QUERY_STRING'])) {
             header("Location: $errRefer&msg=emptyproddescript");
             exit;
         }else{
-
+            $fnameIndex = mysqli_query($connect, "SELECT * FROM `productname` WHERE `prodOrder`=$pdid;");
+            $fnameRows = mysqli_num_rows($fnameIndex);
+            // 若找不到該作品
+            if ($fnameRows == 0) {
+                mysqli_close($connect);
+                header("Location: $errRefer&msg=errnodata");
+                exit;
+            } else {
+                $fnameDatas = mysqli_fetch_array($fnameIndex, MYSQLI_ASSOC);
+            }
+            // 沒有上傳檔案
+            if ($_FILES["prodimage"]["error"] == 4 || empty($_FILES["prodimage"])) {
+                $fileUpload = false;
+                // 有上傳檔案
+            } else {
+                // 檔案大小過大
+                if ($_FILES["prodimage"]["error"] == 1 || $_FILES["prodimage"]["error"] == 2) {
+                    mysqli_close($connect);
+                    header("Location: $errRefer&msg=errfilesize");
+                    exit;
+                }
+                $fileextension = pathinfo($_FILES['prodimage']['name'], PATHINFO_EXTENSION);
+                // 檔案類型不正確
+                if (!in_array($fileextension, array('jpg', 'png', 'gif'))) {
+                    mysqli_close($connect);
+                    header("Location: $errRefer&msg=errfiletype");
+                    exit;
+                }
+                $fileUpload = true;
+            }
+            // 刪除作品視覺圖
+            $delprodimage = false;
+            if (!empty($_POST['delprodimage']) && $_POST['delprodimage'] == "true") {
+                // 如果有上傳圖片可是也把刪除圖片打勾了
+                if ($fileUpload == true) {
+                    mysqli_close($connect);
+                    header("Location: $errRefer&msg=errupdel");
+                    exit;
+                    // 沒問題就把圖片先刪除
+                } else {
+                    $filename = $fnameDatas['prodImgUrl'];
+                    // 若圖片是系統預設圖片
+                    if ($filename == "nowprint.jpg") {
+                        mysqli_close($connect);
+                        header("Location: $errRefer&msg=errnodel");
+                        exit;
+                    } else {
+                        unlink("../images/products/$filename");
+                        $delprodimage = true;
+                    }
+                }
+            }
+            $prodname = $_POST['prodname'];
+            $produrl = $_POST['produrl'];
+            $proddescript = $_POST['proddescript'];
+            // 若有上傳檔案
+            if ($fileUpload == true) {
+                $filename = "product-$pdid.$fileextension";
+                move_uploaded_file($_FILES["prodimage"]["tmp_name"], "../images/products/$filename");
+                mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodImgUrl`='$filename', `prodDescript`='$proddescript', `prodPageUrl`='$produrl' WHERE `prodOrder`=$pdid;");
+            // 沒有上傳檔案
+            } else {
+                // 若要刪除商品圖
+                if ($delprodimage == true) {
+                    mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodImgUrl`='nowprint.jpg', `prodDescript`='$proddescript', `prodPageUrl`='$produrl' WHERE `prodOrder`=$pdid;");
+                // 不刪除商品圖
+                } else {
+                    mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodDescript`='$proddescript', `prodPageUrl`='$produrl' WHERE `prodOrder`=$pdid;");
+                }
+            }
+            mysqli_close($connect);
+            header("Location: index.php?action=article_product&type=productlist&msg=updateprodsuccess" . ((empty($_POST['refpage'])) ? "" : "&pid=" . $_POST['refpage']));
+            exit;
+        }
+    // 刪除作品
+    } elseif ($_GET['action'] == 'delproduct') {
+        $errRefer = "index.php?action=article_product&type=productlist";
+        // 若作品編號為空
+        if (empty($_POST['pdid'])) {
+            mysqli_close($connect);
+            header("Location: index.php?action=article_product&type=productlist&msg=emptypdid");
+            exit;
+        } else {
+            $pdid = $_POST['pdid'];
+            // 先判斷有沒有上傳作品視覺圖
+            $proddata = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `productname` WHERE `prodOrder`='$pdid';"), MYSQLI_ASSOC);
+            // 若有上傳圖片
+            if ($proddata['prodImgUrl'] != "nowprint.jpg") {
+                $fname = $proddata['prodImgUrl'];
+                unlink("../images/products/$fname");
+            }
+            // 執行刪除
+            mysqli_query($connect, "DELETE FROM `productname` WHERE `prodOrder`=$pdid;");
+            mysqli_close($connect);
+            $successRefer = "index.php?action=article_product&type=productlist&msg=delprodsuccess";
+            header("Location: $successRefer");
+            exit;
         }
     // 修改系統設定
     } elseif ($_GET['action'] == 'updatesysconfig') {
