@@ -32,6 +32,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../js/i18n/datepicker-zh-TW.js"></script>
 <script src="../js/bootstrap.js"></script>
 <script src="js/custom.js"></script>
 <script src="../ckeditor/ckeditor.js"></script>

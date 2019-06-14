@@ -521,18 +521,38 @@ div.carousel > div.carousel-inner > div.item {
 
 }
 
+.prodLists {
+    position: relative;
+}
+
+.btn-bottom {
+    padding-bottom: 34px;
+}
+
 .prodLists > img, .prodLists a > img {
     margin: 0;
     width: calc(100% / 3);
     float: left;
 }
 
-div .prodText {
+div.prodText {
     float: right;
     width: calc(100% * 2 / 3);
     height: 100%;
     margin: 0;
     padding: 10px;
+}
+
+.goProd {
+    display: block;
+    position: absolute;
+    width: calc(100% * 2 / 3 - 20px);
+    height: 34px;
+    bottom: 5px;
+}
+
+.prodList-noMargin {
+    margin: 0 !important;
 }
 
 /*.prodLists {
@@ -572,18 +592,6 @@ div .prodText {
     z-index: 8;
     background: rgba(0, 0, 0, 0.3);
 }*/
-
-.goProd {
-    display: block;
-    position: relative;
-    width: 100%;
-    bottom: 0;
-    float: right;
-}
-
-.prodList-noMargin {
-    margin: 0 !important;
-}
 
 /* 修改麵包屑外觀 */
 .breadcrumb{

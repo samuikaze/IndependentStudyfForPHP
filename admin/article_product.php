@@ -99,12 +99,47 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4><strong>作品視覺圖檔案類型不正確！</strong></h4>
                     </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptyprodtype') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品類型不能為空！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptyprodplatform') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品執行平台不能為空！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptyprodreldate') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品發售日期不能為空！</strong></h4>
+                    </div>
                 <?php } ?>
                 <form action="adminaction.php?action=addproduct" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="prodname">作品名稱</label>
                         <input type="text" name="prodname" id="prodname" class="form-control" placeholder="請輸入作品名稱，此為必填項" />
                     </div>
+                    <div class="form-group">
+                        <label for="prodtype">作品類型</label>
+                        <input type="text" name="prodtype" id="prodtype" class="form-control" placeholder="請輸入作品的類型，此為必填項" />
+                    </div>
+                    <div class="form-group">
+                        <label for="prodplatform">作品平台</label>
+                        <input type="text" name="prodplatform" id="prodplatform" class="form-control" placeholder="請輸入作品的執行平台，此為必填項" />
+                    </div>
+                    <div class="form-group">
+                        <label for="prodreldate">作品發售日期</label>
+                        <input type="datetime-local" name="prodreldate" id="prodreldate" class="form-control" placeholder="請輸入作品發售日期，此為必填項" />
+                    </div>
+                    <script>
+                        $(function() {
+                            $("#prodreldate").datepicker().datepicker("option", {
+                                "dateFormat": "yy-mm-dd",
+                                "showAnim": "fadeIn"
+                            });
+                        });
+                    </script>
                     <div class="form-group">
                         <label for="produrl">作品位址</label>
                         <input type="text" name="produrl" id="produrl" class="form-control" placeholder="請輸入作品位址，此為必填項" />
@@ -201,12 +236,60 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4><strong>無視覺圖可刪除，請依正常程序操作！</strong></h4>
                     </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptyprodtype') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品類型不能為空！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptyprodplatform') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品執行平台不能為空！</strong></h4>
+                    </div>
+                <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'emptyprodreldate') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>作品發售日期不能為空！</strong></h4>
+                    </div>
                 <?php } ?>
                 <form action="adminaction.php?action=adminproduct" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="prodname">作品名稱</label>
                         <input type="text" name="prodname" id="prodname" class="form-control" value="<?php echo $prodDetailData['prodTitle']; ?>" placeholder="請輸入商品名稱，此為必填項" />
                     </div>
+                    <div class="form-group">
+                        <label for="prodtype">作品類型</label>
+                        <input type="text" name="prodtype" id="prodtype" class="form-control" value="<?php echo $prodDetailData['prodType']; ?>" placeholder="請輸入作品的類型，此為必填項" />
+                    </div>
+                    <div class="form-group">
+                        <label for="prodplatform">作品平台</label>
+                        <input type="text" name="prodplatform" id="prodplatform" class="form-control" value="<?php echo $prodDetailData['prodPlatform']; ?>" placeholder="請輸入作品的執行平台，此為必填項" />
+                    </div>
+                    <div class="form-group">
+                        <label for="prodreldate">作品發售日期</label>
+                        <input type="datetime-local" name="prodreldate" id="prodreldate" class="form-control" value="<?php echo date("Y-m-d\TH:i:s", strtotime($prodDetailData['prodRelDate'])); ?>" placeholder="請輸入作品發售日期，此為必填項" />
+                    </div>
+                    <div class="form-group">
+                        <label for="prodreldate">作品張貼日期</label>
+                        <p><?php echo $prodDetailData['prodAddDate']; ?></p>
+                    </div>
+                    <script>
+                        $(function() {
+                            $("#prodreldate").datepicker({
+                                    showOtherMonths: true,
+                                    selectOtherMonths: true,
+                                    showButtonPanel: true,
+                                    gotoCurrent: true
+                                })
+                                .datepicker(
+                                    "option", {
+                                        "dateFormat": "yy-mm-dd",
+                                        "showAnim": "fadeIn",
+                                    },
+                                    $.datepicker.regional["zh-TW"]
+                                ).val("<?php echo date("Y-m-d", strtotime($prodDetailData['prodRelDate'])); ?>");
+                        });
+                    </script>
                     <div class="form-group">
                         <label for="produrl">作品位址</label>
                         <input type="text" name="produrl" id="produrl" class="form-control" value="<?php echo $prodDetailData['prodPageUrl']; ?>" placeholder="請輸入商品名稱，此為必填項" />
@@ -310,15 +393,33 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">作品類型</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><?php echo $prodDatas['prodType']; ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">作品執行平台</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><?php echo $prodDatas['prodPlatform']; ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">作品位址</label>
                                 <div class="col-sm-10">
                                     <p class="form-control-static"><?php echo $prodDatas['prodPageUrl']; ?></p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">作品釋出日期</label>
+                                <label class="col-sm-2 control-label">作品發售日期</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static"><?php echo $prodDatas['prodRelDate']; ?></p>
+                                    <p class="form-control-static"><?php echo date("Y-m-d", strtotime($prodDatas['prodRelDate'])); ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">作品新增日期</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><?php echo $prodDatas['prodAddDate']; ?></p>
                                 </div>
                             </div>
                             <div class="form-group">

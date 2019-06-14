@@ -5,12 +5,12 @@
     </ol>
 </div>
 <div class="col-md-12">
-    <div class="panel panel-danger">
+    <div class="panel panel-info">
         <div class="panel-heading">
-            <h3 class="panel-title">錯誤</h3>
+            <h3 class="panel-title">訊息</h3>
         </div>
         <div class="panel-body text-center">
-            <h2 class="news-warn">此功能為加購項目，請先升級您的授權。<br /><br />
+            <h2 class="info-warn">此部分由於須搭配樣式設計，故目前須以人工修改方式完成。<br /><br />
                 <div class="btn-group" role="group">
                     <a class="btn btn-lg btn-info" href="?action=index">返回首頁</a>
                 </div>

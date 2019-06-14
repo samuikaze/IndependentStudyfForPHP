@@ -69,29 +69,33 @@
                     <!-- /一個輪播項目 -->
                 </div>
             </div>
-        <?php } else { 
-            $maxtimes = mysqli_num_rows($carouselSql); ?>
+        <?php } else {
+        $maxtimes = mysqli_num_rows($carouselSql); ?>
             <!-- 圖片輪播 v3 -->
             <div id="lsgames-index" class="carousel slide" data-ride="carousel">
                 <!-- 底部指示器（小圓點） -->
                 <ol class="carousel-indicators">
-                    <?php for($i = 0; $i < $maxtimes; $i++){ ?>
-                    <li data-target="#lsgames-index" data-slide-to="<?php echo $i; ?>"<?php echo ($i == 0)? " class=\"active\"" : ""; ?>></li>
+                    <?php for ($i = 0; $i < $maxtimes; $i++) { ?>
+                        <li data-target="#lsgames-index" data-slide-to="<?php echo $i; ?>" <?php echo ($i == 0) ? " class=\"active\"" : ""; ?>></li>
                     <?php } ?>
                 </ol>
 
                 <!-- 輪播項目 -->
                 <div class="carousel-inner" role="listbox">
-                <?php $j = 0; while($carouseldata = mysqli_fetch_array($carouselSql, MYSQLI_ASSOC)){ ?>
-                    <!-- 一個輪播項目 -->
-                    <div class="item<?php echo ($j == 0)? " active" : ""; ?>">
-                        <img src="images/carousel/<?php echo $carouseldata['imgUrl']; ?>" class="carousel-img">
-                        <div class="carousel-caption carousel-text">
-                            <?php echo $carouseldata['imgDescript']; ?>
+                    <?php $j = 0;
+                    while ($carouseldata = mysqli_fetch_array($carouselSql, MYSQLI_ASSOC)) { ?>
+                        <!-- 一個輪播項目 -->
+                        <div class="item<?php echo ($j == 0) ? " active" : ""; ?>">
+                            <a href="<?php echo (empty($carouseldata['imgReferUrl']))? "#" : $carouseldata['imgReferUrl']; ?>">
+                                <img src="images/carousel/<?php echo $carouseldata['imgUrl']; ?>" class="carousel-img">
+                                <div class="carousel-caption carousel-text">
+                                    <?php echo $carouseldata['imgDescript']; ?>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                    <!-- /一個輪播項目 -->
-                <?php $j += 1; } ?>
+                        <!-- /一個輪播項目 -->
+                        <?php $j += 1;
+                    } ?>
                 </div>
                 <!-- 左右控制項 -->
                 <a class="left carousel-control" href="#lsgames-index" role="button" data-slide="prev">

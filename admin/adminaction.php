@@ -684,6 +684,18 @@ if (empty($_SERVER['QUERY_STRING'])) {
             mysqli_close($connect);
             header("Location: $errRefer&msg=emptyproddescript");
             exit;
+        }elseif(empty($_POST['prodtype'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodtype");
+            exit;
+        }elseif(empty($_POST['prodplatform'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodplatform");
+            exit;
+        }elseif(empty($_POST['prodreldate'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodreldate");
+            exit;
         }else{
             // 沒有上傳檔案
             if ($_FILES["prodimage"]["error"] == 4 || empty($_FILES["prodimage"])) {
@@ -708,12 +720,15 @@ if (empty($_SERVER['QUERY_STRING'])) {
             $prodname = $_POST['prodname'];
             $produrl = $_POST['produrl'];
             $proddescript = $_POST['proddescript'];
+            $prodtype = $_POST['prodtype'];
+            $prodplatform = $_POST['prodplatform'];
+            $prodreldate = $_POST['prodreldate'];
             $proddate = date("Y-m-d H:i:s");
             // 先新增資料進資料庫
             if($fileUpload == false){
-                mysqli_query($connect, "INSERT INTO `productname` (`prodTitle`, `prodDescript`, `prodPageUrl`, `ProdRelDate`) VALUES ('$prodname', '$proddescript', '$produrl', '$proddate');");
+                mysqli_query($connect, "INSERT INTO `productname` (`prodTitle`, `prodDescript`, `prodPageUrl`, `prodType`, `prodPlatform`, `ProdRelDate`, `prodAddDate`) VALUES ('$prodname', '$proddescript', '$produrl', '$prodtype', '$prodplatform', '$prodreldate', '$proddate');");
             }else{
-                mysqli_query($connect, "INSERT INTO `productname` (`prodTitle`, `prodDescript`, `prodPageUrl`, `ProdRelDate`) VALUES ('$prodname', '$proddescript', '$produrl', '$proddate');");
+                mysqli_query($connect, "INSERT INTO `productname` (`prodTitle`, `prodDescript`, `prodPageUrl`, `prodType`, `prodPlatform`, `ProdRelDate`, `prodAddDate`) VALUES ('$prodname', '$proddescript', '$produrl', '$prodtype', '$prodplatform', '$prodreldate', '$proddate');");
                 $lastid = mysqli_fetch_array(mysqli_query($connect, "SELECT LAST_INSERT_ID() AS `lastid`;"), MYSQLI_ASSOC);
                 $filename = "product-" . $lastid['lastid'] . ".$fileextension";
                 mysqli_query($connect, "UPDATE `productname` SET `prodImgUrl`='$filename' WHERE `prodOrder`=" . $lastid['lastid']);
@@ -745,6 +760,18 @@ if (empty($_SERVER['QUERY_STRING'])) {
             mysqli_close($connect);
             header("Location: $errRefer&msg=emptyproddescript");
             exit;
+        }elseif(empty($_POST['prodtype'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodtype");
+            exit;
+        }elseif(empty($_POST['prodplatform'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprodplatform");
+            exit;
+        }elseif(empty($_POST['prodreldate'])){
+                mysqli_close($connect);
+                header("Location: $errRefer&msg=emptyprodreldate");
+                exit;
         }else{
             $fnameIndex = mysqli_query($connect, "SELECT * FROM `productname` WHERE `prodOrder`=$pdid;");
             $fnameRows = mysqli_num_rows($fnameIndex);
@@ -801,19 +828,22 @@ if (empty($_SERVER['QUERY_STRING'])) {
             $prodname = $_POST['prodname'];
             $produrl = $_POST['produrl'];
             $proddescript = $_POST['proddescript'];
+            $prodtype = $_POST['prodtype'];
+            $prodplatform = $_POST['prodplatform'];
+            $prodreldate = $_POST['prodreldate'];
             // 若有上傳檔案
             if ($fileUpload == true) {
                 $filename = "product-$pdid.$fileextension";
                 move_uploaded_file($_FILES["prodimage"]["tmp_name"], "../images/products/$filename");
-                mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodImgUrl`='$filename', `prodDescript`='$proddescript', `prodPageUrl`='$produrl' WHERE `prodOrder`=$pdid;");
+                mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodImgUrl`='$filename', `prodDescript`='$proddescript', `prodPageUrl`='$produrl', `prodType`='$prodtype', `prodPlatform`='$prodplatform', `prodRelDate`='$prodreldate' WHERE `prodOrder`=$pdid;");
             // 沒有上傳檔案
             } else {
                 // 若要刪除商品圖
                 if ($delprodimage == true) {
-                    mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodImgUrl`='nowprint.jpg', `prodDescript`='$proddescript', `prodPageUrl`='$produrl' WHERE `prodOrder`=$pdid;");
+                    mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodImgUrl`='nowprint.jpg', `prodDescript`='$proddescript', `prodPageUrl`='$produrl', `prodType`='$prodtype', `prodPlatform`='$prodplatform', `prodRelDate`='$prodreldate' WHERE `prodOrder`=$pdid;");
                 // 不刪除商品圖
                 } else {
-                    mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodDescript`='$proddescript', `prodPageUrl`='$produrl' WHERE `prodOrder`=$pdid;");
+                    mysqli_query($connect, "UPDATE `productname` SET `prodTitle`='$prodname', `prodDescript`='$proddescript', `prodPageUrl`='$produrl', `prodType`='$prodtype', `prodPlatform`='$prodplatform', `prodRelDate`='$prodreldate' WHERE `prodOrder`=$pdid;");
                 }
             }
             mysqli_close($connect);

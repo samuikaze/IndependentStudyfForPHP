@@ -44,7 +44,7 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                             <h3 class="panel-title">資訊</h3>
                         </div>
                         <div class="panel-body text-center">
-                            <h2 class="news-warn">目前沒有任何訂單！<br /><br /></h2>
+                            <h2 class="warning-warn">目前沒有任何訂單！<br /><br /></h2>
                         </div>
                     </div>
                 <?php } else { ?>
@@ -85,7 +85,7 @@ if (!empty($_GET['action']) && $_GET['action'] == 'order_admin') { ?>
                             <h3 class="panel-title">資訊</h3>
                         </div>
                         <div class="panel-body text-center">
-                            <h2 class="news-warn">目前沒有任何申請取消的訂單！<br /><br /></h2>
+                            <h2 class="warning-warn">目前沒有任何申請取消的訂單！<br /><br /></h2>
                         </div>
                     </div>
                 <?php } else { ?>
