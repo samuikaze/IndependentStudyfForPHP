@@ -86,12 +86,16 @@
                     while ($carouseldata = mysqli_fetch_array($carouselSql, MYSQLI_ASSOC)) { ?>
                         <!-- 一個輪播項目 -->
                         <div class="item<?php echo ($j == 0) ? " active" : ""; ?>">
-                            <a href="<?php echo (empty($carouseldata['imgReferUrl']))? "#" : $carouseldata['imgReferUrl']; ?>">
+                            <?php if (!empty($carouseldata['imgReferUrl'])) { ?>
+                                <a href="<?php echo $carouseldata['imgReferUrl']; ?>">
+                                <?php } ?>
                                 <img src="images/carousel/<?php echo $carouseldata['imgUrl']; ?>" class="carousel-img">
                                 <div class="carousel-caption carousel-text">
                                     <?php echo $carouseldata['imgDescript']; ?>
                                 </div>
-                            </a>
+                                <?php if (!empty($carouseldata['imgReferUrl'])) { ?>
+                                </a>
+                            <?php } ?>
                         </div>
                         <!-- /一個輪播項目 -->
                         <?php $j += 1;
