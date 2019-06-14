@@ -84,7 +84,7 @@ if ($_GET['action'] == 'order') {
                     <div class="check">
                         <div id="ajaxmsg"></div>
                         <?php if (!empty($_GET['action']) && $_GET['action'] == 'viewcart') { ?>
-                            <h1>購物車項目 (<?php echo (empty($_SESSION['cart'])) ? "0" : sizeof($_SESSION['cart'][0]); ?>)</h1>
+                            <h1>購物車項目 (<span id="itemqty"><?php echo (empty($_SESSION['cart'])) ? "0" : sizeof($_SESSION['cart'][0]); ?></span>)</h1>
                         <?php } elseif (!empty($_GET['action']) && $_GET['action'] == 'order') { ?>
                             <h1 class="orderBreadcrumb"><?php echo (!empty($_GET['step']) && $_GET['step'] == '1') ? "<span>" : ""; ?><i class="fas fa-check-square"></i> 選擇付款及收貨方式<?php echo (!empty($_GET['step']) && $_GET['step'] == '1') ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo (!empty($_GET['step']) && $_GET['step'] == '2') ? "<span>" : ""; ?><i class="fas fa-scroll"></i> 輸入相關資料<?php echo (!empty($_GET['step']) && $_GET['step'] == '2') ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo (!empty($_GET['step']) && $_GET['step'] == '3') ? "<span>" : ""; ?><i class="fas fa-check-double"></i> 確認資料<?php echo (!empty($_GET['step']) && $_GET['step'] == '3') ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo (!empty($_GET['step']) && $_GET['step'] == '4') ? "<span>" : ""; ?><i class="fas fa-clipboard-check"></i> 完成訂單<?php echo (!empty($_GET['step']) && $_GET['step'] == '4') ? "</span>" : ""; ?></h1>
                             <hr class="divideBC" />
@@ -536,7 +536,7 @@ if ($_GET['action'] == 'order') {
                                     </div>
                                 </div>
                                 <?php if ($_GET['action'] != 'order' && (empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] != 'notcomplete')) { ?>
-                                    <a class="btn btn-success btn-block btn-lg<?php echo ($_GET['action'] != 'order') ? "" : " rstcart"; ?>" href="<?php echo (!empty($_SESSION['cart'])) ? "?action=order&step=1" : "goods.php" ?>"><?php echo (!empty($_SESSION['cart'])) ? "立即下單" : "立即選購"; ?></a>
+                                    <a id="submitorder" class="btn btn-success btn-block btn-lg<?php echo ($_GET['action'] != 'order') ? "" : " rstcart"; ?>" href="<?php echo (!empty($_SESSION['cart'])) ? "?action=order&step=1" : "goods.php" ?>"><?php echo (!empty($_SESSION['cart'])) ? "立即下單" : "立即選購"; ?></a>
                                 <?php }elseif($_GET['action'] != 'order' && (!empty($_SESSION['cart']['checkoutstatus']) || $_SESSION['cart']['checkoutstatus'] == 'notcomplete')){ ?>
                                     <a class="btn btn-success btn-block btn-lg" href="?action=order&step=2">繼續結帳</a>
                                     <hr class="cartbtn-margin" />

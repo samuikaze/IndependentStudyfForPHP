@@ -331,6 +331,10 @@ $(document).ready(function(){
                 $('span#ajaxTotal').html(processedData.cartTotal);
                 // 更新購物車商品數量
                 $('span#itemqty').html(processedData.itemsqty);
+                if(processedData.itemsqty == 0){
+                    $('div.cart-items').html("<div class=\"panel panel-info\"><div class=\"panel-heading\"><h3 class=\"panel-title\">訊息</h3></div><div class=\"panel-body\"><h2 class=\"info-warn\">您的購物車為空。<br /><br /><a href=\"goods.php\" class=\"btn btn-lg btn-success\">立即前往選購</a></div></div>");
+                    $('a#submitorder').attr("href", "goods.php").text('立即選購');
+                }
             },
             error: function(data){
                 // AJAX 失敗
