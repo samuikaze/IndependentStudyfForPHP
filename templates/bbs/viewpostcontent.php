@@ -29,6 +29,7 @@ if (empty($_GET['postid'])) { ?>
     $rlimit = $page * $ppp;         //SQL 用，右極限
     $sql = mysqli_query($connect, "SELECT `bbspost`.*, `bbsarticle`.* FROM `bbspost` LEFT OUTER JOIN `bbsarticle` ON `bbsarticle`.`articlePost`=`bbspost`.`postID` WHERE `bbspost`.`postID`=$postid");
     $datarows = mysqli_num_rows($sql);
+    $priv = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='adminPriv';"), MYSQLI_ASSOC);
     if ($datarows == 0) { ?>
         <div class="panel panel-danger">
             <div class="panel-heading">
@@ -166,7 +167,7 @@ if (empty($_GET['postid'])) { ?>
                                 <div class="post">
                                     <div class="postControl">
                                         <span class="pull-left poststatus">#0&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['postTime']; ?><?php echo ($val['postStatus'] == 0) ? "" : "&nbsp;&nbsp;|&nbsp;&nbsp;編輯於 " . $val['postEdittime']; ?></span>
-                                        <span class="posteditor"><?php echo (!empty($_SESSION['uid']) && $val['postUserID'] == $_SESSION['uid']) ? "<a class=\"post-link\" href=\"?action=editpost&type=post&id=" . $val['postID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=post&id=" . $val['postID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : ""; ?>大 中 小</span>
+                                        <span class="posteditor"><?php echo ((!empty($_SESSION['uid']) && $val['postUserID'] == $_SESSION['uid']) || $_SESSION['priv'] >= $priv['settingValue']) ? "<a class=\"post-link\" href=\"?action=editpost&type=post&id=" . $val['postID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=post&id=" . $val['postID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : ""; ?>大 中 小</span>
                                     </div>
                                     <?php echo (!empty($val['postTitle'])) ? "<h2 class=\"postTitle\">" . $val['postTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['postContent']; ?></p>
                                 </div>
@@ -191,7 +192,7 @@ if (empty($_GET['postid'])) { ?>
                                     <div class="post">
                                         <div class="postControl">
                                             <span class="pull-left poststatus">#<?php echo $i + 1; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['articleTime']; ?><?php echo ($val['articleStatus'] == 0) ? "" : "&nbsp;&nbsp;|&nbsp;&nbsp;編輯於 " . $val['articleEdittime']; ?></span>
-                                            <span class="posteditor"><?php echo (!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid']) ? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : ""; ?>大 中 小</span>
+                                            <span class="posteditor"><?php echo ((!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid']) || $_SESSION['priv'] >= $priv['settingValue']) ? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : ""; ?>大 中 小</span>
                                         </div>
                                         <?php echo (!empty($val['articleTitle'])) ? "<h2 class=\"postTitle\">" . $val['articleTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['articleContent']; ?></p>
                                     </div>
@@ -224,7 +225,7 @@ if (empty($_GET['postid'])) { ?>
                                 <div class="post">
                                     <div class="postControl">
                                         <span class="pull-left poststatus">#<?php echo $i + 1; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $val['articleTime']; ?><?php echo ($val['articleStatus'] == 0) ? "" : "&nbsp;&nbsp;|&nbsp;&nbsp;編輯於 " . $val['articleEdittime']; ?></span>
-                                        <span class="posteditor"><?php echo (!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid']) ? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : ""; ?>大 中 小</span>
+                                        <span class="posteditor"><?php echo ((!empty($_SESSION['uid']) && $val['articleUserID'] == $_SESSION['uid']) || $_SESSION['priv'] >= $priv['settingValue']) ? "<a class=\"post-link\" href=\"?action=editpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">編輯</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class=\"post-link\" href=\"?action=delpost&type=article&id=" . $val['articleID'] . "&refbid=$refbid&refpage=$refpage&refpostid=" . $_GET['postid'] . "\">刪除</a>&nbsp;&nbsp;|&nbsp;&nbsp;" : ""; ?>大 中 小</span>
                                     </div>
                                     <?php echo (!empty($val['articleTitle'])) ? "<h2 class=\"postTitle\">" . $val['articleTitle'] . "</h2><hr class=\"postHR\" />" : ""; ?><p class="postContent"><?php echo $val['articleContent']; ?></p>
                                 </div>

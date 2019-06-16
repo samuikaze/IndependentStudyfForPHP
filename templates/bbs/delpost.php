@@ -57,8 +57,9 @@ if (empty($_GET['id'])) { ?>
     $usrsql = "SELECT * FROM `member` WHERE `userName`='" . $row[$userid] . "';";
     $usersql = mysqli_query($connect, $usrsql); 
     $userrow = mysqli_fetch_array($usersql, MYSQLI_BOTH); 
+    $priv = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='adminPriv';"), MYSQLI_ASSOC);
     // 若刪除者非本人
-    if($userrow['userName'] != $_SESSION['uid']){ ?>
+    if($userrow['userName'] != $_SESSION['uid'] && $_SESSION['priv'] < $priv['settingValue']){ ?>
         <div class="col-sm-10 col-sm-push-1">
             <div class="panel panel-danger">
                 <div class="panel-heading">

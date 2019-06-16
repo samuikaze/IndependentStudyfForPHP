@@ -89,9 +89,10 @@ if (empty($_GET['id'])) { ?>
     $row = mysqli_fetch_array($sql, MYSQLI_ASSOC);
     $usrsql = "SELECT * FROM `member` WHERE `userName`='" . $row[$userid] . "';";
     $usersql = mysqli_query($connect, $usrsql);
+    $priv = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='adminPriv';"), MYSQLI_ASSOC);
     $userrow = mysqli_fetch_array($usersql, MYSQLI_BOTH);
     // 若編輯者非本人
-    if ($userrow['userName'] != $_SESSION['uid']) { ?>
+    if ($userrow['userName'] != $_SESSION['uid'] && $_SESSION['priv'] < $priv['settingValue']) { ?>
             <div class="col-sm-10 col-sm-push-1">
                 <div class="panel panel-danger">
                     <div class="panel-heading">

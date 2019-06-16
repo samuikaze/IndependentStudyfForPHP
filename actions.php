@@ -112,8 +112,9 @@
                     $row = mysqli_fetch_array($sql, MYSQLI_ASSOC);
                     $username = $_SESSION['uid'];
                     $arthorID = ($_POST['type'] == 'post')? $row['postUserID'] : $row['articleUserID'];
-                    // 發文者與登入身份不符
-                    if($username != $arthorID){
+                    $priv = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='adminPriv';"), MYSQLI_ASSOC);
+                    // 發文者與登入身份不符或權限不足
+                    if($username != $arthorID && $_SESSION['priv'] < $priv['settingValue']){
                         mysqli_close($connect);
                         header("Location: bbs.php?msg=delposterrauthfail&$refer");
                         exit;
@@ -204,8 +205,9 @@
                     $row = mysqli_fetch_array($sql, MYSQLI_ASSOC);
                     $username = $_SESSION['uid'];
                     $arthorID = ($_POST['type'] == 'post')? $row['postUserID'] : $row['articleUserID'];
-                    // 發文者與登入身份不符
-                    if($username != $arthorID){
+                    $priv = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='adminPriv';"), MYSQLI_ASSOC);
+                    // 發文者與登入身份不符或權限不足
+                    if($username != $arthorID && $_SESSION['priv'] < $priv['settingValue']){
                         mysqli_close($connect);
                         header("Location: bbs.php?msg=editposterrauthfail&$refer");
                         exit;

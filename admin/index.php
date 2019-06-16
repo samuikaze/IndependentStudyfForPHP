@@ -6,7 +6,8 @@ if (empty($_SERVER['QUERY_STRING']) != True) {
     $self .= "?" . $_SERVER['QUERY_STRING'];
 }
 require "../sessionCheck.php";
-if($_SESSION['priv'] != 99){
+$priv = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `systemsetting` WHERE `settingName`='backendPriv';"), MYSQLI_ASSOC);
+if($_SESSION['priv'] < $priv['settingValue']){
     header("Location: ../member.php?action=logout&refer=member.php?action=relogin");
     exit;
 }

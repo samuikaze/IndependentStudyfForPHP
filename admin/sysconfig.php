@@ -51,6 +51,24 @@ while ($configs[$i] = mysqli_fetch_array($configSql, MYSQLI_ASSOC)) {
                 <input type="number" name="numArticles" class="form-control" id="numArticles" value="<?php echo $configs[getItemFromArray("articlesNum", $configs)]['settingValue']; ?>" placeholder="文章頁面單頁顯示個數" />
             </div>
         </div>
+        <div class="form-group">
+            <label for="adminPriv" class="col-sm-2 control-label">討論版管理權限授權</label>
+            <div class="col-sm-10">
+                <select id="adminPriv" name="adminPriv" class="form-control">
+                    <option>-- 請選擇 --</option>
+                    <option value="99" <?php echo ($configs[getItemFromArray("adminPriv", $configs)]['settingValue'] == 99) ? "selected" : ""; ?>>超級管理員</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="backendPriv" class="col-sm-2 control-label">後台登入權限授權</label>
+            <div class="col-sm-10">
+                <select id="backendPriv" name="adminPriv" class="form-control">
+                    <option>-- 請選擇 --</option>
+                    <option value="99" <?php echo ($configs[getItemFromArray("backendPriv", $configs)]['settingValue'] == 99) ? "selected" : ""; ?>>超級管理員</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group text-center">
             <input type="submit" name="submit" value="送出" class="btn btn-success" />
         </div>

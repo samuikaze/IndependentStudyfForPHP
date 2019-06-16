@@ -1,9 +1,11 @@
 <?php
 require_once 'sessionCheck.php';
 if (empty($_GET['refer'])) {
-    $refer = "./";
-} elseif ($_GET['action'] == 'relogin') {
-    $refer = "admin/" . $_GET['refer'];
+    if ($_GET['action'] == 'relogin') {
+        $refer = "admin/index.php";
+    }else{
+        $refer = "./";
+    }
 } else {
     $refer = $_GET['refer'];
 }

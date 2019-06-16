@@ -886,7 +886,7 @@ if (empty($_SERVER['QUERY_STRING'])) {
             }
         }
         // 沒問題就直接更新欄位值
-        $sql = sprintf("UPDATE `systemsetting` SET `settingValue` = CASE `settingName` WHEN 'articlesNum' THEN '%s' WHEN 'goodsNum' THEN '%s' WHEN 'newsNum' THEN '%s' WHEN 'postsNum' THEN '%s' END;", $_POST['numArticles'], $_POST['numGoods'], $_POST['numNews'], $_POST['numPosts']);
+        $sql = sprintf("UPDATE `systemsetting` SET `settingValue` = CASE `settingName` WHEN 'adminPriv' THEN '&s' WHEN 'backendPriv' THEN '%s' WHEN 'articlesNum' THEN '%s' WHEN 'goodsNum' THEN '%s' WHEN 'newsNum' THEN '%s' WHEN 'postsNum' THEN '%s' END;", $_POST['adminPriv'], $_POST['backendPriv'], $_POST['numArticles'], $_POST['numGoods'], $_POST['numNews'], $_POST['numPosts']);
         mysqli_query($connect, $sql);
         mysqli_close($connect);
         header("Location: index.php?action=sysconfig&msg=updatesuccess");
