@@ -8,7 +8,11 @@ $(document).ready(function () {
                 var reader = new FileReader();
                 // 當檔案被選擇後
                 reader.onload = function (e) {
-                    $('#prevImg').after("<img src=\"" + e.target.result + "\" style=\"width: 100%;\" />");
+                    if($("#imgPreview").length){
+                        $('#imgPreview').attr('src', e.target.result);
+                    }else{
+                        $('#prevImg').after("<img id=\"imgPreview\" src=\"" + e.target.result + "\" style=\"width: 100%;\" />");
+                    }
                 }
                 reader.readAsDataURL(this.files[0]);
             }
@@ -19,9 +23,14 @@ $(document).ready(function () {
                 var reader = new FileReader();
                 // 當檔案被選擇後
                 reader.onload = function (e) {
-                    var appendDOM = "&nbsp;&nbsp;<span style=\"font-size: 1.5em;\"><strong><i class=\"fas fa-angle-double-right\"></i></strong></span>&nbsp;&nbsp;<img src=\"" + e.target.result + "\" style=\"width: 45%;\"/>";
-                    $('#prevImg').css('width', '100%');
-                    $('#nowimage').css('width', '45%').after(appendDOM);
+                    // 若已經有預覽存在
+                    if($("#imgPreview").length){
+                        $('#imgPreview').attr('src', e.target.result);
+                    }else{
+                        var appendDOM = "&nbsp;&nbsp;<span style=\"font-size: 1.5em;\"><strong><i class=\"fas fa-angle-double-right\"></i></strong></span>&nbsp;&nbsp;<img id=\"imgPreview\" src=\"" + e.target.result + "\" style=\"width: 45%;\"/>";
+                        $('#prevImg').css('width', '100%');
+                        $('#nowimage').css('width', '45%').after(appendDOM);
+                    }
                 }
                 reader.readAsDataURL(this.files[0]);
             }
