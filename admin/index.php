@@ -78,7 +78,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">會員管理 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">註冊審核</a></li>
+                                    <li><a href="?action=privadmin&type=privlist">會員權限</a></li>
                                     <li><a href="#">會員管理</a></li>
                                     <li><a href="#">封鎖清單</a></li>
                                 </ul>
@@ -125,6 +125,8 @@ if(!empty($_GET['action']) && $_GET['action'] == 'backendlogout'){
                     include("goods_admin.php");
                 }elseif($_GET['action'] == 'order_admin' || $_GET['action'] == 'vieworderdetail'){
                     include("order_admin.php");
+                }elseif($_GET['action'] == 'privadmin' || $_GET['action'] == 'editpriv' || $_GET['action'] == 'delpriv'){
+                    include("priv_admin.php");
                 }elseif($_GET['action'] == 'sysconfig'){
                     include("sysconfig.php");
                 }elseif($_GET['action'] == 'dbadmin'){

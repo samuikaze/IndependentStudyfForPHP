@@ -131,8 +131,8 @@
                         <script>CKEDITOR.replace( 'editor1' );</script>
                     </div>
                     <div class="form-group">
-                        <label for="goodimage">商品圖片</label>
-                        <input type="file" id="goodimage" name="goodimage" />
+                        <label for="goodimage" id="prevImg">商品圖片</label>
+                        <input type="file" id="goodimage" data-prevtype="add" name="goodimage" />
                         <p class="help-block">建議解析度為 1000 × 501，若未上傳商品圖則會使用系統預設商品圖</p>
                     </div>
                     <div class="form-group text-center">

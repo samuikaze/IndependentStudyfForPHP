@@ -152,8 +152,8 @@
                         </script>
                     </div>
                     <div class="form-group">
-                        <label for="prodimage">作品視覺圖</label>
-                        <input type="file" id="prodimage" name="prodimage" />
+                        <label for="prodimage" id="prevImg">作品視覺圖</label>
+                        <input type="file" id="prodimage" data-prevtype="add" name="prodimage" />
                         <p class="help-block">建議解析度為 586 × 670 或是等比例之解析度，若未上傳作品視覺圖則會使用系統預設視覺圖</p>
                     </div>
                     <div class="form-group text-center">

@@ -145,8 +145,8 @@ if (empty($_GET['refpage'])) {
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="boardimage">討論板圖片</label>
-                        <input type="file" id="boardimage" name="boardimage" />
+                        <label for="boardimage" id="prevImg">討論板圖片</label>
+                        <input type="file" id="boardimage" data-prevtype="add" name="boardimage" />
                         <p class="help-block">建議解析度為 640 × 310</p>
                     </div>
                     <input type="hidden" name="uid" value="<?php echo $uidrow['uid']; ?>" />

@@ -903,6 +903,100 @@ if (empty($_SERVER['QUERY_STRING'])) {
         mysqli_close($connect);
         header("Location: index.php?action=dbadmin&msg=repairsuccess");
         exit;
+    // 新增權限
+    } elseif($_GET['action'] == 'addpriv') {
+        $errRefer = "index.php?action=privadmin&type=addpriv";
+        if(empty($_POST['privnum'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprivnum");
+            exit;
+        }elseif(empty($_POST['privname'])){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=emptyprivname");
+            exit;
+        // 不是數字
+        }elseif(is_numeric($_POST['privnum']) != 1){
+            mysqli_close($connect);
+            header("Location: $errRefer&msg=errtypeprivnum");
+            exit;
+        }else{
+            $privnum = $_POST['privnum'];
+            $privname = $_POST['privname'];
+            mysqli_query($connect, "INSERT INTO `mempriv` (`privNum`, `privName`, `privPreset`) VALUES ('$privnum', '$privname', '0');");
+            // privNum 數字重複
+            if(mysqli_errno($connect) == 1062){
+                mysqli_close($connect);
+                header("Location: $errRefer&msg=conflictprivnum");
+                exit;
+            }
+            mysqli_close($connect);
+            header("Location: index.php?action=privadmin&type=privlist&msg=addprivsuccess");
+            exit;
+        }
+        // 修改權限
+    } elseif ($_GET['action'] == 'editpriv') {
+        if (empty($_POST['origpnum'])) {
+            mysqli_close($connect);
+            header("Location: index.php?action=privadmin&type=privlist&msg=emptyorigpnum");
+            exit;
+        } elseif (is_numeric($_POST['origpnum']) != 1) {
+            mysqli_close($connect);
+            header("Location: index.php?action=privadmin&type=privlist&msg=errtypeorigpnum");
+            exit;
+        } else {
+            $errRefer = "index.php?action=editpriv&pnum=" . $_POST['origpnum'];
+            if (empty($_POST['privnum'])) {
+                mysqli_close($connect);
+                header("Location: $errRefer&msg=emptyprivnum");
+                exit;
+            } elseif (empty($_POST['privname'])) {
+                mysqli_close($connect);
+                header("Location: $errRefer&msg=emptyprivname");
+                exit;
+                // 不是數字
+            } elseif (is_numeric($_POST['privnum']) != 1) {
+                mysqli_close($connect);
+                header("Location: $errRefer&msg=errtypeprivnum");
+                exit;
+            } else {
+                $check = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `mempriv` WHERE `privNum`='$origpnum';"), MYSQLI_ASSOC);
+                if ($check['privPreset'] == 1) {
+                    mysqli_close($connect);
+                    header("Location: $errRefer&msg=defaultpreset");
+                    exit;
+                }
+                $privnum = $_POST['privnum'];
+                $privname = $_POST['privname'];
+                $origpnum = $_POST['origpnum'];
+                if($privnum == $origpnum){
+                    $sql = "UPDATE `mempriv` SET `privName`='$privname' WHERE `privNum`='$origpnum';";
+                }else{
+                    $sql = "UPDATE `mempriv` SET `privNum`='$privnum', `privName`='$privname' WHERE `privNum`='$origpnum';";
+                }
+                mysqli_query($connect, $sql);
+                if (mysqli_errno($connect) == 1062) {
+                    mysqli_close($connect);
+                    header("Location: $errRefer&msg=conflictprivnum");
+                    exit;
+                }
+                mysqli_close($connect);
+                header("Location: index.php?action=privadmin&type=privlist&msg=editprivsuccess");
+                exit;
+            }
+        }
+    // 刪除權限
+    }elseif($_GET['action'] == 'delpriv'){
+        if(empty($_POST['pnum'])){
+            mysqli_close($connect);
+            header("Location: index.php?action=privadmin&type=privlist&msg=emptypnum");
+            exit;
+        }else{
+            $pnum = $_POST['pnum'];
+            mysqli_query($connect, "DELETE FROM `mempriv` WHERE `privNum`='$pnum';");
+            mysqli_close($connect);
+            header("Location: index.php?action=privadmin&type=privlist&msg=delprivsuccess");
+            exit;
+        }
     } else {
         mysqli_close($connect);
         header("Location: index.php?action=index");

@@ -104,8 +104,8 @@
                         <input type="text" name="carouselTarget" id="carouselTarget" class="form-control" placeholder="請輸入當按下輪播圖時欲跳轉的位址，不填可留空" />
                     </div>
                     <div class="form-group">
-                        <label for="carouselImg">輪播圖片</label>
-                        <input type="file" id="carouselImg" name="carouselImg" />
+                        <label for="carouselImg" id="prevImg">輪播圖片</label>
+                        <input type="file" id="carouselImg" data-prevtype="add" name="carouselImg" />
                         <p class="help-block">建議解析度為 1280 × 620，若上傳非此比例之解析度圖片可能導致樣式跑位，此為必要項目。</p>
                     </div>
                     <div class="form-group text-center">
