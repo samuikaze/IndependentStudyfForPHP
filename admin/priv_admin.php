@@ -43,6 +43,11 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4><strong>無法識別權限編號，請依正常程序刪除權限！</strong></h4>
             </div>
+        <?php } elseif (!empty($_GET['msg']) && $_GET['msg'] == 'delprivsuccess') { ?>
+            <div class="alert alert-success alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><strong>刪除權限成功！</strong></h4>
+            </div>
         <?php } ?>
         <!-- 分頁 -->
         <ul class="nav nav-tabs" role="tablist">

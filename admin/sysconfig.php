@@ -56,16 +56,34 @@ while ($configs[$i] = mysqli_fetch_array($configSql, MYSQLI_ASSOC)) {
             <div class="col-sm-10">
                 <select id="adminPriv" name="adminPriv" class="form-control">
                     <option>-- 請選擇 --</option>
-                    <option value="99" <?php echo ($configs[getItemFromArray("adminPriv", $configs)]['settingValue'] == 99) ? "selected" : ""; ?>>超級管理員</option>
+                    <?php
+                    $datasql = mysqli_query($connect, "SELECT * FROM `mempriv` ORDER BY `privNum` ASC;");
+                    $data = array();
+                    while($data[$i] = mysqli_fetch_array($datasql, MYSQLI_ASSOC)){
+                        $i += 1;
+                    }
+                    foreach($data as $j => $val){
+                        if(empty($val)){
+                            continue;
+                        }
+                    ?>
+                    <option value="<?php echo $val['privNum'] ?>" <?php echo ($configs[getItemFromArray("adminPriv", $configs)]['settingValue'] == $val['privNum']) ? "selected" : ""; ?>><?php echo $val['privName']; ?></option>
+                    <?php } ?>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label for="backendPriv" class="col-sm-2 control-label">後台登入權限授權</label>
             <div class="col-sm-10">
-                <select id="backendPriv" name="adminPriv" class="form-control">
+                <select id="backendPriv" name="backendPriv" class="form-control">
                     <option>-- 請選擇 --</option>
-                    <option value="99" <?php echo ($configs[getItemFromArray("backendPriv", $configs)]['settingValue'] == 99) ? "selected" : ""; ?>>超級管理員</option>
+                    <?php foreach($data as $j => $val){
+                        if(empty($val)){
+                            continue;
+                        }
+                    ?>
+                    <option value="<?php echo $val['privNum'] ?>" <?php echo ($configs[getItemFromArray("backendPriv", $configs)]['settingValue'] == $val['privNum']) ? "selected" : ""; ?>><?php echo $val['privName']; ?></option>
+                    <?php } ?>
                 </select>
             </div>
         </div>
