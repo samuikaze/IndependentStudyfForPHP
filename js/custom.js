@@ -542,3 +542,18 @@ $(document).ready(function(){
         });
     });
 });
+
+$(document).ready(function(){
+    // 預覽圖
+    $('#avatorimage').change(function(){
+        if (this.files && this.files[0]) {
+            // 宣告新物件
+            var reader = new FileReader();
+            // 當檔案被選擇後
+            reader.onload = function (e) {
+                $('#nowimage').after("&nbsp;&nbsp;<span style=\"font-size: 1.5em;\"><strong><i class=\"fas fa-angle-double-right\"></i></strong></span>&nbsp;&nbsp;<img id=\"imgPreview\" src=\"" + e.target.result + "\" style=\"width: 15%;\" />");
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+});
