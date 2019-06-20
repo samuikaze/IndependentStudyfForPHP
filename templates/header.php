@@ -34,9 +34,9 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="recruit.html">招募新血</a></li>
-                                    <li><a href="faq.html">常見問題</a></li>
-                                    <li><a href="contact.html">連絡我們</a></li>
+                                    <li><a href="recruit.php">招募新血</a></li>
+                                    <li><a href="faq.php">常見問題</a></li>
+                                    <li><a href="contact.php">連絡我們</a></li>
                                 </ul>
                             </li>
                         </ul>

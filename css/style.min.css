@@ -37,6 +37,10 @@ body {
     margin-bottom: 0 !important;
 }
 
+.recruit {
+    height: 50%;
+}
+
 /* Footer 置底 v2 */
   .pageWrap {
       position: relative;
