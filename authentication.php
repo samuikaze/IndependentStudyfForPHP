@@ -13,9 +13,9 @@
 
     // 輸入字元安全性處理
     function inputCheck($data){
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
+        //$data = trim($data);
+        //$data = stripslashes($data);
+        //$data = htmlspecialchars($data);
         //$data = mysqli_real_escape_string($connect, $data);
         return $data;
     }

@@ -28,6 +28,7 @@ $self = basename(__FILE__);
                     <li class="thisPosition" style="color: #23527c;"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;洛嬉遊戲</li>
                     <?php include "templates/loginbutton.php"; ?>
                 </ol>
+                <a data-fancybox id="hidden_link" href="https://www.youtube.com/watch?v=bhFvI6VAZTs"></a>
                 <h5 class="main-w3l-title">洛嬉遊戲</h5>
                 <div class="about-top">
                     <h3 class="subheading-wthree">關於我們 About L.S. Games</h3>

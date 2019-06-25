@@ -26,7 +26,13 @@
                                 $qs = $_SERVER['QUERY_STRING'];
                                 $qs = str_replace("&", "+", $qs);
                             } ?>
-                            <li><a <?php echo ($self == "about.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="about.php">關於團隊</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">關於網站<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-fancybox href="https://www.youtube.com/watch?v=bhFvI6VAZTs">網站發表影片</a></li>
+                                    <li><a href="ebook/mobile/index.html">作品集</a></li>
+                                </ul>
+                            </li>
                             <li><a <?php echo ($self == "news.php?" . $qs) ? "class=\"active\"" : "class=\"colorTran\""; ?> href="news.php">最新消息</a></li>
                             <li><a <?php echo ($self == "products.php") ? "class=\"active\"" : "class=\"colorTran\""; ?> href="products.php">作品一覽</a></li>
                             <li><a <?php echo ($self == "goods.php?" . $qs || $self == "userorder.php?" . $qs) ? "class=\"active\"" : "class=\"colorTran\""; ?> href="goods.php">周邊產品</a></li>
@@ -34,6 +40,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle colorTran" data-toggle="dropdown">其他連結<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
+                                    <li><a href="about.php">關於團隊</a></li>
                                     <li><a href="recruit.php">招募新血</a></li>
                                     <li><a href="faq.php">常見問題</a></li>
                                     <li><a href="contact.php">連絡我們</a></li>

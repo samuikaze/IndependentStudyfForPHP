@@ -73,7 +73,9 @@ function progressEventListener(event){
 // 載入完成
 function completeLoadingProcess(event){
     $('.loadscr').delay(300).fadeOut('slow');
-    $('.pageWrap').delay(300).fadeIn('slow');
+    $('.pageWrap').delay(300).fadeIn('slow', function(){
+        $("#hidden_link").fancybox().trigger('click');
+    });
     //console.log("載入完成！");
 }
 
