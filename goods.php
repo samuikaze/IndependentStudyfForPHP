@@ -30,16 +30,6 @@ $qtydanger = 15;
 <head>
     <title>周邊產品 | 洛嬉遊戲 L.S. Games</title>
     <?php include_once "templates/metas.php"; ?>
-    <!--script src="js/simpleCart.min.js"></script-->
-    <?php if($_GET['action'] == 'viewgoodsdetail'){ ?>
-        <script src="js/simple-lightbox.min.js"></script>
-        <link href="css/simplelightbox.min.css" rel="stylesheet" type="text/css" />
-        <script>
-            $(function(){
-                var $gallery = $('.goods-detail-img a').simpleLightbox();
-            });
-        </script>
-    <?php } ?>
 </head>
 
 <body onload="loadProgress()">
@@ -196,7 +186,7 @@ $qtydanger = 15;
                     <?php }else{
                         $goodsdetail = mysqli_fetch_array($goodsdetailSql, MYSQLI_ASSOC); ?>
                         <div class="row goodDetail">
-                            <div class="col-md-4 goods-detail-img"><a href="images/goods/<?php echo $goodsdetail['goodsImgUrl']; ?>" class="sLightbox"><img src="images/goods/<?php echo $goodsdetail['goodsImgUrl']; ?>" class="img-responsive img-thumbnail"></a></div>
+                            <div class="col-md-4 goods-detail-img"><a data-fancybox href="images/goods/<?php echo $goodsdetail['goodsImgUrl']; ?>"><img src="images/goods/<?php echo $goodsdetail['goodsImgUrl']; ?>" class="img-responsive img-thumbnail"></a></div>
                             <div class="col-md-7 thumbnail goods-detail-text">
                                 <h1 style="margin-bottom: 10px;"><?php echo $goodsdetail['goodsName']; ?></h1><br />
                                 <div class="numbers">NT$ <span><?php echo $goodsdetail['goodsPrice']; ?></span></div>
