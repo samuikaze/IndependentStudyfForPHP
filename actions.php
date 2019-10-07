@@ -432,6 +432,185 @@
                 }
                 exit;
             }
+        // ECPay 結帳
+        /**
+         * 只要換空間，下面兩個變數值一定要去用 PHP echo 一下看會不會有多餘的斜線
+         * $order->Send['ReturnURL']
+         * $order->Send['ClientBackURL']
+         */
+        }elseif(!empty($_GET['action']) && $_GET['action'] == 'checkout'){
+            require_once 'api/ECPay.Payment.Integration.php';
+            try {
+                $order = new ECPay_ALLInOne();
+                // 服務參數
+                $order->ServiceURL = "https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5";
+                $order->HashKey = $cHashKey;
+                $order->HashIV = $cHashIV;
+                $order->MerchantID = $cMerchantID;
+                $order->EncryptType = $cEncryptType;
+
+                // 客戶資料（先存 SESSION，結完帳再寫入資料庫）
+                /**
+                 * Json 中文會變成 unicode 的代碼，所以先用 urlencode 處理掉
+                 * 轉換完後再用 urldecode 解碼就好
+                 */
+                $_SESSION['cart']['cName'] = urlencode($_POST['clientname']);
+                $_SESSION['cart']['cPhone'] = $_POST['clientphone'];
+                $_SESSION['cart']['cAddress'] = urlencode($_POST['clientaddress']);
+                $_SESSION['cart']['fPattern'] = urlencode($_POST['fPattern']);
+                $_SESSION['cart']['uid'] = urlencode($_SESSION['uid']);
+                // 先把資料寫進資料庫中
+                $data = urldecode(json_encode($_SESSION['cart']));
+                $tradeID = $_SESSION['cart']['tradeID'];
+                mysqli_query($connect, "INSERT INTO `orderTemp`(`tradeID`, `contents`) VALUES ('$tradeID', '$data');");
+
+                // 基本參數 (請依系統規劃自行調整)
+                $MerchantTradeNo = "Test".time();
+                // 付款完成通知回傳的網址
+                $order->Send['ReturnURL'] = "http://" . $_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_ROOT'], '', dirname($_SERVER['PHP_SELF'])) . "actions.php?action=order_process";
+                // 訂單編號
+                $order->Send['MerchantTradeNo'] = $tradeID;
+                // 交易時間
+                $order->Send['MerchantTradeDate'] = date('Y/m/d H:i:s');
+                // 交易金額
+                $order->Send['TotalAmount'] = $_SESSION['cartTotal'] + 70;
+                // 交易描述
+                $order->Send['TradeDesc'] = "test";
+                // 付款方式:全功能
+                $order->Send['ChoosePayment'] = ECPay_PaymentMethod::ALL;
+                // 客戶完成付款後返回網站的按鈕網址
+                $order->Send['ClientBackURL'] = "http://" . $_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_ROOT'], '', dirname($_SERVER['PHP_SELF'])) . "userorder.php?action=checkstatus&casher=ecpay";
+
+                // 訂單的商品資料
+                // 處理商品資訊
+                $inCar = $_SESSION['cart'][0];
+                $qty = $_SESSION['cart'][0];
+                // 處理取資料 SQL
+                foreach ($inCar as $i => $inCarVal) {
+                    if ($i == 0) {
+                        $gdSql = "`goodsOrder`=$inCarVal";
+                        $od = "ORDER BY CASE `goodsOrder` WHEN $inCarVal THEN " . ($i + 1);
+                    } else {
+                        $gdSql .= " OR `goodsOrder`=$inCarVal";
+                        $od .= " WHEN $inCarVal THEN " . ($i + 1);
+                    }
+                }
+                $od .= " END";
+                // 取資料顯示
+                $perfSql = mysqli_query($connect, "SELECT * FROM `goodslist` WHERE $gdSql $od;");
+                $j = 0;
+                while ($goodsData = mysqli_fetch_array($perfSql, MYSQLI_ASSOC)) {
+                    array_push($order->Send['Items'], array(
+                        'Name' => $goodsData['goodsName'],
+                        'Price' => (int) $goodsData['goodsPrice'],
+                        'Currency' => "元",
+                        'Quantity' => (int) $_SESSION['cart'][1][$j]
+                    ));
+                    $j += 1;
+                }
+                
+                // 關閉資料庫連線並產生訂單 (自動送至綠界)
+                mysqli_close($connect);
+                $order->CheckOut();
+
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+
+        // 處理綠界資料
+        /**
+         * 不需額外檢查各項參數，$feedback = $AL->CheckOutFeedback() 這項只要 MAC 值不同就會拋出錯誤。
+         * 這邊其實是綠界 POST 資料回來，所以 SESSION 值在這邊無作用
+         * 要帶自訂值到這個頁面要使用綠界的 custom_field
+         */
+        }elseif(!empty($_GET['action']) && $_GET['action'] == 'order_process'){
+            // 付款結果通知
+            require 'api/ECPay.Payment.Integration.php';
+            try {
+                // 收到綠界科技的付款結果訊息，並判斷檢查碼是否相符
+                $AL = new ECPay_AllInOne();
+                $AL->MerchantID = $cMerchantID;
+                $AL->HashKey = $cHashKey;
+                $AL->HashIV = $cHashIV;
+                // 加密方式
+                /**「ECPay_EncryptType::ENC_MD5」為 MD5
+                 * 「ECPay_EncryptType::ENC_SHA256」為 SHA256 */
+                $AL->EncryptType = ECPay_EncryptType::ENC_SHA256;
+                $feedback = $AL->CheckOutFeedback();
+                // 以付款結果訊息進行相對應的處理
+                /**
+                 * 回傳的綠界科技的付款結果訊息如下（$feedback）:
+                 * Array(
+                 *     [MerchantID] =>
+                 *     [MerchantTradeNo] =>
+                 *     [StoreID] =>
+                 *     [RtnCode] =>
+                 *     [RtnMsg] =>
+                 *     [TradeNo] =>
+                 *     [TradeAmt] =>
+                 *     [PaymentDate] =>
+                 *     [PaymentType] =>
+                 *     [PaymentTypeChargeFee] =>
+                 *     [TradeDate] =>
+                 *     [SimulatePaid] =>
+                 *     [CustomField1] =>
+                 *     [CustomField2] =>
+                 *     [CustomField3] =>
+                 *     [CustomField4] =>
+                 *     [CheckMacValue] =>
+                 * )
+                 * 
+                 * 綠界測試信用卡卡號
+                 * 4311-9522-2222-2222
+                 * 末三碼
+                 * 222
+                 */
+                // 要處理的程式放在這裡，例如將線上服務啟用、更新訂單資料庫付款資訊等
+                $orderNo = $feedback['MerchantTradeNo'];
+                // 取出使用者的資料，正式寫進訂單表中，然後刪除那筆暫存資料
+                $datas = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `orderTemp` WHERE `tradeID` = '$orderNo'"));
+                $cf1 = json_decode($datas['contents'], true);
+
+                $userrealname = $cf1['cName'];
+                $userphone = $cf1['cPhone'];
+                $useraddress = $cf1['cAddress'];
+                $username = $cf1['uid'];
+                $orderprice = $feedback['TradeAmt'];
+                $orderdate = $feedback['TradeDate'];
+                $orderpattern = $feedback['PaymentType'];
+                $status = ($feedback['RtnMsg'] == "交易成功") ? "等待出貨" : "等待付款";
+                $freight = "70";
+                $ordercasher = $feedback['PaymentType'];
+                //$ordercasher = ($_SESSION['cart']['cashType'] == "cash") ? $_SESSION['cart']['clientcasher'] : "取貨付款";
+                // 處理 SQL 的 orderContent 字串
+                // 每個項目用 , 隔開，其中品項與數量以 : 隔開
+                $ordercontent = "";
+                foreach ($cf1[0] as $i => $val) {
+                    // 內容不為空才執行
+                    if (!empty($val)) {
+                        // 第一次跑不需要加逗號
+                        if ($i == 0) {
+                            $ordercontent .= "$val:" . $cf1[1][$i];
+                        } else {
+                            $ordercontent .= ",$val:" . $cf1[1][$i];
+                        }
+                        // 否則就跳過
+                    } else {
+                        continue;
+                    }
+                }
+                // 寫入訂單資料
+                mysqli_query($connect, "INSERT INTO `orders` (`tradeID`, `orderMember`, `orderContent`, `orderRealName`, `orderPhone`, `orderAddress`, `orderPrice`, `orderDate`, `orderCasher`, `orderPattern`, `orderFreight`, `orderStatus`) VALUES ('$orderNo', '$username', '$ordercontent', '$userrealname', '$userphone', '$useraddress', '$orderprice', '$orderdate', '$ordercasher', '$orderpattern', '$freight', '$status');");
+                mysqli_query($connect, "DELETE FROM `orderTemp` WHERE `tradeID`='$orderNo';");
+                mysqli_close($connect);
+                // 在網頁端回應 1|OK
+                echo '1|OK';
+            } catch(Exception $e) {
+                echo '0|' . $e->getMessage();
+                $temp = $e->getMessage();
+                mysqli_query($connect, "INSERT INTO `ecpaydebug` (`errMsg`) VALUES ('$temp');");
+                mysqli_close($connect);
+            }
         // 通知已付款
         }elseif(!empty($_GET['action']) && $_GET['action'] == 'notifypaid'){
             // 若訂單編號為空

@@ -571,9 +571,15 @@ if (empty($_SESSION['auth'])) {
                                         </div>
                                         <div class="panel-body noPadding">
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label sessionCtrlTable">訂單編號</label>
+                                                <label class="col-sm-5 control-label sessionCtrlTable">系統編號</label>
                                                 <div class="col-sm-7">
                                                     <p class="form-control-static"><?php echo $orderdetailData['orderID']; ?></p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label sessionCtrlTable">訂單編號</label>
+                                                <div class="col-sm-7">
+                                                    <p class="form-control-static"><?php echo $orderdetailData['tradeID']; ?></p>
                                                 </div>
                                             </div>
                                             <div class="form-group">

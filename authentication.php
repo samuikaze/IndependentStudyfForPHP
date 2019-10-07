@@ -85,7 +85,7 @@
                     $iphttpvia = $_SERVER['HTTP_VIA'];
                 }
                 $browser = get_browser_name($_SERVER['HTTP_USER_AGENT']);
-                mysqli_query($connect, "INSERT INTO sessions (userName, sessionID, useBrowser, ipRmtAddr, ipXFwFor, ipHttpVia, loginTime) VALUES ('$username', '$sessionID', '$browser', '$iprmtaddr', '$ipXFwFor', '$iphttpvia', '$ltime')");
+                mysqli_query($connect, "INSERT INTO `sessions` (`userName`, `sessionID`, `useBrowser`, `ipRmtAddr`, `ipXFwFor`, `ipHttpVia`, `loginTime`) VALUES ('$username', '$sessionID', '$browser', '$iprmtaddr', '$ipXFwFor', '$iphttpvia', '$ltime')");
                 // Cookie 寫入 （登入後未瀏覽任一頁面則效期一個月）
                 setcookie("user", $username, time() + 2592000);
                 setcookie("sid", $sessionID, time() + 2592000);
