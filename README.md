@@ -1,8 +1,16 @@
 # 洛嬉遊戲 L.S. Games
 這是我在勞動部發展署雲嘉南分署數位設計班第 108-1 期上課期間所製作的 PHP 專題作品，也是我第一個 PHP 作品，以遊戲為主題而設計的網站，以 LAMP 為基底，搭配套用 Bootstrap 版型後，再修改部分版形並套上 PHP 程式，完成整個網站的建置。
 
-* 綠界金流是近期才新增的金流服務，由於僅用於展示，故內容為測試環境的內容。
-* 本專案使用前請先將 admin 資料夾下的 config.ini.example.php 更名為 config.ini.php，並依說明修改其內容後再將108-1-1.sql檔案匯入資料庫後始可正常使用。
+* 綠界金流是近期才新增的金流服務，由於僅用於展示，故內容設定皆為測試環境之設定。
+* 使用本專案前請先完成下列動作
+    - 將 admin 資料夾下的 `config.ini.example.php` 更名為 `config.ini.php`，並依說明修改其內容。
+    - 將 `108-1-1.sql` 檔案匯入資料庫。
+    - 將下列資料夾權限變更為 `777`
+        - images/bbs/board
+        - images/userAvator
+        - images/goods
+        - images/carousel
+        - images/products
 
 # 線上展示
 * [作品展示](http://sksk108.000webhostapp.com/)

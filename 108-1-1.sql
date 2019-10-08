@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost:3306
--- 產生時間： 2019 年 10 月 07 日 20:21
+-- 產生時間： 2019 年 10 月 08 日 08:43
 -- 伺服器版本： 10.3.16-MariaDB
 -- PHP 版本： 7.3.2
 
@@ -342,14 +342,14 @@ CREATE TABLE `orders` (
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `orderTemp`
+-- 資料表結構 `ordertemp`
 --
 
-CREATE TABLE `orderTemp` (
+CREATE TABLE `ordertemp` (
   `tempID` int(11) NOT NULL,
   `tradeID` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `contents` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -514,9 +514,9 @@ ALTER TABLE `orders`
   ADD PRIMARY KEY (`orderID`);
 
 --
--- 資料表索引 `orderTemp`
+-- 資料表索引 `ordertemp`
 --
-ALTER TABLE `orderTemp`
+ALTER TABLE `ordertemp`
   ADD PRIMARY KEY (`tempID`);
 
 --
@@ -608,9 +608,9 @@ ALTER TABLE `orders`
   MODIFY `orderID` int(255) NOT NULL AUTO_INCREMENT COMMENT '訂單識別碼';
 
 --
--- 使用資料表自動增長(AUTO_INCREMENT) `orderTemp`
+-- 使用資料表自動增長(AUTO_INCREMENT) `ordertemp`
 --
-ALTER TABLE `orderTemp`
+ALTER TABLE `ordertemp`
   MODIFY `tempID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -629,7 +629,7 @@ ALTER TABLE `removeorder`
 -- 使用資料表自動增長(AUTO_INCREMENT) `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `sID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+  MODIFY `sID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

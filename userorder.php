@@ -46,10 +46,14 @@ if ($_GET['action'] == 'order' && empty($_GET['casher'])) {
     // 檢查有沒有寫入這筆訂單的資料，沒有的話就跳轉到商品頁
     $check = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `orders` WHERE `tradeID`='" . $_SESSION['cart']['tradeID'] . "';"), MYSQLI_ASSOC);
     if(!in_array($_SESSION['cart']['tradeID'], $check)){
-        header("Location: goods.php");
+        // 結帳失敗就先刪除暫存結帳資料
+        mysqli_query($connect, "DELETE FROM `ordertemp` WHERE `tradeID`='" . $_SESSION['cart']['tradeID'] . "';");
+        header("Location: goods.php?action=viewallgoods&msg=checkoutfailed");
+        mysqli_close($connect);
         exit;
     }else{
         header("Location: ?action=order&casher=ecpay&status=complete");
+        mysqli_close($connect);
         exit;
     }                       
 } ?>
@@ -97,7 +101,7 @@ if ($_GET['action'] == 'order' && empty($_GET['casher'])) {
                         <?php if (!empty($_GET['action']) && $_GET['action'] == 'viewcart') { ?>
                             <h1>購物車項目 (<span id="itemqty"><?php echo (empty($_SESSION['cart'])) ? "0" : sizeof($_SESSION['cart'][0]); ?></span>)</h1>
                         <?php } elseif (!empty($_GET['action']) && $_GET['action'] == 'order') { ?>
-                            <h1 class="orderBreadcrumb"><?php echo (!empty($_GET['step']) && $_GET['step'] == '1') ? "<span>" : ""; ?><i class="fas fa-check-square"></i> 選擇付款及收貨方式<?php echo (!empty($_GET['step']) && $_GET['step'] == '1') ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo ((!empty($_GET['step']) && $_GET['step'] == '2') || (!empty($_GET['casher']) && $_GET['casher'] == 'ecpay')) ? "<span>" : ""; ?><i class="fas fa-scroll"></i> 輸入相關資料<?php echo ((!empty($_GET['step']) && $_GET['step'] == '2') || (!empty($_GET['casher']) && $_GET['casher'] == 'ecpay')) ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo (!empty($_GET['step']) && $_GET['step'] == '3') ? "<span>" : ""; ?><i class="fas fa-check-double"></i> 確認資料<?php echo (!empty($_GET['step']) && $_GET['step'] == '3') ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo (!empty($_GET['step']) && $_GET['step'] == '4') ? "<span>" : ""; ?><i class="fas fa-clipboard-check"></i> 完成訂單<?php echo ((!empty($_GET['step']) && $_GET['step'] == '4') || (!empty($_GET['casher']) && $_GET['casher'] == 'ecpay' && (!empty($_GET['status']) && $_GET['status'] == 'complete'))) ? "</span>" : ""; ?></h1>
+                            <h1 class="orderBreadcrumb"><?php echo (!empty($_GET['step']) && $_GET['step'] == '1') ? "<span>" : ""; ?><i class="fas fa-check-square"></i> 選擇付款及收貨方式<?php echo (!empty($_GET['step']) && $_GET['step'] == '1') ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo ((!empty($_GET['step']) && $_GET['step'] == '2') || (!empty($_GET['casher']) && $_GET['casher'] == 'ecpay' && empty($_GET['status']))) ? "<span>" : ""; ?><i class="fas fa-scroll"></i> 輸入相關資料<?php echo ((!empty($_GET['step']) && $_GET['step'] == '2') || (!empty($_GET['casher']) && $_GET['casher'] == 'ecpay' && empty($_GET['status']))) ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo (!empty($_GET['step']) && $_GET['step'] == '3') ? "<span>" : ""; ?><i class="fas fa-check-double"></i> 確認資料<?php echo (!empty($_GET['step']) && $_GET['step'] == '3') ? "</span>" : ""; ?>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo ((!empty($_GET['step']) && $_GET['step'] == '4') || (!empty($_GET['casher']) && $_GET['casher'] == 'ecpay' && !empty($_GET['status']) && $_GET['status'] == 'complete')) ? "<span>" : ""; ?><i class="fas fa-clipboard-check"></i> 完成訂單<?php echo ((!empty($_GET['step']) && $_GET['step'] == '4') || (!empty($_GET['casher']) && $_GET['casher'] == 'ecpay' && (!empty($_GET['status']) && $_GET['status'] == 'complete'))) ? "</span>" : ""; ?></h1>
                             <hr class="divideBC" />
                         <?php } ?>
                         <?php if (!empty($_GET['action']) && $_GET['action'] == 'viewcart') {

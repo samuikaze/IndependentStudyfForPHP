@@ -462,7 +462,7 @@
                 // 先把資料寫進資料庫中
                 $data = urldecode(json_encode($_SESSION['cart']));
                 $tradeID = $_SESSION['cart']['tradeID'];
-                mysqli_query($connect, "INSERT INTO `orderTemp`(`tradeID`, `contents`) VALUES ('$tradeID', '$data');");
+                mysqli_query($connect, "INSERT INTO `ordertemp`(`tradeID`, `contents`) VALUES ('$tradeID', '$data');");
 
                 // 基本參數 (請依系統規劃自行調整)
                 $MerchantTradeNo = "Test".time();
@@ -568,7 +568,7 @@
                 // 要處理的程式放在這裡，例如將線上服務啟用、更新訂單資料庫付款資訊等
                 $orderNo = $feedback['MerchantTradeNo'];
                 // 取出使用者的資料，正式寫進訂單表中，然後刪除那筆暫存資料
-                $datas = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `orderTemp` WHERE `tradeID` = '$orderNo'"));
+                $datas = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM `ordertemp` WHERE `tradeID` = '$orderNo'"));
                 $cf1 = json_decode($datas['contents'], true);
 
                 $userrealname = $cf1['cName'];
@@ -601,7 +601,7 @@
                 }
                 // 寫入訂單資料
                 mysqli_query($connect, "INSERT INTO `orders` (`tradeID`, `orderMember`, `orderContent`, `orderRealName`, `orderPhone`, `orderAddress`, `orderPrice`, `orderDate`, `orderCasher`, `orderPattern`, `orderFreight`, `orderStatus`) VALUES ('$orderNo', '$username', '$ordercontent', '$userrealname', '$userphone', '$useraddress', '$orderprice', '$orderdate', '$ordercasher', '$orderpattern', '$freight', '$status');");
-                mysqli_query($connect, "DELETE FROM `orderTemp` WHERE `tradeID`='$orderNo';");
+                mysqli_query($connect, "DELETE FROM `ordertemp` WHERE `tradeID`='$orderNo';");
                 mysqli_close($connect);
                 // 在網頁端回應 1|OK
                 echo '1|OK';

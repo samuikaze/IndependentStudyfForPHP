@@ -72,8 +72,14 @@ $qtydanger = 15;
                         </div>
                     </div>
                 </div>
-                <?php } ?>
-                <?php if (!empty($_GET['action']) && $_GET['action'] == 'viewallgoods') {
+                <?php }
+                if (!empty($_GET['msg']) && $_GET['msg'] == 'checkoutfailed') { ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-top: 1em;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4><strong>交易失敗！請<a href="userorder.php?action=order&casher=ecpay">按此</a>重新結帳。</strong></h4>
+                    </div>
+                <?php }
+                if (!empty($_GET['action']) && $_GET['action'] == 'viewallgoods') {
                     $lpp = ($page - 1) * $gpp;      //一頁顯示項目左極限
                     $rpp = $page * $gpp;            //一頁顯示項目右極限
                     $alldatasSql = mysqli_query($connect, "SELECT * FROM `goodslist` ORDER BY `goodsOrder` ASC;");
