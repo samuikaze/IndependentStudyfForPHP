@@ -607,9 +607,6 @@
                 echo '1|OK';
             } catch(Exception $e) {
                 echo '0|' . $e->getMessage();
-                $temp = $e->getMessage();
-                mysqli_query($connect, "INSERT INTO `ecpaydebug` (`errMsg`) VALUES ('$temp');");
-                mysqli_close($connect);
             }
         // 通知已付款
         }elseif(!empty($_GET['action']) && $_GET['action'] == 'notifypaid'){
