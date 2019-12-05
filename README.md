@@ -12,6 +12,9 @@
         - images/carousel
         - images/products
 
+# 改寫為框架的版本
+此作品目前正以 Laravel 作為框架改寫中，專案存放在[這邊](https://github.com/samuikaze/LSLaravelVer)。
+
 # 線上展示
 * [作品展示](http://sksk108.000webhostapp.com/)
 * 作品展示除了網站本身外，也提供了在勞動部發展署雲嘉南分署專題發表時所錄下的發表影片，方便快速了解網站內提供了哪些功能。
